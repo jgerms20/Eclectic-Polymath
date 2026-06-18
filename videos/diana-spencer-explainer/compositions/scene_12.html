@@ -1,0 +1,627 @@
+<template id="scene_12-template">
+  <div id="root" class="scene_12-root" data-composition-id="scene_12" data-width="1920" data-height="1080" data-duration="7" style="position:relative; width:1920px; height:1080px; overflow:hidden;">
+    <style>
+      @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+      @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+      @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+      @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+      :root {
+        --font-body: 'Space Grotesk', system-ui, sans-serif;
+        --font-display: 'Space Grotesk', system-ui, sans-serif;
+        --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+        --font-script: 'Caveat', cursive;
+      }
+      #root {
+        background: var(--canvas);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+      }
+      #root *,
+      #root *::before,
+      #root *::after {
+        box-sizing: border-box;
+      }
+
+      /* Paper grain overlay */
+      .s12-grain {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        background-image: var(--paper-grain);
+      }
+
+      /* Pull-back zoom wrapper */
+      .s12-pullback {
+        position: absolute;
+        inset: 0;
+        transform-origin: 50% 50%;
+        will-change: transform;
+      }
+
+      /* Notebook spread background: hairline grid lines */
+      .s12-notebook-lines {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      /* SVG canvas for thumbnails + arc lines + center node */
+      .s12-map-svg {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: visible;
+      }
+
+      /* Center node */
+      .s12-center-node {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        will-change: transform, opacity;
+      }
+
+      .s12-center-ring {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        border: 3px solid var(--brand-primary);
+        background: var(--surface-cream);
+        box-shadow: var(--shadow-pin-standard);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .s12-center-label {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-size: 13px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        font-weight: 600;
+        text-align: center;
+        line-height: 1.2;
+      }
+
+      /* Thumbnail sketch nodes */
+      .s12-thumb {
+        position: absolute;
+        width: 110px;
+        height: 80px;
+        border: var(--border-hairline);
+        background: var(--surface-cream);
+        border-radius: var(--radius-card);
+        box-shadow: var(--shadow-pin-compact);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        will-change: transform, opacity;
+        transform: translate(-50%, -50%);
+      }
+
+      .s12-thumb-label {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        text-align: center;
+        opacity: 0.8;
+        line-height: 1.3;
+        padding: 4px;
+      }
+
+      /* Hero headline layer */
+      .s12-hero-wrap {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 20;
+        pointer-events: none;
+        will-change: opacity;
+        isolation: isolate;
+      }
+
+      .s12-phrase {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0 28px;
+        justify-content: center;
+        max-width: 1600px;
+        text-align: center;
+        line-height: 1.15;
+      }
+
+      .s12-word {
+        display: inline-block;
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 110px;
+        letter-spacing: -0.02em;
+        color: var(--brand-primary);
+        transform-origin: 50% 50%;
+        will-change: transform;
+      }
+
+      .s12-word.s12-brand {
+        color: var(--brand-accent);
+      }
+
+      /* Closing stamp at lower right */
+      .s12-stamp-wrap {
+        position: absolute;
+        right: 96px;
+        bottom: 140px;
+        z-index: 6;
+        will-change: transform, opacity;
+      }
+
+      .s12-stamp {
+        display: inline-block;
+        border: var(--border-stamp);
+        color: var(--brand-accent);
+        background: transparent;
+        padding: 8px 20px;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 30px;
+        line-height: 1;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        border-radius: 0;
+      }
+
+      /* SVG thumbnail sketch icons (inline SVG inside each thumb) */
+      .s12-sketch-svg {
+        width: 64px;
+        height: 48px;
+        fill: none;
+        stroke: var(--brand-primary);
+        stroke-width: 1.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        opacity: 0.7;
+      }
+
+      /* Blueprint label SVG */
+      .s12-blueprint-svg {
+        position: absolute;
+        bottom: 200px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 4;
+        pointer-events: none;
+        will-change: opacity;
+      }
+    </style>
+
+    <!-- Pull-back zoom wrapper -->
+    <div class="s12-pullback" id="s12-pullback">
+
+      <!-- Notebook horizontal rule lines background -->
+      <svg class="s12-notebook-lines" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="0" y1="160" x2="1920" y2="160" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="200" x2="1920" y2="200" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="240" x2="1920" y2="240" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="280" x2="1920" y2="280" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="320" x2="1920" y2="320" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="360" x2="1920" y2="360" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="400" x2="1920" y2="400" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="440" x2="1920" y2="440" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="480" x2="1920" y2="480" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="520" x2="1920" y2="520" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="560" x2="1920" y2="560" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="600" x2="1920" y2="600" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="640" x2="1920" y2="640" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="680" x2="1920" y2="680" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="720" x2="1920" y2="720" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="760" x2="1920" y2="760" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="800" x2="1920" y2="800" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="840" x2="1920" y2="840" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+        <line x1="0" y1="880" x2="1920" y2="880" stroke="#1F3A8A" stroke-width="0.6" stroke-opacity="0.12"/>
+      </svg>
+
+      <!-- Arc-lines SVG: center node (960,540) to each thumbnail center -->
+      <!-- Thumbnails placed at 11 positions spread around the canvas -->
+      <svg class="s12-map-svg" id="s12-map-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Arc lines from center (960,540) to each thumbnail -->
+        <!-- thumb 0: 220,160 -->
+        <path id="s12-arc-0" d="M960,540 Q590,350 220,160" fill="none" stroke="#1F3A8A" stroke-width="1" stroke-dasharray="2,6" stroke-opacity="0.5" stroke-linecap="round"/>
+        <!-- thumb 1: 620,120 -->
+        <path id="s12-arc-1" d="M960,540 Q790,330 620,120" fill="none" stroke="#1F3A8A" stroke-width="1" stroke-dasharray="2,6" stroke-opacity="0.5" stroke-linecap="round"/>
+        <!-- thumb 2: 1050,90 -->
+        <path id="s12-arc-2" d="M960,540 Q1005,315 1050,90" fill="none" stroke="#1F3A8A" stroke-width="1" stroke-dasharray="2,6" stroke-opacity="0.5" stroke-linecap="round"/>
+        <!-- thumb 3: 1480,140 -->
+        <path id="s12-arc-3" d="M960,540 Q1220,340 1480,140" fill="none" stroke="#1F3A8A" stroke-width="1" stroke-dasharray="2,6" stroke-opacity="0.5" stroke-linecap="round"/>
+        <!-- thumb 4: 1740,320 -->
+        <path id="s12-arc-4" d="M960,540 Q1350,430 1740,320" fill="none" stroke="#1F3A8A" stroke-width="1" stroke-dasharray="2,6" stroke-opacity="0.5" stroke-linecap="round"/>
+        <!-- thumb 5: 1780,600 -->
+        <path id="s12-arc-5" d="M960,540 Q1370,570 1780,600" fill="none" stroke="#1F3A8A" stroke-width="1" stroke-dasharray="2,6" stroke-opacity="0.5" stroke-linecap="round"/>
+        <!-- thumb 6: 1680,870 -->
+        <path id="s12-arc-6" d="M960,540 Q1320,705 1680,870" fill="none" stroke="#1F3A8A" stroke-width="1" stroke-dasharray="2,6" stroke-opacity="0.5" stroke-linecap="round"/>
+        <!-- thumb 7: 1200,960 -->
+        <path id="s12-arc-7" d="M960,540 Q1080,750 1200,960" fill="none" stroke="#1F3A8A" stroke-width="1" stroke-dasharray="2,6" stroke-opacity="0.5" stroke-linecap="round"/>
+        <!-- thumb 8: 700,940 -->
+        <path id="s12-arc-8" d="M960,540 Q830,740 700,940" fill="none" stroke="#1F3A8A" stroke-width="1" stroke-dasharray="2,6" stroke-opacity="0.5" stroke-linecap="round"/>
+        <!-- thumb 9: 260,800 -->
+        <path id="s12-arc-9" d="M960,540 Q610,670 260,800" fill="none" stroke="#1F3A8A" stroke-width="1" stroke-dasharray="2,6" stroke-opacity="0.5" stroke-linecap="round"/>
+        <!-- thumb 10: 155,460 -->
+        <path id="s12-arc-10" d="M960,540 Q557,500 155,460" fill="none" stroke="#1F3A8A" stroke-width="1" stroke-dasharray="2,6" stroke-opacity="0.5" stroke-linecap="round"/>
+
+        <!-- Thumbnail sketch mini-SVG icons inside each card position (decorative path drawings) -->
+        <!-- Thumb 0 sketch: portrait face outline at 220,160 -->
+        <g id="s12-sketch-0" transform="translate(185,140)">
+          <rect x="0" y="0" width="70" height="50" rx="2" fill="var(--surface-cream)" stroke="#1F3A8A" stroke-width="1.2" opacity="0.9"/>
+          <ellipse cx="35" cy="20" rx="12" ry="14" fill="none" stroke="#1F3A8A" stroke-width="1.2"/>
+          <path d="M23,34 Q35,44 47,34" fill="none" stroke="#1F3A8A" stroke-width="1"/>
+        </g>
+        <!-- Thumb 1 sketch: family tree lines at 620,120 -->
+        <g id="s12-sketch-1" transform="translate(585,100)">
+          <rect x="0" y="0" width="70" height="50" rx="2" fill="var(--surface-cream)" stroke="#1F3A8A" stroke-width="1.2" opacity="0.9"/>
+          <line x1="35" y1="8" x2="35" y2="18" stroke="#1F3A8A" stroke-width="1"/>
+          <line x1="15" y1="18" x2="55" y2="18" stroke="#1F3A8A" stroke-width="1"/>
+          <line x1="15" y1="18" x2="15" y2="28" stroke="#1F3A8A" stroke-width="1"/>
+          <line x1="35" y1="18" x2="35" y2="28" stroke="#1F3A8A" stroke-width="1"/>
+          <line x1="55" y1="18" x2="55" y2="28" stroke="#1F3A8A" stroke-width="1"/>
+          <rect x="8" y="28" width="14" height="10" rx="1" fill="none" stroke="#1F3A8A" stroke-width="1"/>
+          <rect x="28" y="28" width="14" height="10" rx="1" fill="none" stroke="#1F3A8A" stroke-width="1"/>
+          <rect x="48" y="28" width="14" height="10" rx="1" fill="none" stroke="#1F3A8A" stroke-width="1"/>
+        </g>
+        <!-- Thumb 2 sketch: charity hands at 1050,90 -->
+        <g id="s12-sketch-2" transform="translate(1015,70)">
+          <rect x="0" y="0" width="70" height="50" rx="2" fill="var(--surface-cream)" stroke="#1F3A8A" stroke-width="1.2" opacity="0.9"/>
+          <path d="M15,35 Q20,20 35,18 Q50,20 55,35" fill="none" stroke="#1F3A8A" stroke-width="1.2"/>
+          <circle cx="35" cy="14" r="6" fill="none" stroke="#1F3A8A" stroke-width="1.2"/>
+        </g>
+        <!-- Thumb 3 sketch: map/spy schematic at 1480,140 -->
+        <g id="s12-sketch-3" transform="translate(1445,120)">
+          <rect x="0" y="0" width="70" height="50" rx="2" fill="var(--surface-cream)" stroke="#1F3A8A" stroke-width="1.2" opacity="0.9"/>
+          <circle cx="18" cy="18" r="5" fill="none" stroke="#1F3A8A" stroke-width="1"/>
+          <circle cx="52" cy="18" r="5" fill="none" stroke="#1F3A8A" stroke-width="1"/>
+          <circle cx="35" cy="38" r="5" fill="none" stroke="#1F3A8A" stroke-width="1"/>
+          <line x1="18" y1="18" x2="52" y2="18" stroke="#1F3A8A" stroke-width="0.8" stroke-dasharray="2,2"/>
+          <line x1="18" y1="18" x2="35" y2="38" stroke="#1F3A8A" stroke-width="0.8" stroke-dasharray="2,2"/>
+          <line x1="52" y1="18" x2="35" y2="38" stroke="#1F3A8A" stroke-width="0.8" stroke-dasharray="2,2"/>
+        </g>
+        <!-- Thumb 4 sketch: hospital cross at 1740,320 -->
+        <g id="s12-sketch-4" transform="translate(1705,300)">
+          <rect x="0" y="0" width="70" height="50" rx="2" fill="var(--surface-cream)" stroke="#1F3A8A" stroke-width="1.2" opacity="0.9"/>
+          <rect x="28" y="10" width="14" height="30" rx="2" fill="none" stroke="#1F3A8A" stroke-width="1.5"/>
+          <rect x="18" y="18" width="34" height="14" rx="2" fill="none" stroke="#1F3A8A" stroke-width="1.5"/>
+        </g>
+        <!-- Thumb 5 sketch: landmine + walking figure at 1780,600 -->
+        <g id="s12-sketch-5" transform="translate(1745,580)">
+          <rect x="0" y="0" width="70" height="50" rx="2" fill="var(--surface-cream)" stroke="#1F3A8A" stroke-width="1.2" opacity="0.9"/>
+          <circle cx="20" cy="30" r="8" fill="none" stroke="#1F3A8A" stroke-width="1.2"/>
+          <path d="M36,40 L42,28 L50,35 L56,20" fill="none" stroke="#1F3A8A" stroke-width="1.2" stroke-linecap="round"/>
+        </g>
+        <!-- Thumb 6 sketch: camera / interview at 1680,870 -->
+        <g id="s12-sketch-6" transform="translate(1645,850)">
+          <rect x="0" y="0" width="70" height="50" rx="2" fill="var(--surface-cream)" stroke="#1F3A8A" stroke-width="1.2" opacity="0.9"/>
+          <rect x="10" y="15" width="36" height="22" rx="2" fill="none" stroke="#1F3A8A" stroke-width="1.2"/>
+          <polyline points="46,22 60,17 60,34 46,29" fill="none" stroke="#1F3A8A" stroke-width="1.2"/>
+          <circle cx="28" cy="26" r="6" fill="none" stroke="#1F3A8A" stroke-width="1"/>
+        </g>
+        <!-- Thumb 7 sketch: gloved hand at 1200,960 -->
+        <g id="s12-sketch-7" transform="translate(1165,940)">
+          <rect x="0" y="0" width="70" height="50" rx="2" fill="var(--surface-cream)" stroke="#1F3A8A" stroke-width="1.2" opacity="0.9"/>
+          <path d="M20,40 L20,20 Q20,12 28,12 Q36,12 36,20 L36,28 M36,22 Q36,14 44,14 Q52,14 52,22 L52,35 Q52,42 44,42 L28,42 Q20,42 20,40" fill="none" stroke="#1F3A8A" stroke-width="1.2"/>
+        </g>
+        <!-- Thumb 8 sketch: flag / flagpole at 700,940 -->
+        <g id="s12-sketch-8" transform="translate(665,920)">
+          <rect x="0" y="0" width="70" height="50" rx="2" fill="var(--surface-cream)" stroke="#1F3A8A" stroke-width="1.2" opacity="0.9"/>
+          <line x1="22" y1="8" x2="22" y2="44" stroke="#1F3A8A" stroke-width="1.5"/>
+          <path d="M22,10 L52,16 L22,24" fill="none" stroke="#1F3A8A" stroke-width="1.2"/>
+        </g>
+        <!-- Thumb 9 sketch: newspaper headline at 260,800 -->
+        <g id="s12-sketch-9" transform="translate(225,780)">
+          <rect x="0" y="0" width="70" height="50" rx="2" fill="var(--surface-cream)" stroke="#1F3A8A" stroke-width="1.2" opacity="0.9"/>
+          <line x1="8" y1="14" x2="62" y2="14" stroke="#1F3A8A" stroke-width="2"/>
+          <line x1="8" y1="22" x2="50" y2="22" stroke="#1F3A8A" stroke-width="0.8" stroke-opacity="0.6"/>
+          <line x1="8" y1="29" x2="55" y2="29" stroke="#1F3A8A" stroke-width="0.8" stroke-opacity="0.6"/>
+          <line x1="8" y1="36" x2="44" y2="36" stroke="#1F3A8A" stroke-width="0.8" stroke-opacity="0.6"/>
+        </g>
+        <!-- Thumb 10 sketch: crowd silhouettes at 155,460 -->
+        <g id="s12-sketch-10" transform="translate(120,440)">
+          <rect x="0" y="0" width="70" height="50" rx="2" fill="var(--surface-cream)" stroke="#1F3A8A" stroke-width="1.2" opacity="0.9"/>
+          <circle cx="14" cy="22" r="5" fill="none" stroke="#1F3A8A" stroke-width="1"/>
+          <circle cx="28" cy="20" r="5" fill="none" stroke="#1F3A8A" stroke-width="1"/>
+          <circle cx="42" cy="22" r="5" fill="none" stroke="#1F3A8A" stroke-width="1"/>
+          <circle cx="56" cy="20" r="5" fill="none" stroke="#1F3A8A" stroke-width="1"/>
+          <path d="M8,40 L20,32 L20,40 M22,40 L34,30 L34,40 M36,40 L48,32 L48,40 M50,40 L62,30 L62,40" fill="none" stroke="#1F3A8A" stroke-width="1"/>
+        </g>
+
+        <!-- "BLUEPRINT" word path for svg-path-draw -->
+        <!-- Drawing the word BLUEPRINT as connected letterform segments -->
+        <g id="s12-blueprint-label" opacity="0">
+          <!-- B -->
+          <path id="s12-bp-0" d="M800,490 L800,550 M800,490 Q820,490 820,510 Q820,520 800,520 M800,520 Q825,520 825,535 Q825,550 800,550" fill="none" stroke="#1F3A8A" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- L -->
+          <path id="s12-bp-1" d="M835,490 L835,550 L862,550" fill="none" stroke="#1F3A8A" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- U -->
+          <path id="s12-bp-2" d="M872,490 L872,535 Q872,555 893,555 Q914,555 914,535 L914,490" fill="none" stroke="#1F3A8A" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- E -->
+          <path id="s12-bp-3" d="M924,490 L924,550 M924,490 L954,490 M924,520 L948,520 M924,550 L954,550" fill="none" stroke="#1F3A8A" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- P -->
+          <path id="s12-bp-4" d="M964,490 L964,550 M964,490 Q994,490 994,510 Q994,530 964,530" fill="none" stroke="#1F3A8A" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- R -->
+          <path id="s12-bp-5" d="M1004,490 L1004,550 M1004,490 Q1034,490 1034,510 Q1034,528 1004,528 M1018,528 L1038,550" fill="none" stroke="#1F3A8A" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- I -->
+          <path id="s12-bp-6" d="M1048,490 L1048,550 M1038,490 L1058,490 M1038,550 L1058,550" fill="none" stroke="#1F3A8A" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- N -->
+          <path id="s12-bp-7" d="M1068,490 L1068,550 L1100,490 L1100,550" fill="none" stroke="#1F3A8A" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- T -->
+          <path id="s12-bp-8" d="M1110,490 L1140,490 M1125,490 L1125,550" fill="none" stroke="#1F3A8A" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+      </svg>
+
+      <!-- Center node -->
+      <div class="s12-center-node" id="s12-center-node">
+        <div class="s12-center-ring">
+          <span class="s12-center-label">THE<br>BLUEPRINT</span>
+        </div>
+      </div>
+
+      <!-- Hero headline (hidden until asr-keyword-glow phase) -->
+      <div class="s12-hero-wrap" id="s12-hero-wrap" data-layout-ignore>
+        <div class="s12-phrase">
+          <span class="s12-word" data-word="her">Her</span>
+          <span class="s12-word" data-word="playbook">playbook</span>
+          <span class="s12-word" data-word="is">is</span>
+          <span class="s12-word s12-brand" data-word="still-running">still running.</span>
+        </div>
+      </div>
+
+      <!-- Closing stamp (lower right) — animated via svg-path-draw then slam-in -->
+      <div class="s12-stamp-wrap" id="s12-stamp-wrap">
+        <span class="s12-stamp">Written in Blood</span>
+      </div>
+
+    </div><!-- end pullback -->
+
+    <!-- Paper grain overlay (above everything else) -->
+    <div class="s12-grain" aria-hidden="true"></div>
+
+    <script>
+      const EASE = {
+        entry: "power2.out",
+        emphasis: "power3.out",
+        exit: "power2.in",
+        drift: "sine.inOut",
+      };
+      const DUR = {
+        snap: 0.18,
+        med: 0.5,
+        slow: 0.95,
+      };
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      const SCENE_DURATION = 7;
+
+      // ─── INITIAL HIDDEN STATES ───────────────────────────────────────────────
+      // All arc lines and thumbnail sketches start invisible
+      for (let i = 0; i <= 10; i++) {
+        const arc = document.querySelector("#s12-arc-" + i);
+        const sketch = document.querySelector("#s12-sketch-" + i);
+        if (arc) gsap.set(arc, { opacity: 0 });
+        if (sketch) gsap.set(sketch, { opacity: 0 });
+      }
+
+      // Blueprint letter paths start invisible + undone
+      const bpPaths = document.querySelectorAll("[id^='s12-bp-']");
+      bpPaths.forEach((p) => {
+        const len = p.getTotalLength();
+        p.style.strokeDasharray = len;
+        p.style.strokeDashoffset = len;
+      });
+      gsap.set("#s12-blueprint-label", { opacity: 1 });
+
+      // Center node, hero wrap, stamp all start hidden
+      gsap.set("#s12-center-node", { opacity: 0, scale: 0.6 });
+      gsap.set("#s12-hero-wrap", { opacity: 0 });
+      gsap.set("#s12-stamp-wrap", { opacity: 0, scale: 1.12, rotation: -4 });
+
+      // ─── SLOW PULL-BACK (macro camera) ──────────────────────────────────────
+      // Scene starts slightly zoomed in (scale 1.08) and slowly pulls back to 1.0
+      gsap.set("#s12-pullback", { scale: 1.08, transformOrigin: "50% 50%" });
+      tl.to(
+        "#s12-pullback",
+        { scale: 1.0, duration: 6.5, ease: "power1.inOut" },
+        0,
+      );
+
+      // ─── CENTER NODE ENTRY ───────────────────────────────────────────────────
+      tl.fromTo(
+        "#s12-center-node",
+        { opacity: 0, scale: 0.6 },
+        { opacity: 1, scale: 1, duration: DUR.slow, ease: EASE.emphasis },
+        0.15,
+      );
+
+      // ─── SVG-PATH-DRAW: thumbnail sketches appear staggered ─────────────────
+      // 11 sketches in staggered sequence, total stagger ~450ms (0.04s/sketch)
+      const SKETCH_STAGGER = 0.04;
+      const SKETCH_DUR = 0.35;
+      const SKETCH_START = 0.35;
+
+      for (let i = 0; i <= 10; i++) {
+        const sketchEl = document.querySelector("#s12-sketch-" + i);
+        if (sketchEl) {
+          // Fade sketch in (the internal paths are already drawn, we're doing a fade reveal)
+          tl.fromTo(
+            sketchEl,
+            { opacity: 0, scale: 0.85 },
+            { opacity: 1, scale: 1, duration: SKETCH_DUR, ease: EASE.entry },
+            SKETCH_START + i * SKETCH_STAGGER,
+          );
+        }
+      }
+
+      // ─── CENTER-OUTWARD-EXPANSION: arc lines radiate from center ─────────────
+      // Arc lines appear after sketches are in (at ~0.8s), radiating outward
+      const ARC_START = 0.7;
+      const ARC_STAGGER = 0.06;
+      const ARC_DUR = 0.6;
+
+      for (let i = 0; i <= 10; i++) {
+        const arcEl = document.querySelector("#s12-arc-" + i);
+        if (arcEl) {
+          const arcLen = arcEl.getTotalLength ? arcEl.getTotalLength() : 400;
+          arcEl.style.strokeDasharray = arcLen;
+          arcEl.style.strokeDashoffset = arcLen;
+          gsap.set(arcEl, { opacity: 1 });
+          tl.to(
+            arcEl,
+            {
+              strokeDashoffset: 0,
+              duration: ARC_DUR,
+              ease: EASE.entry,
+            },
+            ARC_START + i * ARC_STAGGER,
+          );
+        }
+      }
+
+      // ─── SVG-PATH-DRAW: "BLUEPRINT" label letters drawn sequentially ─────────
+      // Blueprint label group becomes visible; letters draw one by one
+      const BP_START = 2.0;
+      const BP_SEG_DUR = 0.28;
+      const BP_STAGGER = 0.22;
+
+      bpPaths.forEach((p, i) => {
+        tl.to(
+          p,
+          {
+            strokeDashoffset: 0,
+            duration: BP_SEG_DUR,
+            ease: "power2.out",
+          },
+          BP_START + i * BP_STAGGER,
+        );
+      });
+
+      // ─── HERO HEADLINE FADES IN after arc-draw settles ──────────────────────
+      // Hero fades in at ~3.2s, sits at low opacity until the glow phase
+      tl.fromTo(
+        "#s12-hero-wrap",
+        { opacity: 0 },
+        { opacity: 0.35, duration: DUR.slow, ease: EASE.entry },
+        3.2,
+      );
+
+      // ─── ASR-KEYWORD-GLOW: "playbook" and "still running" pulse at ~4.5s ───
+      // Timings within the scene (local seconds)
+      const TIMINGS = {
+        "her":          { start: 3.8,  end: 4.1  },
+        "playbook":     { start: 4.2,  end: 4.9  },
+        "is":           { start: 5.0,  end: 5.2  },
+        "still-running":{ start: 5.35, end: 6.2  },
+      };
+
+      const ATTACK_DUR  = 0.18;
+      const RELEASE     = 0.35;
+      const REST_LEVEL  = 0.12;
+      const MAX_BLUR    = 38;
+      const MAX_SCALE_BOOST = 0.18;
+
+      // REST_RGB: dim brand-primary (muted)
+      const REST_RGB   = { r: 31,  g: 58,  b: 138 };
+      // ACTIVE_RGB: bright ink blue
+      const ACTIVE_RGB = { r: 10,  g: 30,  b: 90  };
+      // BRAND_RGB: crimson accent
+      const BRAND_RGB  = { r: 194, g: 52,  b: 43  };
+
+      function lerpChannel(a, b, t) {
+        return Math.round(a + (b - a) * t);
+      }
+      function colorAt(env, isBrand) {
+        const target = isBrand ? BRAND_RGB : ACTIVE_RGB;
+        return "rgb(" +
+          lerpChannel(REST_RGB.r, target.r, env) + "," +
+          lerpChannel(REST_RGB.g, target.g, env) + "," +
+          lerpChannel(REST_RGB.b, target.b, env) + ")";
+      }
+      function glowColorRgba(env, isBrand) {
+        const alpha = 0.1 + env * 0.75;
+        if (isBrand) return "rgba(194,52,43," + alpha + ")";
+        return "rgba(31,58,138," + alpha + ")";
+      }
+
+      function envelope(time, start, end) {
+        const releaseEnd = end + RELEASE;
+        if (time < start) return 0;
+        if (time < start + ATTACK_DUR) return (time - start) / ATTACK_DUR;
+        if (time < end) return 1;
+        if (time < releaseEnd) {
+          const decay = (time - end) / RELEASE;
+          return 1 - decay * (1 - REST_LEVEL);
+        }
+        return REST_LEVEL;
+      }
+
+      const wordEls = document.querySelectorAll(".s12-word");
+
+      // Single driver for ASR glow: 0 → SCENE_DURATION
+      const driver = { t: 0 };
+      tl.to(
+        driver,
+        {
+          t: SCENE_DURATION,
+          duration: SCENE_DURATION,
+          ease: "none",
+          onUpdate: () => {
+            // Hero wrap opacity: ramp from 0.35 to 1 as glow phase begins
+            const heroPhase = Math.min(Math.max((driver.t - 3.8) / 0.6, 0), 1);
+            const heroWrap = document.querySelector("#s12-hero-wrap");
+            if (heroWrap) heroWrap.style.opacity = 0.35 + heroPhase * 0.65;
+
+            wordEls.forEach((el) => {
+              const word = el.dataset.word;
+              const timing = TIMINGS[word];
+              if (!timing) return;
+              const env = envelope(driver.t, timing.start, timing.end);
+              const isBrand = el.classList.contains("s12-brand");
+              const blur = MAX_BLUR * env;
+              const scale = 1 + MAX_SCALE_BOOST * env;
+              el.style.textShadow = "0 0 " + blur + "px " + glowColorRgba(env, isBrand);
+              el.style.transform = "scale(" + scale + ")";
+              el.style.color = colorAt(env, isBrand);
+            });
+          },
+        },
+        0,
+      );
+
+      // ─── CLOSING STAMP: slam in at lower right at ~5.5s ─────────────────────
+      // Stamp scale-slams in at -4deg (CSS already has the tilt via var(--tilt-stamp))
+      tl.fromTo(
+        "#s12-stamp-wrap",
+        { opacity: 0, scale: 1.12 },
+        { opacity: 1, scale: 1, rotation: -4, duration: DUR.snap, ease: EASE.emphasis },
+        5.5,
+      );
+
+      // ─── SETTLE + HOLD from ~5.7s → 7s ─────────────────────────────────────
+      // Nothing more animates; everything holds the final frame.
+
+      window.__timelines["scene_12"] = tl;
+    </script>
+  </div>
+</template>

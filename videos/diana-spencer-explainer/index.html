@@ -3,8 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1920, height=1080" />
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="public/gsap.min.js"></script>
     <style>
+      @font-face { font-family: 'Space Grotesk'; src: url('public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+      @font-face { font-family: 'Space Grotesk'; src: url('public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+      @font-face { font-family: 'Caveat'; src: url('public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+      @font-face { font-family: 'Caveat'; src: url('public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
       * {
         margin: 0;
         padding: 0;
@@ -18,13 +22,72 @@
         overflow: hidden;
         background: #000;
       }
-      body {
-        font-family: "Inter", sans-serif;
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
       }
-      code,
-      pre,
-      .monospace {
-        font-family: "JetBrains Mono", monospace;
+      /* Sub-comp slots stretch to fill the root */
+      #root > div[data-composition-src] {
+        position: absolute;
+        inset: 0;
+      }
+
+      /* Brand design tokens (from design-system/chunks/tokens.css) */
+      :root {
+        --brand-primary:   #1F3A8A;
+        --brand-secondary: #C9A66B;
+        --brand-tertiary:  #000000;
+        --brand-accent:    #C2342B;
+        --brand-costume:   #F8F1D6;
+        --ink:             #1F3A8A;
+        --canvas:          #EFE56A;
+        --brand-gradient:  linear-gradient(135deg, #1F3A8A 0%, #C9A66B 50%, #C2342B 100%);
+        --deco-1:          #F7CB46;
+        --deco-2:          #99E885;
+        --deco-3:          #C0F7FE;
+        --deco-4:          #FE90E8;
+        --font-display:    'Space Grotesk', system-ui, sans-serif;
+        --font-body:       'Space Grotesk', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+        --font-mono:       'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+        --font-script:     'Caveat', cursive;
+        --anchor-paper-yellow: #efe56a; /* saturated cadmium yellow — the page */
+        --anchor-cream: #f8f1d6; /* off-white ivory — the cards */
+        --surface-paper: color-mix(in srgb, var(--brand-primary) 6%, var(--anchor-paper-yellow));
+        --surface-paper-2: color-mix(
+        in srgb,
+        var(--brand-primary) 4%,
+        color-mix(in srgb, var(--anchor-paper-yellow) 70%, white)
+      );
+        --surface-paper-3: color-mix(
+        in srgb,
+        var(--brand-primary) 8%,
+        color-mix(in srgb, var(--anchor-paper-yellow) 85%, black 8%)
+      );
+        --surface-cream: color-mix(in srgb, var(--brand-primary) 4%, var(--anchor-cream));
+        --shadow-pin-compact: 4px 5px 0 0 var(--brand-primary);
+        --shadow-pin-standard: 5px 6px 0 0 var(--brand-primary);
+        --shadow-pin-hero: 8px 9px 0 0 var(--brand-primary);
+        --border-hairline: 1.5px solid var(--brand-primary);
+        --border-dashed: 1.5px dashed color-mix(in srgb, var(--brand-primary) 45%, transparent);
+        --border-stamp: 3px solid var(--brand-accent);
+        --radius-card: 4px;
+        --radius-pill: 999px;
+        --pad-edge: 64px;
+        --pad-top: 110px;
+        --pad-bottom: 90px;
+        --card-pad: 28px;
+        --card-pad-lg: 36px 28px 28px;
+        --gap-card-sm: 22px;
+        --gap-card-md: 28px;
+        --gap-card-lg: 32px;
+        --tilt-pin: -10deg;
+        --tilt-pin-alt: 14deg;
+        --tilt-card-askew: 0.9deg;
+        --tilt-scribble: -2deg;
+        --tilt-stamp: -4deg;
+        --paper-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.45  0 0 0 0 0.2  0 0 0 .25 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
       }
     </style>
   </head>
@@ -33,27 +96,225 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="10"
+      data-duration="79.752"
       data-width="1920"
       data-height="1080"
     >
-      
-      
+      <!-- HF-VISUAL-CLIP scene_1 (scene_1) (0 → 5) -->
+      <div
+        id="el-scene_1"
+        data-composition-id="scene_1"
+        data-composition-src="compositions/scene_1.html"
+        data-start="0"
+        data-duration="5.5"
+        data-track-index="0"
+        data-width="1920"
+        data-height="1080"
+      ></div>
 
-      <!--
-        Add your clips here. Example:
-        <div id="title" class="clip" data-start="0" data-duration="5" data-track-index="1"
-             style="font-size: 64px; color: #fff; padding: 40px">
-          Hello World
-        </div>
-      -->
+      <!-- HF-VISUAL-CLIP scene_2 (scene_2) (5 → 11) -->
+      <div
+        id="el-scene_2"
+        data-composition-id="scene_2"
+        data-composition-src="compositions/scene_2.html"
+        data-start="5"
+        data-duration="6.6"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- HF-VISUAL-CLIP scene_3 (scene_3) (11 → 18) -->
+      <div
+        id="el-scene_3"
+        data-composition-id="scene_3"
+        data-composition-src="compositions/scene_3.html"
+        data-start="11"
+        data-duration="7.6"
+        data-track-index="0"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- HF-VISUAL-CLIP scene_4 (scene_4) (18 → 24) -->
+      <div
+        id="el-scene_4"
+        data-composition-id="scene_4"
+        data-composition-src="compositions/scene_4.html"
+        data-start="18"
+        data-duration="6.4"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- HF-VISUAL-CLIP scene_5 (scene_5) (24 → 30) -->
+      <div
+        id="el-scene_5"
+        data-composition-id="scene_5"
+        data-composition-src="compositions/scene_5.html"
+        data-start="24"
+        data-duration="6.6"
+        data-track-index="0"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- HF-VISUAL-CLIP group_w6 (scene_6, scene_7) (30 → 46.752) -->
+      <div
+        id="el-group_w6"
+        data-composition-id="group_w6"
+        data-composition-src="compositions/group_w6.html"
+        data-start="30"
+        data-duration="17.352"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- HF-VISUAL-CLIP scene_8 (scene_8) (46.752 → 53.752) -->
+      <div
+        id="el-scene_8"
+        data-composition-id="scene_8"
+        data-composition-src="compositions/scene_8.html"
+        data-start="46.752"
+        data-duration="7.5"
+        data-track-index="0"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- HF-VISUAL-CLIP scene_9 (scene_9) (53.752 → 59.752) -->
+      <div
+        id="el-scene_9"
+        data-composition-id="scene_9"
+        data-composition-src="compositions/scene_9.html"
+        data-start="53.752"
+        data-duration="6.6"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- HF-VISUAL-CLIP scene_10 (scene_10) (59.752 → 65.752) -->
+      <div
+        id="el-scene_10"
+        data-composition-id="scene_10"
+        data-composition-src="compositions/scene_10.html"
+        data-start="59.752"
+        data-duration="6.6"
+        data-track-index="0"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- HF-VISUAL-CLIP scene_11 (scene_11) (65.752 → 72.752) -->
+      <div
+        id="el-scene_11"
+        data-composition-id="scene_11"
+        data-composition-src="compositions/scene_11.html"
+        data-start="65.752"
+        data-duration="7.4"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- HF-VISUAL-CLIP scene_12 (scene_12) (72.752 → 79.752) -->
+      <div
+        id="el-scene_12"
+        data-composition-id="scene_12"
+        data-composition-src="compositions/scene_12.html"
+        data-start="72.752"
+        data-duration="7"
+        data-track-index="0"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- SFX -->
+      <audio
+        id="el-sfx-0"
+        class="clip"
+        src="assets/sfx/impact-bass-1.mp3"
+        data-start="0.3"
+        data-duration="2.12"
+        data-track-index="20"
+        data-volume="0.4"
+      ></audio>
+      <audio
+        id="el-sfx-1"
+        class="clip"
+        src="assets/sfx/impact-bass-2.mp3"
+        data-start="18.4"
+        data-duration="2.59"
+        data-track-index="21"
+        data-volume="0.45"
+      ></audio>
+      <audio
+        id="el-sfx-2"
+        class="clip"
+        src="assets/sfx/chime.mp3"
+        data-start="32.8"
+        data-duration="2.5"
+        data-track-index="22"
+        data-volume="0.3"
+      ></audio>
+      <audio
+        id="el-sfx-3"
+        class="clip"
+        src="assets/sfx/ping.mp3"
+        data-start="47.252"
+        data-duration="1.32"
+        data-track-index="23"
+        data-volume="0.4"
+      ></audio>
+      <audio
+        id="el-sfx-4"
+        class="clip"
+        src="assets/sfx/whoosh-cinematic.mp3"
+        data-start="65.752"
+        data-duration="5.54"
+        data-track-index="24"
+        data-volume="0.25"
+      ></audio>
+      <audio
+        id="el-sfx-5"
+        class="clip"
+        src="assets/sfx/impact-bass-1.mp3"
+        data-start="65.852"
+        data-duration="2.12"
+        data-track-index="25"
+        data-volume="0.35"
+      ></audio>
     </div>
 
     <script>
       window.__timelines = window.__timelines || {};
-      const tl = gsap.timeline({ paused: true });
-      // Example: tl.from("#title", { opacity: 0, y: -50, duration: 1 }, 0);
-      window.__timelines["main"] = tl;
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+      // ── scene transitions (injected by inject-transitions.mjs) ──
+      (function () { var tl = window.__timelines["main"];
+        tl.to("#el-scene_1", { x: 1920, duration: 0.5, ease: "power3.inOut" }, 5);
+        tl.fromTo("#el-scene_2", { x: -1920, opacity: 1 }, { x: 0, duration: 0.5, ease: "power3.inOut" }, 5);
+        tl.to("#el-scene_2", { filter: "blur(10px)", scale: 1.03, opacity: 0, duration: 0.6, ease: "power2.inOut" }, 11);
+        tl.fromTo("#el-scene_3", { filter: "blur(10px)", scale: 0.97, opacity: 0 }, { filter: "blur(0px)", scale: 1, opacity: 1, duration: 0.6, ease: "power2.inOut" }, 11);
+        tl.to("#el-scene_3", { filter: "blur(10px)", scale: 1.03, opacity: 0, duration: 0.6, ease: "power2.inOut" }, 18);
+        tl.fromTo("#el-scene_4", { filter: "blur(10px)", scale: 0.97, opacity: 0 }, { filter: "blur(0px)", scale: 1, opacity: 1, duration: 0.6, ease: "power2.inOut" }, 18);
+        tl.to("#el-scene_4", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.4, ease: "power3.in" }, 24);
+        tl.fromTo("#el-scene_5", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 24);
+        tl.to("#el-scene_5", { filter: "blur(10px)", scale: 1.03, opacity: 0, duration: 0.6, ease: "power2.inOut" }, 30);
+        tl.fromTo("#el-group_w6", { filter: "blur(10px)", scale: 0.97, opacity: 0 }, { filter: "blur(0px)", scale: 1, opacity: 1, duration: 0.6, ease: "power2.inOut" }, 30);
+        tl.to("#el-group_w6", { filter: "blur(10px)", scale: 1.03, opacity: 0, duration: 0.6, ease: "power2.inOut" }, 46.752);
+        tl.fromTo("#el-scene_8", { filter: "blur(10px)", scale: 0.97, opacity: 0 }, { filter: "blur(0px)", scale: 1, opacity: 1, duration: 0.6, ease: "power2.inOut" }, 46.752);
+        tl.to("#el-scene_8", { x: -1920, duration: 0.5, ease: "power3.inOut" }, 53.752);
+        tl.fromTo("#el-scene_9", { x: 1920, opacity: 1 }, { x: 0, duration: 0.5, ease: "power3.inOut" }, 53.752);
+        tl.to("#el-scene_9", { filter: "blur(10px)", scale: 1.03, opacity: 0, duration: 0.6, ease: "power2.inOut" }, 59.752);
+        tl.fromTo("#el-scene_10", { filter: "blur(10px)", scale: 0.97, opacity: 0 }, { filter: "blur(0px)", scale: 1, opacity: 1, duration: 0.6, ease: "power2.inOut" }, 59.752);
+        tl.to("#el-scene_10", { filter: "blur(10px)", scale: 1.03, opacity: 0, duration: 0.6, ease: "power2.inOut" }, 65.752);
+        tl.fromTo("#el-scene_11", { filter: "blur(10px)", scale: 0.97, opacity: 0 }, { filter: "blur(0px)", scale: 1, opacity: 1, duration: 0.6, ease: "power2.inOut" }, 65.752);
+        tl.to("#el-scene_11", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.4, ease: "power3.in" }, 72.752);
+        tl.fromTo("#el-scene_12", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 72.752);
+      })();
     </script>
   </body>
 </html>

@@ -1,0 +1,407 @@
+<template id="scene_3-template">
+  <div id="root" class="scene_3-root" data-composition-id="scene_3" data-width="1920" data-height="1080" data-duration="7" style="position:relative; width:1920px; height:1080px; overflow:hidden;">
+    <style>
+      @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+      @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+      @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+      @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+      :root {
+        --font-body: 'Space Grotesk', system-ui, sans-serif;
+        --font-display: 'Space Grotesk', system-ui, sans-serif;
+        --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+        --font-script: 'Caveat', cursive;
+      }
+      #root {
+        background: var(--canvas);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        /* Local override: --font-script not in global tokens; generic cursive applied */
+        --font-script: cursive;
+      }
+      #root *,
+      #root *::before,
+      #root *::after {
+        box-sizing: border-box;
+      }
+
+      /* ── Layout shell ─────────────────────────────────────── */
+      .s3-stage {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: stretch;
+      }
+
+      /* ── Left 60% — diary card column ───────────────────────*/
+      .s3-left {
+        width: 60%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 80px 48px 80px var(--pad-edge);
+        position: relative;
+        z-index: 2;
+      }
+
+      /* ── Right 40% — intentional negative space ─────────────*/
+      .s3-right {
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 80px 48px 80px 32px;
+        position: relative;
+        z-index: 2;
+      }
+
+      /* ── Pinned card — diary entry surface ──────────────────*/
+      .s3-card {
+        position: relative;
+        background: var(--surface-cream);
+        border: var(--border-hairline);
+        border-radius: var(--radius-card);
+        box-shadow: var(--shadow-pin-hero);
+        padding: 48px 44px 52px;
+        color: var(--brand-primary);
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        width: 100%;
+        max-width: 840px;
+        min-height: 540px;
+        /* morph-anchor start state: collapsed strip */
+        transform-origin: top center;
+      }
+
+      /* ── Card eyebrow ───────────────────────────────────────*/
+      .s3-card-eyebrow {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 22px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        opacity: 0.55;
+        margin-bottom: 24px;
+      }
+
+      /* ── Wound-word line items ──────────────────────────────*/
+      .s3-entries {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        flex: 1;
+      }
+
+      .s3-entry {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding-bottom: 22px;
+        border-bottom: var(--border-dashed);
+      }
+      .s3-entry:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      .s3-entry-label {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-size: 19px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        opacity: 0.45;
+        color: var(--brand-primary);
+      }
+
+      .s3-entry-text {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-weight: 600;
+        font-size: clamp(26px, 2.2vw, 34px);
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+        color: var(--brand-primary);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0 10px;
+        align-items: baseline;
+      }
+
+      /* ── keyword-glow target spans ──────────────────────────*/
+      .s3-kw {
+        display: inline-block;
+        transform-origin: 50% 50%;
+        will-change: transform, text-shadow;
+        color: var(--brand-primary);
+      }
+
+      /* ── Vertical fine-ink rule (right column) ───────────────*/
+      .s3-rule {
+        width: 1.5px;
+        height: 340px;
+        background: var(--brand-primary);
+        opacity: 0.22;
+        margin-bottom: 36px;
+        flex-shrink: 0;
+      }
+
+      /* ── Scribble marginal note ──────────────────────────────*/
+      .s3-scribble {
+        font-family: 'Caveat', cursive;
+        font-weight: 600;
+        font-size: clamp(28px, 2.4vw, 36px);
+        line-height: 1.15;
+        color: var(--brand-primary);
+        opacity: 0.72;
+        transform-origin: left bottom;
+        max-width: 28ch;
+        will-change: transform;
+      }
+      .s3-scribble .s3-scribble-ul {
+        border-bottom: 2px solid var(--brand-primary);
+      }
+
+      /* ── Paper grain overlay ─────────────────────────────────*/
+      .s3-grain-overlay {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 10;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        background-image: var(--paper-grain);
+      }
+
+      /* ── Macro-camera dolly wrapper ─────────────────────────*/
+      .s3-dolly {
+        position: absolute;
+        inset: 0;
+        transform-origin: 50% 50%;
+        will-change: transform;
+      }
+    </style>
+
+    <!-- Paper grain — always present, sits above content via z-index on overlay -->
+    <div class="s3-grain-overlay" aria-hidden="true"></div>
+
+    <!-- Macro-camera dolly: slow dolly-in on entire scene root -->
+    <div class="s3-dolly" id="s3-dolly">
+      <div class="s3-stage" id="s3-stage">
+
+        <!-- LEFT 60%: tall diary-entry card -->
+        <div class="s3-left" id="s3-left" data-layout-role="primary" data-layout-act="dread">
+          <div class="s3-card" id="s3-card">
+            <div class="s3-card-eyebrow">JUNE 1992 / PERSONAL RECORD</div>
+
+            <div class="s3-entries">
+              <!-- Entry 1 -->
+              <div class="s3-entry" id="s3-entry-1">
+                <div class="s3-entry-label">01</div>
+                <div class="s3-entry-text">
+                  The want for a boy —
+                </div>
+              </div>
+
+              <!-- Entry 2 — keyword: "unnamed" -->
+              <div class="s3-entry" id="s3-entry-2">
+                <div class="s3-entry-label">02</div>
+                <div class="s3-entry-text">
+                  the <span class="s3-kw" data-word="unnamed">unnamed</span> week
+                </div>
+              </div>
+
+              <!-- Entry 3 — keyword: "loss" -->
+              <div class="s3-entry" id="s3-entry-3">
+                <div class="s3-entry-label">03</div>
+                <div class="s3-entry-text">
+                  footsteps on gravel — <span class="s3-kw" data-word="loss">loss</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT 40%: negative space + vertical rule + scribble -->
+        <div class="s3-right" id="s3-right" data-layout-role="supporting" data-layout-act="dread">
+          <div class="s3-rule" id="s3-rule"></div>
+          <p class="s3-scribble" id="s3-scribble">
+            <span class="s3-scribble-ul">the palace</span> never read this file
+          </p>
+        </div>
+
+      </div><!-- /s3-stage -->
+    </div><!-- /s3-dolly -->
+
+    <script>
+      const EASE = {
+        entry: "power2.out",
+        emphasis: "power3.out",
+        exit: "power2.in",
+        drift: "sine.inOut",
+      };
+      const DUR = {
+        snap: 0.18,
+        med: 0.5,
+        slow: 0.95,
+      };
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ── Initial hidden states ──────────────────────────────────────────
+      gsap.set("#s3-card",    { opacity: 0, scaleY: 0.06, y: -20 });
+      gsap.set("#s3-entry-1", { opacity: 0, y: 18 });
+      gsap.set("#s3-entry-2", { opacity: 0, y: 18 });
+      gsap.set("#s3-entry-3", { opacity: 0, y: 18 });
+      gsap.set("#s3-rule",    { opacity: 0, scaleY: 0 });
+      gsap.set("#s3-scribble",{ opacity: 0, y: 10 });
+      gsap.set(".s3-kw",      { opacity: 1 });   // keywords visible within their entry
+
+      // ── Dolly initial state ──────────────────────────────────────────
+      gsap.set("#s3-dolly", { scale: 1.06, transformOrigin: "50% 50%" });
+
+      // ── card-morph-anchor: card drops from collapsed strip → full height ──
+      // t=0 → morph in
+      tl.fromTo(
+        "#s3-card",
+        { opacity: 0, scaleY: 0.06, y: -20 },
+        { opacity: 1, scaleY: 1,    y: 0, duration: DUR.slow, ease: EASE.emphasis },
+        0
+      );
+
+      // ── Macro dolly-in: slow scale 1.06 → 1.0 over full scene ──────
+      tl.fromTo(
+        "#s3-dolly",
+        { scale: 1.06 },
+        { scale: 1.0, duration: 7, ease: "none" },
+        0
+      );
+
+      // ── Right-column rule reveals after card lands ────────────────
+      tl.fromTo(
+        "#s3-rule",
+        { opacity: 0, scaleY: 0, transformOrigin: "top center" },
+        { opacity: 1, scaleY: 1, duration: DUR.slow, ease: EASE.entry },
+        0.5
+      );
+
+      // ── Entry 1 arrives at t=0.9 ─────────────────────────────────
+      tl.fromTo(
+        "#s3-entry-1",
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0,  duration: DUR.med, ease: EASE.entry },
+        0.9
+      );
+
+      // ── Entry 2 arrives at t=1.8 — triggers asr-keyword-glow on "unnamed" ──
+      tl.fromTo(
+        "#s3-entry-2",
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0,  duration: DUR.med, ease: EASE.entry },
+        1.8
+      );
+
+      // ── Entry 3 arrives at t=2.7 — triggers asr-keyword-glow on "loss" ──
+      tl.fromTo(
+        "#s3-entry-3",
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0,  duration: DUR.med, ease: EASE.entry },
+        2.7
+      );
+
+      // ── Scribble marginal note drifts in at t=1.4 ─────────────────
+      tl.fromTo(
+        "#s3-scribble",
+        { opacity: 0, y: 10 },
+        { opacity: 0.72, y: 0, duration: DUR.slow, ease: EASE.entry },
+        1.4
+      );
+
+      // ── asr-keyword-glow: envelope driver for wound-words ─────────
+      // Keywords: "unnamed" peaks at ~2.0s, "loss" peaks at ~3.0s
+      const SCENE_DURATION = 7;
+      const ATTACK_DUR  = 0.15;
+      const RELEASE     = 0.35;
+      const REST_LEVEL  = 0.18;
+      const MAX_BLUR    = 18;          // px — soft ink-blue glow, not a shout
+      const MAX_SCALE_BOOST = 0.06;   // subtle — grief, not a feature reveal
+      // Glow color: brand-primary #1F3A8A (31, 58, 138)
+      const GLOW_R = 31, GLOW_G = 58, GLOW_B = 138;
+      const GLOW_ALPHA_BASE  = 0.0;
+      const GLOW_ALPHA_RANGE = 0.7;
+
+      const TIMINGS = {
+        unnamed: { start: 2.0, end: 2.6 },
+        loss:    { start: 3.05, end: 3.7 },
+      };
+
+      function glowColorRgba(env) {
+        return `rgba(${GLOW_R},${GLOW_G},${GLOW_B},${GLOW_ALPHA_BASE + env * GLOW_ALPHA_RANGE})`;
+      }
+
+      function envelope(time, start, end) {
+        const releaseEnd = end + RELEASE;
+        if (time < start) return 0;
+        if (time < end) {
+          const attack = Math.min((time - start) / ATTACK_DUR, 1);
+          return attack;
+        }
+        if (time < releaseEnd) {
+          const decay = (time - end) / RELEASE;
+          return 1 - decay * (1 - REST_LEVEL);
+        }
+        return REST_LEVEL;
+      }
+
+      const kwEls = document.querySelectorAll(".s3-kw");
+      const driver = { t: 0 };
+      tl.to(
+        driver,
+        {
+          t: SCENE_DURATION,
+          duration: SCENE_DURATION,
+          ease: "none",
+          onUpdate: () => {
+            kwEls.forEach((el) => {
+              const word = el.dataset.word;
+              const timing = TIMINGS[word];
+              if (!timing) return;
+              const env = envelope(driver.t, timing.start, timing.end);
+              const blur = MAX_BLUR * env;
+              const scale = 1 + MAX_SCALE_BOOST * env;
+              el.style.textShadow = `0 0 ${blur}px ${glowColorRgba(env)}`;
+              el.style.transform  = `scale(${scale})`;
+            });
+          },
+        },
+        0
+      );
+
+      // ── sine-wave-loop: only the marginal scribble drifts ±2px ──────
+      // Starts after scribble entry settles (t ≈ 2.35s), runs to end
+      const IDLE_START = 2.45;
+      const IDLE_DUR   = SCENE_DURATION - IDLE_START; // ~4.55s
+      const CYCLES     = IDLE_DUR / 2.8;               // ~1.6 breaths
+      const Y_AMP_PX   = 2;                            // brief: ±2px
+      const phase = { p: 0 };
+      tl.to(
+        phase,
+        {
+          p: Math.PI * 2 * CYCLES,
+          duration: IDLE_DUR,
+          ease: "none",
+          onUpdate: () => {
+            const y = Math.sin(phase.p) * Y_AMP_PX;
+            const el = document.getElementById("s3-scribble");
+            // compose over existing rotation baked in CSS — since scribble is NOT
+            // tweened for rotation, we only add translateY
+            el.style.transform = `rotate(-2deg) translateY(${y}px)`;
+          },
+        },
+        IDLE_START
+      );
+
+      window.__timelines["scene_3"] = tl;
+    </script>
+  </div>
+</template>

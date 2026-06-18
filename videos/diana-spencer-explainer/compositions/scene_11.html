@@ -1,0 +1,374 @@
+<template id="scene_11-template">
+  <div id="root" class="scene_11-root" data-composition-id="scene_11" data-width="1920" data-height="1080" data-duration="7" style="position:relative; width:1920px; height:1080px; overflow:hidden;">
+    <style>
+      @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+      @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+      @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+      @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+      :root {
+        --font-body: 'Space Grotesk', system-ui, sans-serif;
+        --font-display: 'Space Grotesk', system-ui, sans-serif;
+        --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+        --font-script: 'Caveat', cursive;
+      }
+      #root {
+        background: var(--canvas);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+      }
+      #root *,
+      #root *::before,
+      #root *::after {
+        box-sizing: border-box;
+      }
+
+      /* ---- Paper grain (ambient constant) ---- */
+      .pp-paper-grain-overlay {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        background-image: var(--paper-grain);
+      }
+
+      /* ---- Scene root layout ---- */
+      .s11-stage {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+      }
+
+      /* ---- Flagpole SVG ---- */
+      .s11-pole-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        will-change: transform;
+      }
+
+      .s11-pole-svg {
+        display: block;
+        overflow: visible;
+      }
+
+      .s11-pole-path {
+        fill: none;
+        stroke: var(--brand-primary);
+        stroke-width: 10;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      /* ---- Depth-stack container ---- */
+      .s11-depth-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 24px;
+      }
+
+      .s11-depth-stack {
+        position: relative;
+      }
+
+      .s11-depth-text {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 900;
+        font-size: 180px;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        color: var(--brand-primary);
+        text-transform: uppercase;
+        pointer-events: none;
+      }
+
+      .s11-depth-text.s11-is-back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+      }
+
+      .s11-depth-text.s11-is-front {
+        position: relative;
+        z-index: 10;
+      }
+
+      /* ---- Counter-statement line ---- */
+      .s11-counter-line {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 28px;
+        font-weight: 400;
+        letter-spacing: 0.14em;
+        color: var(--brand-primary);
+        text-transform: uppercase;
+        margin-top: 28px;
+        text-align: center;
+        will-change: transform, opacity;
+      }
+
+      /* ---- Macro push-in zoom wrapper ---- */
+      .s11-zoom-root {
+        position: absolute;
+        inset: 0;
+        will-change: transform;
+        transform-origin: 50% 50%;
+      }
+    </style>
+
+    <!-- Paper grain — decorative atmospheric constant -->
+    <div class="pp-paper-grain-overlay" aria-hidden="true"></div>
+
+    <!-- Macro push-in wrapper (barely perceptible slow dolly-in) -->
+    <div class="s11-zoom-root" id="s11-zoom-root">
+      <div class="s11-stage" id="s11-stage" data-layout-role="primary" data-layout-act="flagpole-reveal">
+
+        <!-- Flagpole SVG: 15% of 1920 = 288px wide; drawn base→top; pole is vertical -->
+        <!-- viewBox: centered pole, x=0 to 288, y=0 (top/flag-end) to 720 (base) -->
+        <!-- Pole path goes from base (144, 680) up to flag-end (144, 40) -->
+        <div class="s11-pole-wrap" id="s11-pole-wrap">
+          <svg class="s11-pole-svg" id="s11-pole-svg"
+               viewBox="0 0 288 720"
+               width="288"
+               height="720"
+               xmlns="http://www.w3.org/2000/svg"
+               aria-hidden="true">
+            <!-- Main vertical shaft: base to top -->
+            <path class="s11-pole-path" id="s11-pole-main" d="M 144 680 L 144 40" />
+            <!-- Small base cross-foot left -->
+            <path class="s11-pole-path" id="s11-pole-base-l" d="M 144 680 L 100 700" />
+            <!-- Small base cross-foot right -->
+            <path class="s11-pole-path" id="s11-pole-base-r" d="M 144 680 L 188 700" />
+          </svg>
+        </div>
+
+        <!-- 3D depth-stack for "CRUELTY." -->
+        <div class="s11-depth-wrap" id="s11-depth-wrap" data-layout-role="primary" data-layout-act="cruelty-stamp">
+          <div class="s11-depth-stack" id="s11-depth-stack">
+            <!-- Layers injected by script -->
+          </div>
+        </div>
+
+        <!-- Counter-statement: enters after silence hold -->
+        <div class="s11-counter-line" id="s11-counter-line">
+          QUEEN BREAKS PROTOCOL. &nbsp; GRIEF. &nbsp; PUBLIC.
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+      const EASE = {
+        entry: "power2.out",
+        emphasis: "power3.out",
+        exit: "power2.in",
+        drift: "sine.inOut",
+      };
+      const DUR = {
+        snap: 0.18,
+        med: 0.5,
+        slow: 0.95,
+      };
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ----------------------------------------------------------------
+      // Initial hidden states
+      // ----------------------------------------------------------------
+      gsap.set("#s11-depth-wrap", { opacity: 0 });
+      gsap.set("#s11-counter-line", { opacity: 0, y: 14 });
+      // Zoom root starts at scale 1.0, will push in very slightly
+      gsap.set("#s11-zoom-root", { scale: 1.0 });
+
+      // ----------------------------------------------------------------
+      // SVG PATH DRAW — flagpole drawn base → top over ~1.5s
+      // Main shaft first (large), then base feet quickly
+      // ----------------------------------------------------------------
+      const poleMain  = document.getElementById("s11-pole-main");
+      const poleBaseL = document.getElementById("s11-pole-base-l");
+      const poleBaseR = document.getElementById("s11-pole-base-r");
+
+      const lenMain  = poleMain.getTotalLength();
+      const lenBaseL = poleBaseL.getTotalLength();
+      const lenBaseR = poleBaseR.getTotalLength();
+
+      // Draw direction: we want base→top, so start dashoffset = lenMain (invisible)
+      // and animate to 0 (fully visible). The path is already drawn M680→40 so
+      // getTotalLength gives the shaft length; offset=len hides it, animate→0 reveals it
+      // bottom-to-top (the path start is at the base already).
+      poleMain.style.strokeDasharray  = `${lenMain}`;
+      poleMain.style.strokeDashoffset = `${lenMain}`;
+      poleBaseL.style.strokeDasharray  = `${lenBaseL}`;
+      poleBaseL.style.strokeDashoffset = `${lenBaseL}`;
+      poleBaseR.style.strokeDasharray  = `${lenBaseR}`;
+      poleBaseR.style.strokeDashoffset = `${lenBaseR}`;
+
+      // Main shaft: 0 → 1.5s
+      tl.to(
+        "#s11-pole-main",
+        { strokeDashoffset: 0, duration: 1.5, ease: "power2.out" },
+        0,
+      );
+      // Base feet appear quickly at end of shaft draw (slight overlap)
+      tl.to(
+        "#s11-pole-base-l",
+        { strokeDashoffset: 0, duration: 0.25, ease: "power2.out" },
+        1.3,
+      );
+      tl.to(
+        "#s11-pole-base-r",
+        { strokeDashoffset: 0, duration: 0.25, ease: "power2.out" },
+        1.35,
+      );
+
+      // ----------------------------------------------------------------
+      // SINE-WAVE LOOP — pole drifts ±1.5px Y after it's drawn
+      // Idle starts at 1.6s, runs to end of scene (5.4s of idle)
+      // CYCLES: 5.4 / 3.0 ≈ 1.8 cycles (period ~3s, natural breathing)
+      // ----------------------------------------------------------------
+      const polePhase = { p: 0 };
+      const POLE_IDLE_START = 1.6;
+      const POLE_IDLE_DUR   = 7.0 - POLE_IDLE_START; // 5.4s
+      const POLE_CYCLES     = POLE_IDLE_DUR / 3.0;   // ~1.8
+      const POLE_Y_AMP      = 1.5; // px — brief calls for ±1.5px
+
+      tl.to(
+        polePhase,
+        {
+          p: Math.PI * 2 * POLE_CYCLES,
+          duration: POLE_IDLE_DUR,
+          ease: "none",
+          onUpdate: () => {
+            const poleWrap = document.getElementById("s11-pole-wrap");
+            if (poleWrap) {
+              const y = Math.sin(polePhase.p) * POLE_Y_AMP;
+              poleWrap.style.transform = `translateY(${y}px)`;
+            }
+          },
+        },
+        POLE_IDLE_START,
+      );
+
+      // ----------------------------------------------------------------
+      // 3D TEXT DEPTH LAYERS — "CRUELTY." enters at 2.2s
+      // 3 layers (1 front + 2 back), offset (+2px, +2px) per layer
+      // Back layers: brand-primary at lower alpha
+      // Cascade: back layer first, then front, over 0.5s
+      // Depth also grows from 0 → full offset simultaneously
+      // ----------------------------------------------------------------
+      const LAYER_COUNT        = 3;
+      const OFFSET_X           = 2;     // px per layer
+      const OFFSET_Y           = 2;     // px per layer
+      const BACK_ALPHA_MAX     = 0.65;
+      const BACK_ALPHA_STEP    = 0.18;
+      const BACK_ALPHA_MIN     = 0.15;
+      const LAYER_CASCADE_START = 2.2;  // when cascade begins
+      const LAYER_CASCADE_STEP  = 0.07; // delay between each layer fade
+      const LAYER_FADE_DUR      = 0.45; // each layer fade duration
+      const DEPTH_GROW_START    = 2.2;
+      const DEPTH_GROW_DUR      = 0.55;
+      // Brand primary RGB for back layers
+      const BACK_HUE_RGB = "31, 58, 138"; // #1F3A8A
+
+      const stack = document.getElementById("s11-depth-stack");
+      const TEXT  = "CRUELTY.";
+
+      // Build layers back-to-front
+      for (let i = LAYER_COUNT - 1; i >= 0; i--) {
+        const el = document.createElement("div");
+        el.className = "s11-depth-text " + (i === 0 ? "s11-is-front" : "s11-is-back");
+        el.textContent = TEXT;
+        if (i > 0) {
+          const alpha = Math.max(BACK_ALPHA_MAX - i * BACK_ALPHA_STEP, BACK_ALPHA_MIN);
+          el.style.color     = `rgba(${BACK_HUE_RGB}, ${alpha})`;
+          el.style.transform = `translate(${i * OFFSET_X}px, ${i * OFFSET_Y}px)`;
+        } else {
+          el.style.color = "var(--brand-primary)";
+        }
+        el.dataset.layer = String(i);
+        stack.appendChild(el);
+      }
+
+      // Reveal depth-wrap container
+      tl.fromTo(
+        "#s11-depth-wrap",
+        { opacity: 1 },
+        { opacity: 1, duration: 0.01 },
+        LAYER_CASCADE_START,
+      );
+      // Force depth-wrap visible from cascade start
+      gsap.set("#s11-depth-wrap", { opacity: 0 });
+
+      // Cascade entry: back layers appear first, building forward
+      const allLayers = stack.querySelectorAll(".s11-depth-text");
+      allLayers.forEach((el) => {
+        const i = Number(el.dataset.layer);
+        const finalAlpha = el.classList.contains("s11-is-front")
+          ? 1
+          : Math.max(BACK_ALPHA_MAX - i * BACK_ALPHA_STEP, BACK_ALPHA_MIN);
+        gsap.set(el, { opacity: 0 });
+        tl.fromTo(
+          el,
+          { opacity: 0 },
+          { opacity: finalAlpha, duration: LAYER_FADE_DUR, ease: EASE.emphasis },
+          LAYER_CASCADE_START + (LAYER_COUNT - 1 - i) * LAYER_CASCADE_STEP,
+        );
+      });
+
+      // Make the wrapper itself visible when cascade begins
+      tl.set("#s11-depth-wrap", { opacity: 1 }, LAYER_CASCADE_START);
+
+      // Depth grow: offsets interpolate from 0 → full during cascade
+      const depthState = { p: 0 };
+      tl.to(
+        depthState,
+        {
+          p: 1,
+          duration: DEPTH_GROW_DUR,
+          ease: "power2.out",
+          onUpdate: () => {
+            stack.querySelectorAll(".s11-depth-text.s11-is-back").forEach((el) => {
+              const i = Number(el.dataset.layer);
+              const x = i * OFFSET_X * depthState.p;
+              const y = i * OFFSET_Y * depthState.p;
+              el.style.transform = `translate(${x}px, ${y}px)`;
+            });
+          },
+        },
+        DEPTH_GROW_START,
+      );
+
+      // ----------------------------------------------------------------
+      // STILLNESS-BEFORE-CLIMAX: 0.6s silence after CRUELTY. lands (~4.5s)
+      // Counter-statement enters at 5.1s
+      // ----------------------------------------------------------------
+      tl.fromTo(
+        "#s11-counter-line",
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: DUR.slow, ease: EASE.entry },
+        5.1,
+      );
+
+      // ----------------------------------------------------------------
+      // MACRO CAMERA — slow push-in, barely perceptible (scale 1→1.025)
+      // Starts at 0, runs the full 7s duration
+      // ----------------------------------------------------------------
+      tl.fromTo(
+        "#s11-zoom-root",
+        { scale: 1.0 },
+        { scale: 1.025, duration: 7, ease: "none" },
+        0,
+      );
+
+      window.__timelines["scene_11"] = tl;
+    </script>
+  </div>
+</template>

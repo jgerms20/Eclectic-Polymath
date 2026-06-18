@@ -1,0 +1,550 @@
+<template id="group_w6-template">
+  <div id="root" class="group_w6-root" data-composition-id="group_w6" data-width="1920" data-height="1080" data-duration="16.752" data-layout-allow-overflow="true" style="position:relative; width:1920px; height:1080px; overflow:hidden;">
+    <style>
+      @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+      @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+      @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+      @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+      :root {
+        --font-body: 'Space Grotesk', system-ui, sans-serif;
+        --font-display: 'Space Grotesk', system-ui, sans-serif;
+        --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+        --font-script: 'Caveat', cursive;
+      }
+      #root {
+        background: var(--canvas);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+      }
+      #root *,
+      #root *::before,
+      #root *::after {
+        box-sizing: border-box;
+      }
+
+      /* ── Paper grain overlay ── */
+      .g6-paper-grain {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        background-image: var(--paper-grain);
+      }
+
+      /* ── Scene root layout ── */
+      .g6-stage {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        z-index: 2;
+      }
+
+      /* ── Persistent hand SVG (g6- prefix — shared across both scenes) ── */
+      .g6-hand-wrap {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 480px;
+        height: 560px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 5;
+        will-change: transform;
+      }
+
+      #g6-hand-svg {
+        width: 480px;
+        height: 560px;
+        overflow: visible;
+      }
+
+      /* All hand paths: stroke-only ink reveal */
+      #g6-hand-svg path,
+      #g6-hand-svg line {
+        fill: none;
+        stroke: var(--brand-primary);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      /* Ink halo / pulse ring from svg-icon-enrichment */
+      #g6-palm-ring {
+        fill: none;
+        stroke: var(--brand-primary);
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        transform-box: fill-box;
+      }
+
+      /* ── Scene 6: eyebrow dateline ── */
+      #s6-eyebrow {
+        position: absolute;
+        top: 96px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 26px;
+        line-height: 1;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        white-space: nowrap;
+        z-index: 6;
+        will-change: transform, opacity;
+      }
+
+      /* ── Scene 6: marginal scribble note ── */
+      #s6-scribble {
+        position: absolute;
+        bottom: 160px;
+        right: 200px;
+        font-family: 'Caveat', cursive;
+        font-weight: 600;
+        font-size: 34px;
+        line-height: 1.1;
+        color: var(--brand-primary);
+        transform: rotate(-2deg);
+        transform-origin: right bottom;
+        z-index: 6;
+        will-change: opacity;
+        max-width: 28ch;
+        text-align: right;
+      }
+
+      /* ── Scene 7: figure silhouettes container ── */
+      #s7-crowd-wrap {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        pointer-events: none;
+        will-change: transform;
+        data-layout-allow-overflow: true;
+      }
+
+      .g6-figure {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        will-change: transform, opacity;
+      }
+
+      /* ── Scene 7: flow diagram SVG ── */
+      #s7-diagram-wrap {
+        position: absolute;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 520px;
+        height: 200px;
+        z-index: 6;
+        will-change: opacity;
+        data-layout-allow-overflow: true;
+      }
+
+      #s7-diagram-svg {
+        width: 520px;
+        height: 200px;
+        overflow: visible;
+      }
+
+      #s7-diagram-svg path,
+      #s7-diagram-svg line {
+        fill: none;
+        stroke: var(--brand-primary);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      /* ── Scene 7: mono eyebrow ── */
+      #s7-eyebrow {
+        position: absolute;
+        top: 96px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 22px;
+        line-height: 1;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        white-space: nowrap;
+        z-index: 6;
+        will-change: opacity;
+      }
+
+      /* ── Slow camera drift wrapper ── */
+      #g6-camera {
+        position: absolute;
+        inset: -60px;
+        z-index: 2;
+        will-change: transform;
+      }
+    </style>
+
+    <!-- Paper grain — always topmost atmospheric layer -->
+    <div class="g6-paper-grain" aria-hidden="true"></div>
+
+    <!-- Camera drift wrapper -->
+    <div id="g6-camera">
+
+      <!-- ═══════════════════════════════════════════════════
+           PERSISTENT HAND — g6- prefix, lives in both scenes
+           ═══════════════════════════════════════════════════ -->
+      <div class="g6-hand-wrap" id="g6-hand-wrap" data-layout-allow-overflow="true" data-layout-role="primary" data-layout-act="scene_6_and_7">
+        <svg id="g6-hand-svg" viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+          <!-- Wrist band -->
+          <path id="g6-wrist" d="M 60 260 Q 80 270 120 272 Q 160 270 180 260" stroke-width="5"/>
+          <!-- Palm left edge -->
+          <path id="g6-palm-left" d="M 60 260 L 55 200 Q 52 185 56 170" stroke-width="5"/>
+          <!-- Palm right edge -->
+          <path id="g6-palm-right" d="M 180 260 L 185 200 Q 188 185 184 170" stroke-width="5"/>
+          <!-- Palm base arch -->
+          <path id="g6-palm-arch" d="M 56 170 Q 80 160 120 158 Q 160 160 184 170" stroke-width="4.5"/>
+          <!-- Thumb -->
+          <path id="g6-thumb" d="M 56 170 Q 44 155 38 138 Q 34 120 42 108 Q 50 98 60 102 Q 70 106 72 120 Q 74 136 70 150 Q 68 158 68 165" stroke-width="4"/>
+          <!-- Index finger -->
+          <path id="g6-index" d="M 80 158 Q 78 138 76 118 Q 74 95 80 78 Q 86 62 96 60 Q 106 58 110 74 Q 114 90 112 112 Q 110 132 108 152" stroke-width="4"/>
+          <!-- Middle finger -->
+          <path id="g6-middle" d="M 108 155 Q 108 132 108 110 Q 108 86 114 68 Q 120 52 128 50 Q 136 50 140 66 Q 144 82 142 106 Q 140 128 138 152" stroke-width="4"/>
+          <!-- Ring finger -->
+          <path id="g6-ring" d="M 136 154 Q 138 132 140 112 Q 142 90 148 76 Q 154 62 162 62 Q 170 62 172 78 Q 174 94 170 116 Q 167 136 164 156" stroke-width="4"/>
+          <!-- Little finger -->
+          <path id="g6-little" d="M 162 158 Q 164 140 166 124 Q 168 108 172 98 Q 176 88 182 88 Q 188 90 190 102 Q 192 114 188 130 Q 184 148 182 162" stroke-width="4"/>
+          <!-- Palm center life-line (subtle) -->
+          <path id="g6-lifeline" d="M 90 168 Q 96 200 92 230 Q 88 248 84 260" stroke-width="2" opacity="0.45"/>
+
+          <!-- Ink halo ring — added by svg-icon-enrichment, centered at palm (cx=120, cy=200 in viewBox) -->
+          <circle id="g6-palm-ring" cx="120" cy="200" r="28" stroke-width="2.5"/>
+        </svg>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════
+           SCENE 6 ELEMENTS — s6- prefix, scene-local
+           ═══════════════════════════════════════════════ -->
+      <div id="s6-eyebrow" data-layout-role="supporting" data-layout-act="scene_6">AIDS WARD / APRIL 1987</div>
+
+      <div id="s6-scribble" data-layout-role="supporting" data-layout-act="scene_6">
+        no <span style="border-bottom:2px solid var(--brand-primary);">glove</span> / 1987
+      </div>
+
+      <!-- ═══════════════════════════════════════════════
+           SCENE 7 ELEMENTS — s7- prefix, scene-local
+           ═══════════════════════════════════════════════ -->
+
+      <!-- Mono eyebrow for scene 7 -->
+      <div id="s7-eyebrow" data-layout-role="supporting" data-layout-act="scene_7">CONSENT THE CROWN COULDN'T MANUFACTURE</div>
+
+      <!-- Crowd silhouettes — absolute positioned around center (960,540) -->
+      <!-- Each figure is an SVG silhouette of a small person reaching toward the hand -->
+      <!-- Using data-target-x/y as offsets from center (960,540 on 1920x1080) -->
+      <div id="s7-crowd-wrap" data-layout-allow-overflow="true">
+        <!-- figure 1: upper-left large -->
+        <div class="g6-figure" id="g6-fig1" data-target-x="-340" data-target-y="-200" style="transform: translate(-50%, -50%);">
+          <svg width="64" height="100" viewBox="0 0 64 100" xmlns="http://www.w3.org/2000/svg" style="opacity:0.85;">
+            <circle cx="32" cy="14" r="11" fill="var(--brand-primary)"/>
+            <path d="M 32 26 L 32 62 M 32 40 L 8 32 M 32 40 L 56 28 M 32 62 L 18 95 M 32 62 L 46 95" stroke="var(--brand-primary)" stroke-width="5" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <!-- figure 2: upper-right medium -->
+        <div class="g6-figure" id="g6-fig2" data-target-x="360" data-target-y="-190" style="transform: translate(-50%, -50%);">
+          <svg width="50" height="78" viewBox="0 0 50 78" xmlns="http://www.w3.org/2000/svg" style="opacity:0.72;">
+            <circle cx="25" cy="11" r="8" fill="var(--brand-primary)"/>
+            <path d="M 25 20 L 25 48 M 25 32 L 8 25 M 25 32 L 42 22 M 25 48 L 14 74 M 25 48 L 36 74" stroke="var(--brand-primary)" stroke-width="4" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <!-- figure 3: right-center medium -->
+        <div class="g6-figure" id="g6-fig3" data-target-x="440" data-target-y="40" style="transform: translate(-50%, -50%);">
+          <svg width="52" height="80" viewBox="0 0 52 80" xmlns="http://www.w3.org/2000/svg" style="opacity:0.78;">
+            <circle cx="26" cy="11" r="9" fill="var(--brand-primary)"/>
+            <path d="M 26 21 L 26 50 M 26 34 L 6 26 M 26 34 L 46 24 M 26 50 L 14 76 M 26 50 L 38 76" stroke="var(--brand-primary)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <!-- figure 4: lower-right small -->
+        <div class="g6-figure" id="g6-fig4" data-target-x="320" data-target-y="200" style="transform: translate(-50%, -50%);">
+          <svg width="38" height="60" viewBox="0 0 38 60" xmlns="http://www.w3.org/2000/svg" style="opacity:0.55;">
+            <circle cx="19" cy="8" r="6" fill="var(--brand-primary)"/>
+            <path d="M 19 15 L 19 36 M 19 24 L 5 18 M 19 24 L 33 16 M 19 36 L 10 57 M 19 36 L 28 57" stroke="var(--brand-primary)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <!-- figure 5: lower-left small -->
+        <div class="g6-figure" id="g6-fig5" data-target-x="-310" data-target-y="210" style="transform: translate(-50%, -50%);">
+          <svg width="40" height="62" viewBox="0 0 40 62" xmlns="http://www.w3.org/2000/svg" style="opacity:0.58;">
+            <circle cx="20" cy="8" r="7" fill="var(--brand-primary)"/>
+            <path d="M 20 16 L 20 38 M 20 26 L 4 20 M 20 26 L 36 16 M 20 38 L 10 59 M 20 38 L 30 59" stroke="var(--brand-primary)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <!-- figure 6: far left medium -->
+        <div class="g6-figure" id="g6-fig6" data-target-x="-420" data-target-y="10" style="transform: translate(-50%, -50%);">
+          <svg width="48" height="76" viewBox="0 0 48 76" xmlns="http://www.w3.org/2000/svg" style="opacity:0.68;">
+            <circle cx="24" cy="10" r="8" fill="var(--brand-primary)"/>
+            <path d="M 24 19 L 24 46 M 24 31 L 6 24 M 24 31 L 42 22 M 24 46 L 13 72 M 24 46 L 35 72" stroke="var(--brand-primary)" stroke-width="4" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <!-- figure 7: far upper-center-left tiny -->
+        <div class="g6-figure" id="g6-fig7" data-target-x="-170" data-target-y="-280" style="transform: translate(-50%, -50%);">
+          <svg width="30" height="48" viewBox="0 0 30 48" xmlns="http://www.w3.org/2000/svg" style="opacity:0.42;">
+            <circle cx="15" cy="6" r="5" fill="var(--brand-primary)"/>
+            <path d="M 15 12 L 15 28 M 15 19 L 4 14 M 15 19 L 26 13 M 15 28 L 8 45 M 15 28 L 22 45" stroke="var(--brand-primary)" stroke-width="3" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <!-- figure 8: far upper-center-right tiny -->
+        <div class="g6-figure" id="g6-fig8" data-target-x="190" data-target-y="-270" style="transform: translate(-50%, -50%);">
+          <svg width="28" height="46" viewBox="0 0 28 46" xmlns="http://www.w3.org/2000/svg" style="opacity:0.40;">
+            <circle cx="14" cy="6" r="5" fill="var(--brand-primary)"/>
+            <path d="M 14 12 L 14 27 M 14 19 L 3 14 M 14 19 L 25 13 M 14 27 L 7 43 M 14 27 L 21 43" stroke="var(--brand-primary)" stroke-width="3" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Scene 7 connecting dashed arcs SVG (svg-path-draw traces them) -->
+      <div id="s7-diagram-wrap" data-layout-allow-overflow="true" data-layout-role="supporting" data-layout-act="scene_7">
+        <svg id="s7-diagram-svg" viewBox="0 0 520 200" xmlns="http://www.w3.org/2000/svg">
+          <!-- Traditional top-down power arrow (left side) -->
+          <path id="s7-arrow-down" d="M 100 20 L 100 120 L 80 100 M 100 120 L 120 100" stroke-width="3.5"/>
+          <text x="60" y="14" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="14" fill="var(--brand-primary)" letter-spacing="0.12em" text-anchor="middle" font-weight="500">CROWN</text>
+          <text x="60" y="140" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="14" fill="var(--brand-primary)" letter-spacing="0.12em" text-anchor="middle" font-weight="500">SUBJECT</text>
+
+          <!-- Dividing hairline -->
+          <line id="s7-divider" x1="220" y1="10" x2="220" y2="190" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5"/>
+
+          <!-- Empathy upward arrow (right side) -->
+          <path id="s7-arrow-up" d="M 380 130 L 380 30 L 360 50 M 380 30 L 400 50" stroke="var(--brand-accent)" stroke-width="3.5"/>
+          <text x="420" y="140" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="14" fill="var(--brand-accent)" letter-spacing="0.12em" text-anchor="middle" font-weight="500">PEOPLE</text>
+          <text x="420" y="20" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="14" fill="var(--brand-accent)" letter-spacing="0.12em" text-anchor="middle" font-weight="500">DIANA</text>
+        </svg>
+      </div>
+
+    </div><!-- end g6-camera -->
+
+    <script>
+      const EASE = {
+        entry: "power2.out",
+        emphasis: "power3.out",
+        exit: "power2.in",
+        drift: "sine.inOut",
+      };
+      const DUR = {
+        snap: 0.18,
+        med: 0.5,
+        slow: 0.95,
+      };
+
+      window.__timelines = window.__timelines || {};
+
+      // ── Timeline boundary markers ──
+      const T = { scene_6: 0, scene_7: 6 };
+
+      const tl = gsap.timeline({ paused: true });
+
+      // ── Initial hidden states (gsap.set — not CSS) ──
+      // Scene 6 starts: all paths hidden, eyebrow hidden, scribble hidden, ring hidden
+      const handPaths = document.querySelectorAll(
+        "#g6-wrist, #g6-palm-left, #g6-palm-right, #g6-palm-arch, #g6-thumb, #g6-index, #g6-middle, #g6-ring, #g6-little, #g6-lifeline"
+      );
+      handPaths.forEach((p) => {
+        const len = p.getTotalLength();
+        p.style.strokeDasharray = String(len);
+        p.style.strokeDashoffset = String(len);
+      });
+      const ringEl = document.getElementById("g6-palm-ring");
+      const ringLen = ringEl.getTotalLength();
+      ringEl.style.strokeDasharray = String(ringLen);
+      ringEl.style.strokeDashoffset = String(ringLen);
+
+      gsap.set("#s6-eyebrow", { opacity: 0, y: -14 });
+      gsap.set("#s6-scribble", { opacity: 0 });
+      gsap.set("#s7-eyebrow", { opacity: 0 });
+      gsap.set("#s7-diagram-wrap", { opacity: 0 });
+
+      // Scene 7 figures — all hidden at start
+      const figures = document.querySelectorAll(".g6-figure");
+      figures.forEach((el) => {
+        gsap.set(el, { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 0.5, opacity: 0 });
+      });
+
+      // Scene 7 diagram paths
+      const diagPaths = document.querySelectorAll("#s7-arrow-down, #s7-arrow-up, #s7-divider");
+      diagPaths.forEach((p) => {
+        const len = p.getTotalLength();
+        p.style.strokeDasharray = String(len);
+        p.style.strokeDashoffset = String(len);
+      });
+
+      // ══════════════════════════════════════════════════
+      // SCENE 6: "The Ungloved Hand"   t=0 → t=6
+      // ══════════════════════════════════════════════════
+
+      // 6.1 Slow camera drift for scene 6 — barely moves (film direction: macro = slow drift)
+      tl.fromTo(
+        "#g6-camera",
+        { x: 0, y: 0 },
+        { x: 8, y: -6, duration: 6, ease: "sine.inOut" },
+        T.scene_6
+      );
+
+      // 6.2 Eyebrow dateline fades in immediately
+      tl.fromTo(
+        "#s6-eyebrow",
+        { opacity: 0, y: -14 },
+        { opacity: 1, y: 0, duration: DUR.med, ease: EASE.entry },
+        T.scene_6 + 0.15
+      );
+
+      // 6.3 SVG path draw — hand draws wrist to fingertips over ~2.5s
+      // Wrist base first
+      tl.to("#g6-wrist",      { strokeDashoffset: 0, duration: 0.55, ease: "power2.out" }, T.scene_6 + 0.2);
+      // Palm edges build simultaneously
+      tl.to("#g6-palm-left",  { strokeDashoffset: 0, duration: 0.70, ease: "power2.out" }, T.scene_6 + 0.55);
+      tl.to("#g6-palm-right", { strokeDashoffset: 0, duration: 0.70, ease: "power2.out" }, T.scene_6 + 0.60);
+      // Palm arch closes the base
+      tl.to("#g6-palm-arch",  { strokeDashoffset: 0, duration: 0.45, ease: "power2.out" }, T.scene_6 + 1.05);
+      // Thumb
+      tl.to("#g6-thumb",      { strokeDashoffset: 0, duration: 0.55, ease: "power2.out" }, T.scene_6 + 1.20);
+      // Four fingers in quick stagger — left to right
+      tl.to("#g6-index",      { strokeDashoffset: 0, duration: 0.52, ease: "power2.out" }, T.scene_6 + 1.38);
+      tl.to("#g6-middle",     { strokeDashoffset: 0, duration: 0.52, ease: "power2.out" }, T.scene_6 + 1.60);
+      tl.to("#g6-ring",       { strokeDashoffset: 0, duration: 0.48, ease: "power2.out" }, T.scene_6 + 1.80);
+      tl.to("#g6-little",     { strokeDashoffset: 0, duration: 0.44, ease: "power2.out" }, T.scene_6 + 1.98);
+      // Subtle lifeline
+      tl.to("#g6-lifeline",   { strokeDashoffset: 0, duration: 0.38, ease: "power2.out" }, T.scene_6 + 2.28);
+
+      // Hand fully drawn at ~2.68s — stillness holds
+
+      // 6.4 SVG icon enrichment — ink-ring radiates at ~3.0s
+      // The ring draws on (stroke reveal), then stays breathing via sine-wave-loop
+      tl.to(
+        "#g6-palm-ring",
+        { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" },
+        T.scene_6 + 3.0
+      );
+
+      // 6.5 Sine-wave-loop on ring: breathing ±1% scale (icon enrichment ambient)
+      // Drive via a phase proxy
+      const ringPhase = { p: 0 };
+      tl.to(
+        ringPhase,
+        {
+          p: Math.PI * 2 * 1.2, // ~1.2 cycles over remaining ~2.3s
+          duration: 2.3,
+          ease: "none",
+          onUpdate: () => {
+            const s = 1 + Math.sin(ringPhase.p) * 0.01;
+            const cx = 120, cy = 200;
+            ringEl.setAttribute(
+              "transform",
+              `translate(${cx} ${cy}) scale(${s}) translate(-${cx} -${cy})`
+            );
+          },
+        },
+        T.scene_6 + 3.5
+      );
+
+      // 6.6 Scribble note appears after stillness hold (~3.35s)
+      tl.fromTo(
+        "#s6-scribble",
+        { opacity: 0 },
+        { opacity: 1, duration: DUR.slow, ease: EASE.entry },
+        T.scene_6 + 3.35
+      );
+
+      // ══════════════════════════════════════════════════
+      // SCENE 7: "The Currency of Empathy"  t=6 → t=16.752
+      // ══════════════════════════════════════════════════
+
+      // 7.0 Scene 6 ui fades out at boundary
+      tl.to("#s6-eyebrow",  { opacity: 0, duration: DUR.med, ease: EASE.exit }, T.scene_7 + 0.0);
+      tl.to("#s6-scribble", { opacity: 0, duration: DUR.med, ease: EASE.exit }, T.scene_7 + 0.0);
+
+      // 7.1 Scene 7 eyebrow fades in
+      tl.fromTo(
+        "#s7-eyebrow",
+        { opacity: 0, y: -12 },
+        { opacity: 1, y: 0, duration: DUR.med, ease: EASE.entry },
+        T.scene_7 + 0.4
+      );
+
+      // 7.2 Slow push-in on camera (macro motion scene 7)
+      tl.fromTo(
+        "#g6-camera",
+        { scale: 1.0 },
+        { scale: 1.06, duration: 10.752, ease: "power1.inOut" },
+        T.scene_7
+      );
+
+      // 7.3 center-outward-expansion — 8 figures burst from hand center
+      // ENTRY_AT offset from scene 7 start = 0.5s
+      const EXPAND_DUR = 1.4;
+      const STAGGER_GAP = 0.055;
+      figures.forEach((el, i) => {
+        const targetX = Number(el.dataset.targetX);
+        const targetY = Number(el.dataset.targetY);
+        tl.fromTo(
+          el,
+          { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 0.5, opacity: 0 },
+          { x: targetX, y: targetY, scale: 1, opacity: 1, duration: EXPAND_DUR, ease: "power3.out" },
+          T.scene_7 + 0.5 + i * STAGGER_GAP
+        );
+      });
+
+      // 7.4 Sine-wave-loop on crowd — ±2px correlated drift as a mass
+      // Starts after expansion lands (~0.5 + EXPAND_DUR = 1.95s after scene_7)
+      const crowdPhase = { p: 0 };
+      const CROWD_IDLE_START = T.scene_7 + 2.0;
+      const CROWD_IDLE_DUR = 10.752 - 2.0; // runs to end
+      tl.to(
+        crowdPhase,
+        {
+          p: Math.PI * 2 * 3.5, // ~3.5 cycles across idle
+          duration: CROWD_IDLE_DUR,
+          ease: "none",
+          onUpdate: () => {
+            const dy = Math.sin(crowdPhase.p) * 2.0;
+            figures.forEach((el) => {
+              const tx = Number(el.dataset.targetX);
+              const ty = Number(el.dataset.targetY);
+              el.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty + dy}px))`;
+            });
+          },
+        },
+        CROWD_IDLE_START
+      );
+
+      // 7.5 svg-path-draw: connecting dashed arcs between hand and figures
+      // The diagram traces after crowd has landed (~2.2s into scene 7)
+      tl.fromTo(
+        "#s7-diagram-wrap",
+        { opacity: 0 },
+        { opacity: 1, duration: DUR.med, ease: EASE.entry },
+        T.scene_7 + 2.1
+      );
+      tl.to("#s7-divider",    { strokeDashoffset: 0, duration: 0.45, ease: "power2.out" }, T.scene_7 + 2.3);
+      tl.to("#s7-arrow-down", { strokeDashoffset: 0, duration: 0.65, ease: "power2.out" }, T.scene_7 + 2.6);
+      tl.to("#s7-arrow-up",   { strokeDashoffset: 0, duration: 0.65, ease: "power2.out" }, T.scene_7 + 3.1);
+
+      // 7.6 Sine-wave-loop on hand (persistent from scene 6) — gentle breathing ±1.5px
+      const handPhase = { p: 0 };
+      const HAND_IDLE_DUR = 10.752;
+      tl.to(
+        handPhase,
+        {
+          p: Math.PI * 2 * 3.2,
+          duration: HAND_IDLE_DUR,
+          ease: "none",
+          onUpdate: () => {
+            const dy = Math.sin(handPhase.p) * 1.5;
+            document.getElementById("g6-hand-wrap").style.transform = `translate(calc(-50%), calc(-50% + ${dy}px))`;
+          },
+        },
+        T.scene_7
+      );
+
+      window.__timelines["group_w6"] = tl;
+    </script>
+  </div>
+</template>

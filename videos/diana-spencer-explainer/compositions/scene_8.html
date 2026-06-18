@@ -1,0 +1,702 @@
+<template id="scene_8-template">
+  <div id="root" class="scene_8-root" data-composition-id="scene_8" data-width="1920" data-height="1080" data-duration="7" style="position:relative; width:1920px; height:1080px; overflow:hidden;">
+    <style>
+      @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+      @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+      @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+      @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+      :root {
+        --font-body: 'Space Grotesk', system-ui, sans-serif;
+        --font-display: 'Space Grotesk', system-ui, sans-serif;
+        --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+        --font-script: 'Caveat', cursive;
+      }
+      #root {
+        background: var(--canvas);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+      }
+      #root *,
+      #root *::before,
+      #root *::after {
+        box-sizing: border-box;
+      }
+
+      /* Paper grain overlay */
+      .s8-paper-grain {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 100;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        background-image: var(--paper-grain);
+      }
+
+      /* ── CARD MORPH ANCHOR ── */
+      /* Initial state: collapsed headline strip */
+      .s8-morph-card {
+        position: absolute;
+        left: 60px;
+        top: 80px;
+        width: 720px;
+        height: 48px;
+        border-radius: 2px;
+        background: var(--brand-primary);
+        overflow: hidden;
+        z-index: 10;
+      }
+
+      /* Collapsed strip content (shot 1 — the narrow headline band) */
+      .s8-morph-old {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 24px;
+        opacity: 1;
+      }
+      .s8-morph-old-label {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--canvas);
+        white-space: nowrap;
+      }
+
+      /* Expanded card content (shot 2 — the dress silhouette) */
+      .s8-morph-new {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+      }
+
+      /* Ink silhouette dress figure — SVG-authored */
+      .s8-dress-silhouette {
+        width: 340px;
+        height: 440px;
+        flex-shrink: 0;
+      }
+
+      /* ── TABLOID STRIPS ── */
+      .s8-strips-container {
+        position: absolute;
+        left: 60px;
+        top: 80px;
+        width: 720px;
+        /* height set by the morph card final state */
+        height: 490px;
+        z-index: 8;
+        pointer-events: none;
+        opacity: 0;
+      }
+
+      /* Top date strip */
+      .s8-strip-top {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 56px;
+        background: var(--brand-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .s8-strip-top-text {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-size: 22px;
+        font-weight: 500;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--canvas);
+      }
+
+      /* Left side strip */
+      .s8-strip-left {
+        position: absolute;
+        top: 56px;
+        left: 0;
+        width: 56px;
+        bottom: 0;
+        background: var(--brand-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .s8-strip-left-text {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--canvas);
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        transform: rotate(180deg);
+      }
+
+      /* Right side strip */
+      .s8-strip-right {
+        position: absolute;
+        top: 56px;
+        right: 0;
+        width: 56px;
+        bottom: 0;
+        background: var(--brand-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .s8-strip-right-text {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--canvas);
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+      }
+
+      /* ── 3D DEPTH HEADLINE — "JUNE 29, 1994" with "OUT" depth ── */
+      .s8-headline-zone {
+        position: absolute;
+        left: 840px;
+        top: 100px;
+        width: 1020px;
+        z-index: 20;
+        opacity: 0;
+      }
+      .s8-dateline {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-size: 28px;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        margin-bottom: 24px;
+        display: block;
+      }
+      .s8-headline-row {
+        display: flex;
+        align-items: baseline;
+        gap: 0;
+        flex-wrap: nowrap;
+      }
+      .s8-headline-static {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 148px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        color: var(--brand-primary);
+        text-transform: uppercase;
+        display: inline-block;
+      }
+      /* 3D depth stack for "OUT" */
+      .s8-depth-wrap {
+        position: relative;
+        display: inline-block;
+        line-height: 1;
+      }
+      .s8-depth-text {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 148px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        text-transform: uppercase;
+        pointer-events: none;
+      }
+      .s8-depth-text.s8-is-front {
+        position: relative;
+        z-index: 10;
+        color: var(--brand-primary);
+      }
+      .s8-depth-text.s8-is-back {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      /* Confesses stamp */
+      .s8-stamp {
+        display: inline-block;
+        border: var(--border-stamp);
+        color: var(--brand-accent);
+        background: transparent;
+        padding: 6px 16px;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 30px;
+        line-height: 1;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        border-radius: 0;
+        margin-top: 32px;
+        display: block;
+        width: fit-content;
+        opacity: 0;
+      }
+
+      /* ── ASR KEYWORD PHRASE ── */
+      .s8-asr-zone {
+        position: absolute;
+        left: 840px;
+        top: 460px;
+        width: 1020px;
+        z-index: 20;
+        opacity: 0;
+      }
+      .s8-phrase {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: flex-start;
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 52px;
+        font-weight: 700;
+        color: var(--brand-primary);
+        line-height: 1.2;
+      }
+      .s8-word {
+        display: inline-block;
+        transform-origin: 50% 50%;
+        will-change: transform, text-shadow;
+      }
+      .s8-word.s8-keyword {
+        color: var(--brand-accent);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      /* ── BOTTOM TAGLINE ── */
+      .s8-tagline {
+        position: absolute;
+        left: 840px;
+        bottom: 120px;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        opacity: 0.55;
+        z-index: 20;
+        opacity: 0;
+      }
+
+      /* Ambient slow drift layer */
+      .s8-drift-layer {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+      }
+
+      /* Hairline rule decorations */
+      .s8-hairline-h {
+        position: absolute;
+        left: 840px;
+        right: 60px;
+        height: 1.5px;
+        background: var(--brand-primary);
+        opacity: 0;
+        z-index: 15;
+      }
+      .s8-hairline-1 { top: 90px; }
+      .s8-hairline-2 { top: 440px; }
+      .s8-hairline-3 { bottom: 100px; }
+    </style>
+
+    <!-- Ambient drift wrapper -->
+    <div class="s8-drift-layer" id="s8-drift-layer">
+
+      <!-- CARD MORPH ANCHOR (upper-left) -->
+      <div class="s8-morph-card" id="s8-morph-card">
+        <!-- Shot 1: collapsed headline strip content -->
+        <div class="s8-morph-old" id="s8-morph-old">
+          <span class="s8-morph-old-label">JUNE 29, 1994</span>
+        </div>
+        <!-- Shot 2: dress silhouette -->
+        <div class="s8-morph-new" id="s8-morph-new">
+          <!-- Ink silhouette dress — SVG authored -->
+          <svg class="s8-dress-silhouette" viewBox="0 0 340 480" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- Head -->
+            <ellipse cx="170" cy="38" rx="28" ry="34" fill="#1F3A8A"/>
+            <!-- Neck -->
+            <rect x="160" y="68" width="20" height="22" fill="#1F3A8A"/>
+            <!-- Shoulders and torso — elegant fitted bodice -->
+            <path d="M100 90 Q80 100 72 130 L78 200 Q90 210 170 212 Q250 210 262 200 L268 130 Q260 100 240 90 Q220 82 200 80 L170 78 L140 80 Q120 82 100 90Z" fill="#1F3A8A"/>
+            <!-- Upper arms (short sleeveless — The Revenge Dress was strapless/sleeveless) -->
+            <!-- Flared skirt — knee-length, iconic silhouette -->
+            <path d="M78 200 Q60 240 40 300 Q30 340 36 370 Q60 380 110 382 L130 390 L170 395 L210 390 L230 382 Q280 380 304 370 Q310 340 300 300 Q280 240 262 200 Q250 210 170 212 Q90 210 78 200Z" fill="#1F3A8A"/>
+            <!-- Hem detail — slight flare at bottom -->
+            <path d="M36 370 Q30 395 38 420 Q60 435 110 440 L170 445 L230 440 Q280 435 302 420 Q310 395 304 370 Q280 380 230 382 L210 390 L170 395 L130 390 L110 382 Q60 380 36 370Z" fill="#1F3A8A"/>
+            <!-- Subtle waist accent line -->
+            <path d="M85 195 Q130 215 170 216 Q210 215 255 195" stroke="#EFE56A" stroke-width="2" stroke-opacity="0.4" fill="none"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Tabloid strips (overlaid on morph card expanded state) -->
+      <div class="s8-strips-container" id="s8-strips-container">
+        <div class="s8-strip-top">
+          <span class="s8-strip-top-text">JUNE 1994</span>
+        </div>
+        <div class="s8-strip-left">
+          <span class="s8-strip-left-text">CHARLES ADMITS</span>
+        </div>
+        <div class="s8-strip-right">
+          <span class="s8-strip-right-text">DIANA STEPS OUT</span>
+        </div>
+      </div>
+
+    </div><!-- /drift-layer -->
+
+    <!-- HEADLINE ZONE (right side) -->
+    <div class="s8-headline-zone" id="s8-headline-zone">
+      <span class="s8-dateline">JUNE 29, 1994</span>
+      <div class="s8-headline-row">
+        <span class="s8-headline-static">CHARLES&nbsp;</span>
+        <!-- 3D depth stack container for "OUT" -->
+        <div class="s8-depth-wrap" id="s8-depth-wrap">
+          <!-- Back layers injected by script -->
+        </div>
+      </div>
+      <span class="s8-stamp" id="s8-stamp">CONFESSES</span>
+    </div>
+
+    <!-- Hairline rules -->
+    <div class="s8-hairline-h s8-hairline-1" id="s8-hairline-1"></div>
+    <div class="s8-hairline-h s8-hairline-2" id="s8-hairline-2"></div>
+
+    <!-- ASR KEYWORD PHRASE zone -->
+    <div class="s8-asr-zone" id="s8-asr-zone">
+      <div class="s8-phrase">
+        <span class="s8-word" data-word="she">she</span>
+        <span class="s8-word" data-word="was">was</span>
+        <span class="s8-word s8-keyword" data-word="revenge-dress">REVENGE DRESS</span>
+        <span class="s8-word" data-word="front">front</span>
+        <span class="s8-word" data-word="pages">pages</span>
+      </div>
+    </div>
+
+    <!-- Paper grain overlay — top of z-stack, below interactive -->
+    <div class="s8-paper-grain" aria-hidden="true"></div>
+
+    <script>
+      const EASE = {
+        entry: "power2.out",
+        emphasis: "power3.out",
+        exit: "power2.in",
+        drift: "sine.inOut",
+      };
+      const DUR = {
+        snap: 0.18,
+        med: 0.5,
+        slow: 0.95,
+      };
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ─────────────────────────────────────────────
+      // 3D TEXT DEPTH LAYERS — build "OUT" depth stack
+      // ─────────────────────────────────────────────
+      const LAYER_COUNT = 5;
+      const OFFSET_X = 2;
+      const OFFSET_Y = 2;
+      const BACK_ALPHA_MAX = 0.75;
+      const BACK_ALPHA_STEP = 0.12;
+      const BACK_ALPHA_MIN = 0.15;
+      // Back layer color — brand-primary RGB: 31, 58, 138
+      const BACK_RGB = "31, 58, 138";
+
+      const depthWrap = document.querySelector("#s8-depth-wrap");
+
+      // Build layers back-to-front so front (i=0) is last appended (position:relative defines container size)
+      for (let i = LAYER_COUNT - 1; i >= 0; i--) {
+        const el = document.createElement("div");
+        el.className = "s8-depth-text " + (i === 0 ? "s8-is-front" : "s8-is-back");
+        el.textContent = "OUT";
+        el.dataset.layer = String(i);
+        if (i > 0) {
+          const alpha = Math.max(BACK_ALPHA_MAX - i * BACK_ALPHA_STEP, BACK_ALPHA_MIN);
+          el.style.color = "rgba(" + BACK_RGB + ", " + alpha + ")";
+          el.style.transform = "translate(" + (i * OFFSET_X) + "px, " + (i * OFFSET_Y) + "px)";
+        } else {
+          el.style.color = "var(--brand-primary)";
+        }
+        depthWrap.appendChild(el);
+      }
+
+      // ─────────────────────────────────────────────
+      // CARD MORPH ANCHOR
+      // Constants
+      const HOLD_BEAT = 0.5;
+      const MORPH_START = 0.5;
+      const MORPH_DUR = 0.95;
+      const SHOT_TWO_W = 720;
+      const SHOT_TWO_H = 490;
+      const SHOT_TWO_RADIUS = 4;
+      const OLD_FADE_FRAC = 0.4;
+      const NEW_FADE_FRAC = 0.4;
+
+      // Set initial states
+      gsap.set("#s8-morph-new", { opacity: 0 });
+      gsap.set("#s8-strips-container", { opacity: 0 });
+      gsap.set("#s8-headline-zone", { opacity: 0 });
+      gsap.set("#s8-asr-zone", { opacity: 0 });
+      gsap.set("#s8-stamp", { opacity: 0 });
+      gsap.set("#s8-hairline-1", { opacity: 0 });
+      gsap.set("#s8-hairline-2", { opacity: 0 });
+
+      // Phase 1 — morph strip → tall card
+      tl.to(
+        "#s8-morph-card",
+        {
+          width: SHOT_TWO_W,
+          height: SHOT_TWO_H,
+          borderRadius: SHOT_TWO_RADIUS,
+          duration: MORPH_DUR,
+          ease: "power2.inOut",
+        },
+        MORPH_START,
+      );
+
+      // Phase 2 — old content (label) fades out early
+      tl.to(
+        "#s8-morph-old",
+        {
+          opacity: 0,
+          duration: MORPH_DUR * OLD_FADE_FRAC,
+          ease: "power1.in",
+        },
+        MORPH_START,
+      );
+
+      // Phase 3 — new content (dress silhouette) fades in late
+      tl.to(
+        "#s8-morph-new",
+        {
+          opacity: 1,
+          duration: MORPH_DUR * NEW_FADE_FRAC,
+          ease: "power1.out",
+        },
+        MORPH_START + MORPH_DUR * (1 - NEW_FADE_FRAC),
+      );
+
+      // Tabloid strips appear once card is expanded
+      tl.to(
+        "#s8-strips-container",
+        {
+          opacity: 1,
+          duration: DUR.med,
+          ease: EASE.entry,
+        },
+        MORPH_START + MORPH_DUR + 0.1,
+      );
+
+      // ─────────────────────────────────────────────
+      // HEADLINE ZONE entry (right side)
+      // ─────────────────────────────────────────────
+      const HEADLINE_IN = MORPH_START + MORPH_DUR * 0.5; // start while morph is progressing
+
+      tl.fromTo(
+        "#s8-headline-zone",
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: DUR.slow, ease: EASE.entry },
+        HEADLINE_IN,
+      );
+
+      // Hairlines sweep in
+      tl.fromTo(
+        "#s8-hairline-1",
+        { opacity: 0, scaleX: 0 },
+        { opacity: 0.45, scaleX: 1, duration: DUR.med, ease: EASE.entry, transformOrigin: "left center" },
+        HEADLINE_IN,
+      );
+      tl.fromTo(
+        "#s8-hairline-2",
+        { opacity: 0, scaleX: 0 },
+        { opacity: 0.45, scaleX: 1, duration: DUR.med, ease: EASE.entry, transformOrigin: "left center" },
+        HEADLINE_IN + 0.15,
+      );
+
+      // ─────────────────────────────────────────────
+      // 3D TEXT DEPTH LAYERS — cascade entry for "OUT"
+      // ─────────────────────────────────────────────
+      const LAYER_CASCADE_START = HEADLINE_IN + 0.1;
+      const LAYER_CASCADE_STEP = 0.06;
+      const LAYER_FADE_DUR = 0.45;
+      const DEPTH_GROW_START = LAYER_CASCADE_START;
+      const DEPTH_GROW_DUR = 0.55;
+
+      const allLayers = depthWrap.querySelectorAll(".s8-depth-text");
+      allLayers.forEach((el) => {
+        const i = Number(el.dataset.layer);
+        const finalAlpha = el.classList.contains("s8-is-front")
+          ? 1
+          : Math.max(BACK_ALPHA_MAX - i * BACK_ALPHA_STEP, BACK_ALPHA_MIN);
+        tl.fromTo(
+          el,
+          { opacity: 0 },
+          {
+            opacity: finalAlpha,
+            duration: LAYER_FADE_DUR,
+            ease: EASE.entry,
+          },
+          LAYER_CASCADE_START + (LAYER_COUNT - 1 - i) * LAYER_CASCADE_STEP,
+        );
+      });
+
+      // Depth grow — offset interpolates 0 → full
+      const depthState = { p: 0 };
+      tl.to(
+        depthState,
+        {
+          p: 1,
+          duration: DEPTH_GROW_DUR,
+          ease: EASE.entry,
+          onUpdate: () => {
+            depthWrap.querySelectorAll(".s8-depth-text.s8-is-back").forEach((el) => {
+              const i = Number(el.dataset.layer);
+              const x = i * OFFSET_X * depthState.p;
+              const y = i * OFFSET_Y * depthState.p;
+              el.style.transform = "translate(" + x + "px, " + y + "px)";
+            });
+          },
+        },
+        DEPTH_GROW_START,
+      );
+
+      // ─────────────────────────────────────────────
+      // STAMP — "CONFESSES" slams in
+      // ─────────────────────────────────────────────
+      const STAMP_IN = HEADLINE_IN + 0.8;
+      tl.fromTo(
+        "#s8-stamp",
+        { opacity: 0, scale: 1.08 },
+        { opacity: 1, scale: 1, duration: DUR.snap, ease: EASE.emphasis },
+        STAMP_IN,
+      );
+
+      // ─────────────────────────────────────────────
+      // ASR KEYWORD PHRASE entry
+      // ─────────────────────────────────────────────
+      const ASR_IN = 2.8;
+      tl.fromTo(
+        "#s8-asr-zone",
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: DUR.med, ease: EASE.entry },
+        ASR_IN,
+      );
+
+      // ─────────────────────────────────────────────
+      // ASR KEYWORD GLOW — "REVENGE DRESS" pulses (keyword glow)
+      // Words: she, was, REVENGE DRESS, front, pages
+      // Brief says: pulses "erased" and "front pages" — mapped to "REVENGE DRESS" and "front pages" in the DOM
+      // ─────────────────────────────────────────────
+      const ATTACK_DUR = 0.18;
+      const RELEASE = 0.35;
+      const REST_LEVEL = 0.12;
+      const MAX_BLUR = 28;
+      const MAX_SCALE_BOOST = 0.12;
+      const SCENE_DURATION = 7;
+
+      // Keyword timings (local to scene)
+      // After ASR zone appears at 2.8s: "she" 3.0-3.3, "was" 3.3-3.6, "REVENGE DRESS" 3.7-5.0 (long sustain), "front" 5.2-5.5, "pages" 5.5-6.1
+      const TIMINGS = {
+        "she":          { start: 3.0, end: 3.3 },
+        "was":          { start: 3.3, end: 3.6 },
+        "revenge-dress":{ start: 3.7, end: 5.0 },
+        "front":        { start: 5.2, end: 5.5 },
+        "pages":        { start: 5.5, end: 6.1 },
+      };
+
+      // Color channels
+      // Rest: brand primary dim — rgb(31,58,138) at lower opacity via lerp → near-grey
+      const REST_RGB  = { r: 80,  g: 100, b: 160 };
+      // Active (non-keyword): brand-primary bright
+      const ACTIVE_RGB = { r: 31,  g: 58,  b: 138 };
+      // Brand keyword: brand-accent crimson rgb(194,52,43)
+      const BRAND_RGB  = { r: 194, g: 52,  b: 43 };
+
+      function lerpChannel(a, b, t) {
+        return Math.round(a + (b - a) * t);
+      }
+      function colorAt(env, isBrand) {
+        const target = isBrand ? BRAND_RGB : ACTIVE_RGB;
+        return "rgb(" + lerpChannel(REST_RGB.r, target.r, env) + "," + lerpChannel(REST_RGB.g, target.g, env) + "," + lerpChannel(REST_RGB.b, target.b, env) + ")";
+      }
+      function glowColorRgba(env, isBrand) {
+        const r = isBrand ? 194 : 31;
+        const g = isBrand ? 52  : 58;
+        const b = isBrand ? 43  : 138;
+        const alpha = 0.1 + env * 0.7;
+        return "rgba(" + r + "," + g + "," + b + "," + alpha + ")";
+      }
+
+      function envelope(time, start, end) {
+        const releaseEnd = end + RELEASE;
+        if (time < start) return 0;
+        if (time < end) {
+          const attack = Math.min((time - start) / ATTACK_DUR, 1);
+          return attack;
+        }
+        if (time < releaseEnd) {
+          const decay = (time - end) / RELEASE;
+          return 1 - decay * (1 - REST_LEVEL);
+        }
+        return REST_LEVEL;
+      }
+
+      const wordEls = document.querySelectorAll(".s8-word");
+
+      const driver = { t: 0 };
+      tl.to(
+        driver,
+        {
+          t: SCENE_DURATION,
+          duration: SCENE_DURATION,
+          ease: "none",
+          onUpdate: () => {
+            wordEls.forEach((el) => {
+              const word = el.dataset.word;
+              const timing = TIMINGS[word];
+              if (!timing) return;
+              const env = envelope(driver.t, timing.start, timing.end);
+              const isBrand = el.classList.contains("s8-keyword");
+              const blur = MAX_BLUR * env;
+              const scale = 1 + MAX_SCALE_BOOST * env;
+              el.style.textShadow = "0 0 " + blur + "px " + glowColorRgba(env, isBrand);
+              el.style.transform = "scale(" + scale + ")";
+              el.style.color = colorAt(env, isBrand);
+            });
+          },
+        },
+        0,
+      );
+
+      // ─────────────────────────────────────────────
+      // MACRO MOTION — slow drift on the drift layer
+      // Budget: one root-level macro camera (slow dolly/drift)
+      // ─────────────────────────────────────────────
+      gsap.set("#s8-drift-layer", { x: 0, y: 0 });
+      tl.fromTo(
+        "#s8-drift-layer",
+        { x: 0, y: 0 },
+        { x: -8, y: -5, duration: 7, ease: EASE.drift },
+        0,
+      );
+
+      window.__timelines["scene_8"] = tl;
+    </script>
+  </div>
+</template>

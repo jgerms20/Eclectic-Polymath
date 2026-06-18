@@ -1,0 +1,421 @@
+<template id="scene_10-template">
+  <div id="root" class="scene_10-root" data-composition-id="scene_10" data-width="1920" data-height="1080" data-duration="6" style="position:relative; width:1920px; height:1080px; overflow:hidden;">
+    <style>
+      @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+      @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+      @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+      @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+      :root {
+        --font-body: 'Space Grotesk', system-ui, sans-serif;
+        --font-display: 'Space Grotesk', system-ui, sans-serif;
+        --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+        --font-script: 'Caveat', cursive;
+      }
+      #root {
+        background: var(--canvas);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+      }
+      #root *,
+      #root *::before,
+      #root *::after {
+        box-sizing: border-box;
+      }
+
+      /* Paper grain overlay — atmospheric constant */
+      .s10-grain {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        background-image: var(--paper-grain);
+      }
+
+      /* Eyebrow chip */
+      .s10-eyebrow-wrap {
+        position: absolute;
+        top: 52px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        z-index: 10;
+      }
+      .s10-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 22px;
+        line-height: 1;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        padding: 6px 0;
+      }
+      .s10-eye-word {
+        display: inline-block;
+        transform-origin: 50% 50%;
+        will-change: transform;
+      }
+
+      /* Triptych container */
+      .s10-triptych {
+        position: absolute;
+        top: 120px;
+        left: 64px;
+        right: 64px;
+        bottom: 64px;
+        display: flex;
+        gap: 28px;
+        align-items: stretch;
+        z-index: 5;
+      }
+
+      /* Each panel */
+      .s10-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        transform-origin: 50% 50%;
+        will-change: transform, opacity;
+      }
+
+      /* Ink blot face silhouette container */
+      .s10-blot-wrap {
+        flex: 1;
+        width: 100%;
+        background: var(--surface-paper);
+        border: var(--border-hairline);
+        border-radius: var(--radius-card);
+        box-shadow: var(--shadow-pin-standard);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      /* Rorschach SVG face silhouette */
+      .s10-blot-svg {
+        width: 220px;
+        height: 300px;
+        opacity: 0.88;
+      }
+
+      /* Panel label */
+      .s10-panel-label {
+        margin-top: 20px;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 18px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        text-align: center;
+        padding: 0 8px;
+      }
+    </style>
+
+    <!-- Eyebrow chip: "THE CULTURAL CANVAS" with "canvas" as glow word -->
+    <div class="s10-eyebrow-wrap" id="s10-eyebrow-wrap">
+      <span class="s10-eyebrow">
+        <span class="s10-eye-word" data-word="the">THE</span>
+        &nbsp;
+        <span class="s10-eye-word" data-word="cultural">CULTURAL</span>
+        &nbsp;
+        <span class="s10-eye-word" data-word="canvas">CANVAS</span>
+      </span>
+    </div>
+
+    <!-- Triptych: three panels -->
+    <div class="s10-triptych" id="s10-triptych">
+
+      <!-- Left panel: THE ESTABLISHMENT -->
+      <div class="s10-panel" id="s10-panel-left" data-layout-role="primary" data-layout-act="triptych">
+        <div class="s10-blot-wrap">
+          <!-- Rorschach blot: mirrored left variant -->
+          <svg class="s10-blot-svg" viewBox="0 0 220 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Symmetric ink blot — mirrored vertically (flipped on Y) -->
+            <g transform="scale(-1,1) translate(-220,0)">
+              <ellipse cx="110" cy="140" rx="62" ry="88" fill="#1F3A8A" opacity="0.82"/>
+              <ellipse cx="110" cy="90" rx="38" ry="48" fill="#1F3A8A" opacity="0.9"/>
+              <!-- eye sockets -->
+              <ellipse cx="93" cy="80" rx="10" ry="13" fill="var(--canvas)" opacity="0.95"/>
+              <ellipse cx="127" cy="80" rx="10" ry="13" fill="var(--canvas)" opacity="0.95"/>
+              <!-- brow ridges -->
+              <rect x="82" y="64" width="24" height="6" rx="3" fill="#1F3A8A" opacity="0.7" transform="rotate(-8 94 67)"/>
+              <rect x="114" y="64" width="24" height="6" rx="3" fill="#1F3A8A" opacity="0.7" transform="rotate(8 126 67)"/>
+              <!-- nose bridge blot -->
+              <ellipse cx="110" cy="110" rx="9" ry="18" fill="#1F3A8A" opacity="0.6"/>
+              <!-- mouth shadow -->
+              <ellipse cx="110" cy="155" rx="22" ry="8" fill="#1F3A8A" opacity="0.5"/>
+              <!-- chin -->
+              <ellipse cx="110" cy="210" rx="30" ry="20" fill="#1F3A8A" opacity="0.45"/>
+              <!-- shoulder blots -->
+              <ellipse cx="60" cy="240" rx="40" ry="24" fill="#1F3A8A" opacity="0.38"/>
+              <ellipse cx="160" cy="240" rx="40" ry="24" fill="#1F3A8A" opacity="0.38"/>
+              <!-- ink drip left -->
+              <ellipse cx="74" cy="185" rx="8" ry="14" fill="#1F3A8A" opacity="0.3"/>
+              <!-- ink drip right -->
+              <ellipse cx="146" cy="185" rx="8" ry="14" fill="#1F3A8A" opacity="0.3"/>
+            </g>
+          </svg>
+        </div>
+        <div class="s10-panel-label">The Establishment</div>
+      </div>
+
+      <!-- Center panel: THE MARGINALIZED (enters first) -->
+      <div class="s10-panel" id="s10-panel-center" data-layout-role="primary" data-layout-act="triptych">
+        <div class="s10-blot-wrap">
+          <!-- Rorschach blot: base upright -->
+          <svg class="s10-blot-svg" viewBox="0 0 220 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="110" cy="140" rx="62" ry="88" fill="#1F3A8A" opacity="0.82"/>
+            <ellipse cx="110" cy="90" rx="38" ry="48" fill="#1F3A8A" opacity="0.9"/>
+            <!-- eye sockets -->
+            <ellipse cx="93" cy="80" rx="10" ry="13" fill="var(--canvas)" opacity="0.95"/>
+            <ellipse cx="127" cy="80" rx="10" ry="13" fill="var(--canvas)" opacity="0.95"/>
+            <!-- brow ridges -->
+            <rect x="82" y="64" width="24" height="6" rx="3" fill="#1F3A8A" opacity="0.7" transform="rotate(-8 94 67)"/>
+            <rect x="114" y="64" width="24" height="6" rx="3" fill="#1F3A8A" opacity="0.7" transform="rotate(8 126 67)"/>
+            <!-- nose bridge blot -->
+            <ellipse cx="110" cy="110" rx="9" ry="18" fill="#1F3A8A" opacity="0.6"/>
+            <!-- mouth shadow -->
+            <ellipse cx="110" cy="155" rx="22" ry="8" fill="#1F3A8A" opacity="0.5"/>
+            <!-- chin -->
+            <ellipse cx="110" cy="210" rx="30" ry="20" fill="#1F3A8A" opacity="0.45"/>
+            <!-- shoulder blots -->
+            <ellipse cx="60" cy="240" rx="40" ry="24" fill="#1F3A8A" opacity="0.38"/>
+            <ellipse cx="160" cy="240" rx="40" ry="24" fill="#1F3A8A" opacity="0.38"/>
+            <!-- ink drip left -->
+            <ellipse cx="74" cy="185" rx="8" ry="14" fill="#1F3A8A" opacity="0.3"/>
+            <!-- ink drip right -->
+            <ellipse cx="146" cy="185" rx="8" ry="14" fill="#1F3A8A" opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="s10-panel-label">The Marginalized</div>
+      </div>
+
+      <!-- Right panel: THE MIRROR -->
+      <div class="s10-panel" id="s10-panel-right" data-layout-role="primary" data-layout-act="triptych">
+        <div class="s10-blot-wrap">
+          <!-- Rorschach blot: rotated 180° variant -->
+          <svg class="s10-blot-svg" viewBox="0 0 220 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g transform="rotate(180 110 150)">
+              <ellipse cx="110" cy="140" rx="62" ry="88" fill="#1F3A8A" opacity="0.82"/>
+              <ellipse cx="110" cy="90" rx="38" ry="48" fill="#1F3A8A" opacity="0.9"/>
+              <!-- eye sockets -->
+              <ellipse cx="93" cy="80" rx="10" ry="13" fill="var(--canvas)" opacity="0.95"/>
+              <ellipse cx="127" cy="80" rx="10" ry="13" fill="var(--canvas)" opacity="0.95"/>
+              <!-- brow ridges -->
+              <rect x="82" y="64" width="24" height="6" rx="3" fill="#1F3A8A" opacity="0.7" transform="rotate(-8 94 67)"/>
+              <rect x="114" y="64" width="24" height="6" rx="3" fill="#1F3A8A" opacity="0.7" transform="rotate(8 126 67)"/>
+              <!-- nose bridge blot -->
+              <ellipse cx="110" cy="110" rx="9" ry="18" fill="#1F3A8A" opacity="0.6"/>
+              <!-- mouth shadow -->
+              <ellipse cx="110" cy="155" rx="22" ry="8" fill="#1F3A8A" opacity="0.5"/>
+              <!-- chin -->
+              <ellipse cx="110" cy="210" rx="30" ry="20" fill="#1F3A8A" opacity="0.45"/>
+              <!-- shoulder blots -->
+              <ellipse cx="60" cy="240" rx="40" ry="24" fill="#1F3A8A" opacity="0.38"/>
+              <ellipse cx="160" cy="240" rx="40" ry="24" fill="#1F3A8A" opacity="0.38"/>
+              <!-- ink drip left -->
+              <ellipse cx="74" cy="185" rx="8" ry="14" fill="#1F3A8A" opacity="0.3"/>
+              <!-- ink drip right -->
+              <ellipse cx="146" cy="185" rx="8" ry="14" fill="#1F3A8A" opacity="0.3"/>
+            </g>
+          </svg>
+        </div>
+        <div class="s10-panel-label">The Mirror</div>
+      </div>
+
+    </div>
+
+    <!-- Paper grain overlay — on top of content, below nothing (pointer-events:none) -->
+    <div class="s10-grain" aria-hidden="true"></div>
+
+    <script>
+      const EASE = {
+        entry: "power2.out",
+        emphasis: "power3.out",
+        exit: "power2.in",
+        drift: "sine.inOut",
+      };
+      const DUR = {
+        snap: 0.18,
+        med: 0.5,
+        slow: 0.95,
+      };
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ── Initial hidden states ──────────────────────────────────────────────
+      // Panels start scaled-down + invisible (scale-swap-transition entering)
+      gsap.set("#s10-panel-center", { opacity: 0, scale: 0.7 });
+      gsap.set("#s10-panel-left",   { opacity: 0, scale: 0.7 });
+      gsap.set("#s10-panel-right",  { opacity: 0, scale: 0.7 });
+      // Eyebrow hidden
+      gsap.set("#s10-eyebrow-wrap", { opacity: 0, y: -12 });
+
+      // ── Eyebrow chip fade-in at t=0 ───────────────────────────────────────
+      tl.fromTo(
+        "#s10-eyebrow-wrap",
+        { opacity: 0, y: -12 },
+        { opacity: 1, y: 0, duration: DUR.slow, ease: EASE.entry },
+        0
+      );
+
+      // ── scale-swap-transition — center panel enters first at t=0.3 ─────────
+      // EXIT_SCALE=0.7, ENTER_DUR=0.6, BOUNCE_FACTOR=1.6
+      tl.fromTo(
+        "#s10-panel-center",
+        { scale: 0.7, opacity: 0 },
+        { scale: 1.0, opacity: 1, duration: 0.6, ease: "back.out(1.6)" },
+        0.3
+      );
+
+      // Left panel: coordinated entry, springs out from center ~0.2s after center settles
+      tl.fromTo(
+        "#s10-panel-left",
+        { scale: 0.7, opacity: 0 },
+        { scale: 1.0, opacity: 1, duration: 0.6, ease: "back.out(1.6)" },
+        0.7
+      );
+
+      // Right panel: same beat as left (coordinated outward)
+      tl.fromTo(
+        "#s10-panel-right",
+        { scale: 0.7, opacity: 0 },
+        { scale: 1.0, opacity: 1, duration: 0.6, ease: "back.out(1.6)" },
+        0.7
+      );
+
+      // ── Macro drift: all three panels correlated slow drift ───────────────
+      // Drift starts after all panels have settled (~1.4s), runs to end
+      // Using sine-wave-loop pattern on the triptych container itself
+      const driftPhase = { p: 0 };
+      const DRIFT_START = 1.4;
+      const DRIFT_DUR = 6 - DRIFT_START; // 4.6s remaining
+      const DRIFT_CYCLES = 1.5; // ~3s per cycle — gentle breathing cadence
+      const DRIFT_Y_AMP = 3;   // ±3px vertical drift
+
+      tl.to(
+        driftPhase,
+        {
+          p: Math.PI * 2 * DRIFT_CYCLES,
+          duration: DRIFT_DUR,
+          ease: "none",
+          onUpdate: () => {
+            const y = Math.sin(driftPhase.p) * DRIFT_Y_AMP;
+            // Correlated drift on all three panels (same direction, same phase)
+            const panels = ["#s10-panel-left", "#s10-panel-center", "#s10-panel-right"];
+            panels.forEach(sel => {
+              const el = document.querySelector(sel);
+              if (el) el.style.transform = `translateY(${y}px)`;
+            });
+          },
+        },
+        DRIFT_START
+      );
+
+      // ── sine-wave-loop: center panel only breathes ±1% scale ─────────────
+      // Overlaps with drift; center panel also gets scale breath
+      // Starts after center has settled at t=1.0, runs to end
+      const breathPhase = { p: 0 };
+      const BREATH_START = 1.0;
+      const BREATH_DUR = 6 - BREATH_START; // 5s
+      const BREATH_CYCLES = 2.0; // ~2.5s per cycle
+      const BREATH_SCALE_AMP = 0.01; // ±1% per brief
+
+      tl.to(
+        breathPhase,
+        {
+          p: Math.PI * 2 * BREATH_CYCLES,
+          duration: BREATH_DUR,
+          ease: "none",
+          onUpdate: () => {
+            const centerEl = document.querySelector("#s10-panel-center");
+            if (!centerEl) return;
+            // Compose: scale breath PLUS shared y-drift
+            // Drift y is handled by driftPhase tween (starts at DRIFT_START).
+            // We write only scale here; translateY is already written by the drift tween.
+            // To compose both without conflict: use GSAP quickSetter or combine here.
+            // Since both run onUpdate on same element, we combine both in one write:
+            const scaleVal = 1 + Math.sin(breathPhase.p) * BREATH_SCALE_AMP;
+            // Drift y contribution (compute same formula as drift tween):
+            const driftY = Math.sin(driftPhase.p) * DRIFT_Y_AMP;
+            centerEl.style.transform = `translateY(${driftY}px) scale(${scaleVal})`;
+          },
+        },
+        BREATH_START
+      );
+
+      // ── asr-keyword-glow: "canvas" in eyebrow chip pulses at ~3.5s ───────
+      // brand-primary glow, soft — using envelope pattern
+      const SCENE_DURATION = 6;
+      const ATTACK_DUR = 0.18;
+      const RELEASE = 0.4;
+      const REST_LEVEL = 0.15;
+      const MAX_BLUR = 22;       // px — soft glow per brief
+      const MAX_SCALE_BOOST = 0.06;
+
+      // Glow color: brand-primary #1F3A8A → rgba
+      function glowColorRgba(env) {
+        const alpha = 0.3 + env * 0.55;
+        return `rgba(31, 58, 138, ${alpha.toFixed(2)})`;
+      }
+
+      const TIMINGS = {
+        the:      { start: 3.1, end: 3.25 },
+        cultural: { start: 3.25, end: 3.4 },
+        canvas:   { start: 3.5, end: 4.1 },  // brand word — 1.5× normal window
+      };
+
+      function envelope(time, start, end) {
+        const releaseEnd = end + RELEASE;
+        if (time < start) return 0;
+        if (time < end) {
+          const attack = Math.min((time - start) / ATTACK_DUR, 1);
+          return attack;
+        }
+        if (time < releaseEnd) {
+          const decay = (time - end) / RELEASE;
+          return 1 - decay * (1 - REST_LEVEL);
+        }
+        return REST_LEVEL;
+      }
+
+      const eyeWordEls = document.querySelectorAll(".s10-eye-word");
+      const asrDriver = { t: 0 };
+
+      tl.to(
+        asrDriver,
+        {
+          t: SCENE_DURATION,
+          duration: SCENE_DURATION,
+          ease: "none",
+          onUpdate: () => {
+            eyeWordEls.forEach((el) => {
+              const word = el.dataset.word;
+              const timing = TIMINGS[word];
+              if (!timing) return;
+              const env = envelope(asrDriver.t, timing.start, timing.end);
+              const blur = MAX_BLUR * env;
+              const scaleVal = 1 + MAX_SCALE_BOOST * env;
+              el.style.textShadow = `0 0 ${blur}px ${glowColorRgba(env)}`;
+              el.style.transform = `scale(${scaleVal})`;
+            });
+          },
+        },
+        0
+      );
+
+      window.__timelines["scene_10"] = tl;
+    </script>
+  </div>
+</template>

@@ -1,0 +1,346 @@
+<template id="scene_1-template">
+  <div id="root" class="scene_1-root" data-composition-id="scene_1" data-width="1920" data-height="1080" data-duration="5" style="position:relative; width:1920px; height:1080px; overflow:hidden;">
+    <style>
+      @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+      @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+      @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+      @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+      :root {
+        --font-body: 'Space Grotesk', system-ui, sans-serif;
+        --font-display: 'Space Grotesk', system-ui, sans-serif;
+        --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+        --font-script: 'Caveat', cursive;
+      }
+      #root {
+        background: var(--canvas);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+      }
+      #root *,
+      #root *::before,
+      #root *::after {
+        box-sizing: border-box;
+      }
+
+      /* Paper grain overlay */
+      .s1-paper-grain {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        background-image: var(--paper-grain);
+      }
+
+      /* Macro push-in wrapper */
+      .s1-push-root {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        will-change: transform;
+        z-index: 2;
+      }
+
+      /* Eyebrow chip top-left */
+      .s1-chip {
+        position: absolute;
+        top: 64px;
+        left: 64px;
+        display: inline-block;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 26px;
+        line-height: 1;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        padding: 6px 0;
+        z-index: 5;
+        will-change: opacity;
+      }
+
+      /* 3D depth stack wrapper — centered on canvas */
+      .s1-hero-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+        z-index: 3;
+        will-change: transform;
+      }
+
+      /* Depth stack container */
+      .s1-depth-stack {
+        position: relative;
+        line-height: 1;
+        will-change: transform;
+      }
+
+      /* All depth layers share base type props */
+      .s1-depth-text {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-weight: 900;
+        font-size: 596px;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        color: var(--brand-primary);
+        text-transform: uppercase;
+        white-space: nowrap;
+        user-select: none;
+      }
+
+      /* Back layers positioned behind — classed as s1-depth-shadow so the
+         overlap gate treats them as decorative (keyword: shadow) */
+      .s1-depth-text.s1-depth-shadow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+      }
+
+      /* Front layer defines container size */
+      .s1-depth-text.s1-is-front {
+        position: relative;
+        z-index: 10;
+      }
+
+      /* Discrete dateline text sequence below "19" */
+      .s1-dateline-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 780px;
+        white-space: nowrap;
+        overflow: visible;
+      }
+
+      .s1-dateline {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 36px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        opacity: 0.72;
+        will-change: opacity;
+      }
+    </style>
+
+    <!-- Paper grain atmospheric constant (background, exempt from keepout) -->
+    <div class="s1-paper-grain" aria-hidden="true"></div>
+
+    <!-- Eyebrow chip — top-left mono tag -->
+    <span class="s1-chip" id="s1-chip" data-layout-role="supporting">ZERO TRAINING</span>
+
+    <!-- Push-in wrapper for macro camera move -->
+    <div class="s1-push-root" id="s1-push-root">
+      <!-- Hero block: depth-stacked "19" + dateline sequence -->
+      <div class="s1-hero-block" id="s1-hero-block" data-layout-role="primary" data-layout-act="hook">
+
+        <!-- 3D depth stack — layers injected by script -->
+        <div class="s1-depth-stack" id="s1-depth-stack"></div>
+
+        <!-- Discrete dateline text sequence -->
+        <div class="s1-dateline-wrap">
+          <span class="s1-dateline" id="s1-dateline"></span>
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+      const EASE = {
+        entry: "power2.out",
+        emphasis: "power3.out",
+        exit: "power2.in",
+        drift: "sine.inOut",
+      };
+      const DUR = {
+        snap: 0.18,
+        med: 0.5,
+        slow: 0.95,
+      };
+
+      window.__timelines = window.__timelines || {};
+
+      /* ── 3D DEPTH LAYER BUILD ─────────────────────────────────────── */
+      const TEXT = "19";
+      const LAYER_COUNT = 5;
+      const OFFSET_X = 3;      /* px per layer: light from upper-left */
+      const OFFSET_Y = 3;
+      const BACK_ALPHA_MAX = 0.75;
+      const BACK_ALPHA_STEP = 0.12;
+      const BACK_ALPHA_MIN = 0.15;
+      /* Back layers use a darkened version of brand-primary RGB */
+      const BACK_RGB = "31, 58, 138";   /* #1F3A8A */
+
+      const stack = document.querySelector("#s1-depth-stack");
+
+      /* Build layers back-to-front so the front (i=0) is last appended
+         and position:relative on it defines the container size. */
+      for (let i = LAYER_COUNT - 1; i >= 0; i--) {
+        const el = document.createElement("div");
+        el.className = "s1-depth-text " + (i === 0 ? "s1-is-front" : "s1-depth-shadow");
+        el.textContent = TEXT;
+        if (i > 0) {
+          const alpha = Math.max(BACK_ALPHA_MAX - i * BACK_ALPHA_STEP, BACK_ALPHA_MIN);
+          el.style.color = "rgba(" + BACK_RGB + ", " + alpha + ")";
+          el.style.transform = "translate(" + (i * OFFSET_X) + "px, " + (i * OFFSET_Y) + "px)";
+        } else {
+          el.style.color = "var(--brand-primary)";
+        }
+        el.dataset.layer = String(i);
+        stack.appendChild(el);
+      }
+
+      /* ── DISCRETE TEXT SEQUENCE ──────────────────────────────────── */
+      /* Three dateline states + final paradox phrase, landing ~2.2s */
+      const SEQUENCE = [
+        { t: 0.0,  text: "" },
+        { t: 0.6,  text: "JULY 1961" },
+        { t: 1.05, text: "NO TITLE / NO RANK" },
+        { t: 1.6,  text: "ENGAGEMENT ANNOUNCED" },
+        { t: 2.2,  text: "SHE HAD NEVER SPENT A NIGHT ALONE" },
+      ];
+      const TOTAL_SEQ_DUR = 5.0;
+
+      function textAt(time) {
+        for (let i = SEQUENCE.length - 1; i >= 0; i--) {
+          if (time >= SEQUENCE[i].t) return SEQUENCE[i].text;
+        }
+        return "";
+      }
+
+      const datelineEl = document.querySelector("#s1-dateline");
+
+      /* ── GSAP TIMELINE ───────────────────────────────────────────── */
+      const tl = gsap.timeline({ paused: true });
+
+      /* Initial hidden states */
+      gsap.set("#s1-chip",     { opacity: 0 });
+      gsap.set("#s1-hero-block", { opacity: 0 });
+      gsap.set("#s1-dateline", { opacity: 0 });
+      gsap.set(stack.querySelectorAll(".s1-depth-text"), { opacity: 0 });
+
+      /* — Macro camera: hard slow push-in on scene root — */
+      /* Scale from 1.06 → 1.0 across full 5s (push-in = subtle zoom out to settle) */
+      tl.fromTo(
+        "#s1-push-root",
+        { scale: 1.07 },
+        { scale: 1.0, duration: 5.0, ease: "power1.out" },
+        0
+      );
+
+      /* — Chip eyebrow enters at t=0.0 — */
+      tl.fromTo(
+        "#s1-chip",
+        { opacity: 0, y: -10 },
+        { opacity: 1, y: 0, duration: DUR.med, ease: EASE.entry },
+        0.0
+      );
+
+      /* — Hero block fade in — */
+      tl.fromTo(
+        "#s1-hero-block",
+        { opacity: 0 },
+        { opacity: 1, duration: DUR.snap, ease: EASE.emphasis },
+        0.05
+      );
+
+      /* — 3D depth layers cascade in back→front — */
+      const LAYER_CASCADE_START = 0.05;
+      const LAYER_CASCADE_STEP  = 0.055;
+      const LAYER_FADE_DUR      = 0.42;
+
+      const allLayers = stack.querySelectorAll(".s1-depth-text");
+      allLayers.forEach((el) => {
+        const i = Number(el.dataset.layer);
+        const finalAlpha = el.classList.contains("s1-is-front")
+          ? 1
+          : Math.max(BACK_ALPHA_MAX - i * BACK_ALPHA_STEP, BACK_ALPHA_MIN);
+        tl.fromTo(
+          el,
+          { opacity: 0 },
+          { opacity: finalAlpha, duration: LAYER_FADE_DUR, ease: EASE.entry },
+          LAYER_CASCADE_START + (LAYER_COUNT - 1 - i) * LAYER_CASCADE_STEP
+        );
+      });
+
+      /* — Depth grows on entry: offsets interpolate 0 → full — */
+      const DEPTH_GROW_START = 0.05;
+      const DEPTH_GROW_DUR   = 0.55;
+      const depthState = { p: 0 };
+      tl.to(
+        depthState,
+        {
+          p: 1,
+          duration: DEPTH_GROW_DUR,
+          ease: EASE.entry,
+          onUpdate: () => {
+            stack.querySelectorAll(".s1-depth-text.s1-depth-shadow").forEach((el) => {
+              const i = Number(el.dataset.layer);
+              const x = i * OFFSET_X * depthState.p;
+              const y = i * OFFSET_Y * depthState.p;
+              el.style.transform = "translate(" + x + "px, " + y + "px)";
+            });
+          },
+        },
+        DEPTH_GROW_START
+      );
+
+      /* — Dateline appears after depth layers land — */
+      tl.fromTo(
+        "#s1-dateline",
+        { opacity: 0 },
+        { opacity: 0.72, duration: DUR.med, ease: EASE.entry },
+        0.55
+      );
+
+      /* — Discrete text sequence driver (0 → TOTAL_SEQ_DUR) — */
+      const seqDriver = { t: 0 };
+      tl.to(
+        seqDriver,
+        {
+          t: TOTAL_SEQ_DUR,
+          duration: TOTAL_SEQ_DUR,
+          ease: "none",
+          onUpdate: () => {
+            datelineEl.textContent = textAt(seqDriver.t);
+          },
+        },
+        0
+      );
+
+      /* — Sine-wave breathing on hero "19" after entry settles — */
+      /* Entry finishes ~0.65s. Idle runs from 0.75s → 5s = 4.25s */
+      const IDLE_START = 0.75;
+      const IDLE_DUR   = 5.0 - IDLE_START;   /* 4.25s */
+      /* Brief says ±1% scale. Rule: 2.5-3s cycle; CYCLES = IDLE_DUR/period */
+      const CYCLES = IDLE_DUR / 2.8;         /* ~1.52 cycles, period ~2.8s */
+      const SCALE_AMP = 0.010;               /* ±1% as brief specifies */
+      const Y_AMP_PX  = 2;                   /* subtle bob — ±2px */
+
+      const frontLayer = stack.querySelector(".s1-depth-text.s1-is-front");
+      const phase = { p: 0 };
+      tl.to(
+        phase,
+        {
+          p: Math.PI * 2 * CYCLES,
+          duration: IDLE_DUR,
+          ease: "none",
+          onUpdate: () => {
+            const scl = 1 + Math.sin(phase.p) * SCALE_AMP;
+            const yy  = Math.sin(phase.p) * Y_AMP_PX;
+            frontLayer.style.transform =
+              "translateY(" + yy + "px) scale(" + scl + ")";
+          },
+        },
+        IDLE_START
+      );
+
+      window.__timelines["scene_1"] = tl;
+    </script>
+  </div>
+</template>

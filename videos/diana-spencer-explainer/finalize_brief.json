@@ -1,0 +1,408 @@
+{
+  "version": 3,
+  "generated_at": "2026-06-18T20:10:46.763Z",
+  "pinned_hyperframes_version": "0.6.112",
+  "cli_version_line": "0.6.112",
+  "npx_prefix": "npx --yes hyperframes@0.6.112",
+  "gates_clean": false,
+  "gates": {
+    "lint": {
+      "ok": false,
+      "exit_code": 1,
+      "duration_s": 1.36,
+      "errors": 12,
+      "warnings": 128,
+      "info": null,
+      "output_tail": "    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_12.html] overlapping_gsap_tweens: GSAP tweens overlap on \"#s12-arc-0\" for strokeDashoffset between 1.12s and 1.66s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_12.html] overlapping_gsap_tweens: GSAP tweens overlap on \"#s12-arc-0\" for strokeDashoffset between 1.18s and 1.66s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_12.html] overlapping_gsap_tweens: GSAP tweens overlap on \"#s12-arc-0\" for strokeDashoffset between 1.24s and 1.66s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_12.html] overlapping_gsap_tweens: GSAP tweens overlap on \"#s12-arc-0\" for strokeDashoffset between 1.30s and 1.66s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_12.html] overlapping_gsap_tweens: GSAP tweens overlap on \"#s12-arc-0\" for strokeDashoffset between 1.18s and 1.72s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_12.html] overlapping_gsap_tweens: GSAP tweens overlap on \"#s12-arc-0\" for strokeDashoffset between 1.24s and 1.72s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_12.html] overlapping_gsap_tweens: GSAP tweens overlap on \"#s12-arc-0\" for strokeDashoffset between 1.30s and 1.72s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_12.html] overlapping_gsap_tweens: GSAP tweens overlap on \"#s12-arc-0\" for strokeDashoffset between 1.24s and 1.78s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_12.html] overlapping_gsap_tweens: GSAP tweens overlap on \"#s12-arc-0\" for strokeDashoffset between 1.30s and 1.78s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_12.html] overlapping_gsap_tweens: GSAP tweens overlap on \"#s12-arc-0\" for strokeDashoffset between 1.30s and 1.84s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_12.html] gsap_studio_edit_blocked: GSAP tweens target \"#s12-blueprint-label\", \"#s12-center-node\", \"#s12-hero-wrap\", \"#s12-stamp-wrap\", \"#s12-pullback\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ⚠ [compositions/scene_12.html] composition_file_too_large: This HTML composition file has 419 lines. Smaller sub-compositions are easier to read, iterate on, and diff.\n    Fix: Split this sub-composition further into smaller .html files, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently.\n  ✗ [compositions/scene_12.html] font_family_without_font_face: Font families used without @font-face declaration: var(--font-body), var(--font-mono), var(--font-display). These are not in the auto-resolved font list, so the renderer cannot supply them automatically. Text will fall back to a generic font, producing incorrect typography in the video.\n    Fix: Add @font-face { font-family: '...'; src: url('capture/assets/fonts/...woff2'); } for each font family, pointing to the captured .woff2 files.\n  ⚠ [compositions/scene_2.html] gsap_studio_edit_blocked: GSAP tweens target \"#s2-spencer-header\", \"#s2-windsor-header\", \"#s2-eyebrow\", \"#s2-marriage-node\", \"#s2-diana-node, #s2-diana-label, #s2-diana-year\", \"#s2-ci-1, #s2-ci-2, #s2-ci-3\", \"#s2-sp-n1, #s2-sp-n2, #s2-sp-n3, #s2-sp-n4, #s2-sp-n5,\", \"#s2-win-n1, #s2-win-n2, #s2-win-n3,\", \"#s2-sp-trunk-upper\", \"#s2-sp-b1\", \"#s2-sp-b2\", \"#s2-sp-b3\", \"#s2-sp-b4\", \"#s2-sp-b5\", \"#s2-sp-n1\", \"#s2-sp-n2\", \"#s2-sp-n3\", \"#s2-sp-n4\", \"#s2-sp-n5\", \"#s2-win-trunk\", \"#s2-win-b1\", \"#s2-win-b2\", \"#s2-win-b3\", \"#s2-win-n1\", \"#s2-win-n2\", \"#s2-win-n3\", \"#s2-connector\", \"#s2-diana-stem\", \"#s2-diana-node\", \"#s2-diana-label, #s2-diana-year\", \"#s2-sp-l1, #s2-sp-y1\", \"#s2-sp-l2, #s2-sp-y2\", \"#s2-sp-l3, #s2-sp-y3\", \"#s2-sp-l4, #s2-sp-y4\", \"#s2-sp-l5, #s2-sp-y5\", \"#s2-win-l1, #s2-win-y1\", \"#s2-win-l2, #s2-win-y2\", \"#s2-win-l3, #s2-win-y3\", \"#s2-ci-1\", \"#s2-ci-2\", \"#s2-ci-3\", \"#s2-stage\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ⚠ [compositions/scene_2.html] composition_file_too_large: This HTML composition file has 374 lines. Smaller sub-compositions are easier to read, iterate on, and diff.\n    Fix: Split this sub-composition further into smaller .html files, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently.\n  ✗ [compositions/scene_2.html] font_family_without_font_face: Font families used without @font-face declaration: var(--font-body), var(--font-mono). These are not in the auto-resolved font list, so the renderer cannot supply them automatically. Text will fall back to a generic font, producing incorrect typography in the video.\n    Fix: Add @font-face { font-family: '...'; src: url('capture/assets/fonts/...woff2'); } for each font family, pointing to the captured .woff2 files.\n  ⚠ [compositions/scene_3.html] gsap_studio_edit_blocked: GSAP tweens target \"#s3-card\", \"#s3-entry-1\", \"#s3-entry-2\", \"#s3-entry-3\", \"#s3-rule\", \"#s3-scribble\", \".s3-kw\", \"#s3-dolly\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ✗ [compositions/scene_3.html] font_family_without_font_face: Font families used without @font-face declaration: var(--font-body), var(--font-mono), var(--font-script). These are not in the auto-resolved font list, so the renderer cannot supply them automatically. Text will fall back to a generic font, producing incorrect typography in the video.\n    Fix: Add @font-face { font-family: '...'; src: url('capture/assets/fonts/...woff2'); } for each font family, pointing to the captured .woff2 files.\n  ⚠ [compositions/scene_4.html] gsap_studio_edit_blocked: GSAP tweens target \"#s4-depth-wrap\", \"#s4-stamp-border\", \"#s4-orgchart-wrap\", \".s4-org-label\", \"#s4-camera\", \"#s4-box-top\", \"#s4-line-trunk\", \"#s4-line-cross\", \"#s4-line-left\", \"#s4-line-center\", \"#s4-line-right\", \"#s4-box-left\", \"#s4-box-center\", \"#s4-box-right\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ✗ [compositions/scene_4.html] font_family_without_font_face: Font families used without @font-face declaration: var(--font-body), var(--font-mono). These are not in the auto-resolved font list, so the renderer cannot supply them automatically. Text will fall back to a generic font, producing incorrect typography in the video.\n    Fix: Add @font-face { font-family: '...'; src: url('capture/assets/fonts/...woff2'); } for each font family, pointing to the captured .woff2 files.\n  ⚠ [compositions/scene_5.html] gsap_studio_edit_blocked: GSAP tweens target \"#s5-card-left\", \"#s5-card-right\", \".s5-right-eyebrow\", \".s5-label-row\", \".s5-eyebrow\", \"#s5-camera\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ✗ [compositions/scene_5.html] font_family_without_font_face: Font families used without @font-face declaration: var(--font-body), var(--font-mono). These are not in the auto-resolved font list, so the renderer cannot supply them automatically. Text will fall back to a generic font, producing incorrect typography in the video.\n    Fix: Add @font-face { font-family: '...'; src: url('capture/assets/fonts/...woff2'); } for each font family, pointing to the captured .woff2 files.\n  ⚠ [compositions/scene_8.html] gsap_studio_edit_blocked: GSAP tweens target \"#s8-morph-new\", \"#s8-strips-container\", \"#s8-headline-zone\", \"#s8-asr-zone\", \"#s8-stamp\", \"#s8-hairline-1\", \"#s8-hairline-2\", \"#s8-morph-card\", \"#s8-morph-old\", \"#s8-drift-layer\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ⚠ [compositions/scene_8.html] composition_file_too_large: This HTML composition file has 390 lines. Smaller sub-compositions are easier to read, iterate on, and diff.\n    Fix: Split this sub-composition further into smaller .html files, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently.\n  ✗ [compositions/scene_8.html] font_family_without_font_face: Font families used without @font-face declaration: var(--font-body), var(--font-mono), var(--font-display). These are not in the auto-resolved font list, so the renderer cannot supply them automatically. Text will fall back to a generic font, producing incorrect typography in the video.\n    Fix: Add @font-face { font-family: '...'; src: url('capture/assets/fonts/...woff2'); } for each font family, pointing to the captured .woff2 files.\n  ⚠ [compositions/scene_9.html] gsap_studio_edit_blocked: GSAP tweens target \"#s9-stamp-wrap\", \"#s9-tape-label-1\", \"#s9-tape-label-2\", \"#s9-tape-label-3\", \"#s9-text-seq-wrap\", \"#s9-folder-border\", \"#s9-folder-tab\", \"#s9-folder-crease\", \"#s9-cassette-body\", \"#s9-cassette-top\", \"#s9-cassette-window\", \"#s9-reel-left\", \"#s9-reel-left-hub\", \"#s9-spoke-l1\", \"#s9-spoke-l2\", \"#s9-spoke-l3\", \"#s9-reel-right\", \"#s9-reel-right-hub\", \"#s9-spoke-r1\", \"#s9-spoke-r2\", \"#s9-spoke-r3\", \"#s9-tape-bottom\", \"#s9-palace-base\", \"#s9-palace-col1\", \"#s9-palace-col2\", \"#s9-palace-col3\", \"#s9-palace-col4\", \"#s9-palace-roof\", \"#s9-palace-flag\", \"#s9-palace-flag-shape\", \"#s9-route-line-1\", \"#s9-arrow-1\", \"#s9-bike-wheel-l\", \"#s9-bike-wheel-r\", \"#s9-bike-frame\", \"#s9-bike-bars\", \"#s9-route-line-2\", \"#s9-stamp\", \"#s9-dolly\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ⚠ [compositions/scene_9.html] composition_file_too_large: This HTML composition file has 321 lines. Smaller sub-compositions are easier to read, iterate on, and diff.\n    Fix: Split this sub-composition further into smaller .html files, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently.\n  ✗ [compositions/scene_9.html] font_family_without_font_face: Font families used without @font-face declaration: var(--font-body), var(--font-mono). These are not in the auto-resolved font list, so the renderer cannot supply them automatically. Text will fall back to a generic font, producing incorrect typography in the video.\n    Fix: Add @font-face { font-family: '...'; src: url('capture/assets/fonts/...woff2'); } for each font family, pointing to the captured .woff2 files.\n\n◇  12 error(s), 128 warning(s)\n"
+    },
+    "validate": {
+      "ok": false,
+      "exit_code": 1,
+      "duration_s": 9.47,
+      "errors": 2,
+      "warnings": 0,
+      "info": null,
+      "output_tail": "◆  Validating diana-spencer-explainer in headless Chrome\n\n  ✗ Failed to load npm/gsap@3.14.2/dist/gsap.min.js: net::ERR_CERT_AUTHORITY_INVALID\n  ✗ gsap is not defined\n\n  ⚠ WCAG AA contrast warnings (30):\n    · #s1-chip \"ZERO TRAINING\" — 1.19:1 (need 3:1, t=7.975s)\n    · text.s4-org-label \"THE FIRM\" — 3.42:1 (need 4.5:1, t=7.975s)\n    · span.s8-strip-left-text \"CHARLES ADMITS\" — 1.2:1 (need 4.5:1, t=7.975s)\n    · span.s8-strip-right-text \"DIANA STEPS OUT\" — 1.2:1 (need 4.5:1, t=7.975s)\n    · #s9-stamp \"CLASSIFIEDRECEIVED\" — 3.4:1 (need 4.5:1, t=7.975s)\n    · span.s12-center-label \"THEBLUEPRINT\" — 1.69:1 (need 4.5:1, t=7.975s)\n    · #s1-chip \"ZERO TRAINING\" — 1.19:1 (need 3:1, t=23.926s)\n    · text.s4-org-label \"THE FIRM\" — 3.42:1 (need 4.5:1, t=23.926s)\n    · span.s8-strip-left-text \"CHARLES ADMITS\" — 1.2:1 (need 4.5:1, t=23.926s)\n    · span.s8-strip-right-text \"DIANA STEPS OUT\" — 1.2:1 (need 4.5:1, t=23.926s)\n    · #s9-stamp \"CLASSIFIEDRECEIVED\" — 3.4:1 (need 4.5:1, t=23.926s)\n    · span.s12-center-label \"THEBLUEPRINT\" — 1.69:1 (need 4.5:1, t=23.926s)\n    · #s1-chip \"ZERO TRAINING\" — 1.19:1 (need 3:1, t=39.876s)\n    · text.s4-org-label \"THE FIRM\" — 3.42:1 (need 4.5:1, t=39.876s)\n    · span.s8-strip-left-text \"CHARLES ADMITS\" — 1.2:1 (need 4.5:1, t=39.876s)\n    · span.s8-strip-right-text \"DIANA STEPS OUT\" — 1.2:1 (need 4.5:1, t=39.876s)\n    · #s9-stamp \"CLASSIFIEDRECEIVED\" — 3.4:1 (need 4.5:1, t=39.876s)\n    · span.s12-center-label \"THEBLUEPRINT\" — 1.69:1 (need 4.5:1, t=39.876s)\n    · #s1-chip \"ZERO TRAINING\" — 1.19:1 (need 3:1, t=55.826s)\n    · text.s4-org-label \"THE FIRM\" — 3.42:1 (need 4.5:1, t=55.826s)\n    · span.s8-strip-left-text \"CHARLES ADMITS\" — 1.2:1 (need 4.5:1, t=55.826s)\n    · span.s8-strip-right-text \"DIANA STEPS OUT\" — 1.2:1 (need 4.5:1, t=55.826s)\n    · #s9-stamp \"CLASSIFIEDRECEIVED\" — 3.4:1 (need 4.5:1, t=55.826s)\n    · span.s12-center-label \"THEBLUEPRINT\" — 1.69:1 (need 4.5:1, t=55.826s)\n    · #s1-chip \"ZERO TRAINING\" — 1.19:1 (need 3:1, t=71.777s)\n    · text.s4-org-label \"THE FIRM\" — 3.42:1 (need 4.5:1, t=71.777s)\n    · span.s8-strip-left-text \"CHARLES ADMITS\" — 1.2:1 (need 4.5:1, t=71.777s)\n    · span.s8-strip-right-text \"DIANA STEPS OUT\" — 1.2:1 (need 4.5:1, t=71.777s)\n    · #s9-stamp \"CLASSIFIEDRECEIVED\" — 3.4:1 (need 4.5:1, t=71.777s)\n    · span.s12-center-label \"THEBLUEPRINT\" — 1.69:1 (need 4.5:1, t=71.777s)\n\n◇  2 error(s), 0 warning(s), 30 contrast warning(s)\n"
+    },
+    "inspect": {
+      "ok": false,
+      "exit_code": 1,
+      "duration_s": 6.99,
+      "errors": 2,
+      "warnings": 4,
+      "info": 0,
+      "output_tail": "◆  Inspecting layout for diana-spencer-explainer (24 timeline samples)\n\n  ✗ t=74.77-78.09s (2 samples) text_occluded span.s12-word inside div.s12-center-ring \"playbook\" — Text is hidden beneath an opaque element.\n        Fix: Give the text its own zone, raise its stacking order above the covering element, or mark intentional layering with data-layout-allow-occlusion.\n  ✗ t=74.77-78.09s (2 samples) text_occluded span.s12-word.s12-brand inside div.s12-center-ring \"still running.\" — Text is hidden beneath an opaque element.\n        Fix: Give the text its own zone, raise its stacking order above the covering element, or mark intentional layering with data-layout-allow-occlusion.\n  ⚠ t=11.63s content_overlap #s2-caption-block inside span.s3-scribble-ul \"c. 1508 SPENCER FAMILY DOCUMENTED 1917 WINDSORS RENAME THEMSELVES 1981 THE OL...\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=31.57-44.86s (5 samples) content_overlap #s6-eyebrow inside #s7-eyebrow \"AIDS WARD / APRIL 1987\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=74.77-78.09s (2 samples) content_overlap span.s12-center-label inside span.s12-word \"THE BLUEPRINT\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=74.77-78.09s (2 samples) content_overlap span.s12-center-label inside span.s12-word.s12-brand \"THE BLUEPRINT\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n\n◇  2 error(s), 4 warning(s), 0 info(s)\n"
+    }
+  },
+  "bgm": {
+    "enabled": false,
+    "path": null,
+    "ready": false,
+    "status_file": null,
+    "status": "disabled",
+    "provider": null,
+    "mode": null,
+    "log": null,
+    "pid": null,
+    "target_duration_s": null,
+    "seed_duration_s": null,
+    "loop_count": null,
+    "message": "No BGM path."
+  },
+  "overlap": {
+    "status": "ok",
+    "canvas": {
+      "width": 1920,
+      "height": 1080
+    },
+    "probe_ratios": [
+      0.4,
+      0.7,
+      0.92
+    ],
+    "min_overlap_px": 4,
+    "scenes_scanned": 10,
+    "scenes_skipped": 2,
+    "scenes_no_timeline": 10,
+    "violations": [],
+    "transients": []
+  },
+  "caption_keepout": {
+    "enabled": false,
+    "canvas_height_px": 1080,
+    "caption_band_top_y": 900,
+    "fail_threshold_bottom_px": 180,
+    "suggested_min_bottom_px": 200,
+    "scenes_scanned": 0,
+    "violations": []
+  },
+  "anomalies": [],
+  "preflight_clean": false,
+  "deterministic_fixes_applied": [],
+  "snapshot_times_s": [
+    2.5,
+    5.25,
+    8,
+    11.3,
+    14.5,
+    16.25,
+    17.3,
+    18.3,
+    21,
+    24.2,
+    27,
+    30.3,
+    33,
+    36,
+    41.376,
+    44.064,
+    45.677,
+    47.052,
+    50.252,
+    52.002,
+    53.052,
+    54.002,
+    56.752,
+    60.052,
+    62.752,
+    64.252,
+    65.152,
+    66.052,
+    69.252,
+    72.952,
+    76.252
+  ],
+  "total_duration_s": 79.752,
+  "scenes": [
+    {
+      "scene_id": "scene_1",
+      "start_s": 0,
+      "duration_s": 5,
+      "midpoint_s": 2.5,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "3d-text-depth-layers",
+        "discrete-text-sequence",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_2",
+      "start_s": 5,
+      "duration_s": 6,
+      "midpoint_s": 8,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "svg-path-draw",
+        "dynamic-content-sequencing",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_3",
+      "start_s": 11,
+      "duration_s": 7,
+      "midpoint_s": 14.5,
+      "high_risk_extras_s": [
+        16.25,
+        17.3
+      ],
+      "high_risk": true,
+      "effects": [
+        "asr-keyword-glow",
+        "card-morph-anchor",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_4",
+      "start_s": 18,
+      "duration_s": 6,
+      "midpoint_s": 21,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "3d-text-depth-layers",
+        "discrete-text-sequence",
+        "svg-path-draw"
+      ]
+    },
+    {
+      "scene_id": "scene_5",
+      "start_s": 24,
+      "duration_s": 6,
+      "midpoint_s": 27,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "split-tilt-cards",
+        "asr-keyword-glow",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_6",
+      "start_s": 30,
+      "duration_s": 6,
+      "midpoint_s": 33,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "svg-path-draw",
+        "svg-icon-enrichment",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_7",
+      "start_s": 36,
+      "duration_s": 10.752,
+      "midpoint_s": 41.376,
+      "high_risk_extras_s": [
+        44.064,
+        45.677
+      ],
+      "high_risk": true,
+      "effects": [
+        "center-outward-expansion",
+        "svg-path-draw",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_8",
+      "start_s": 46.752,
+      "duration_s": 7,
+      "midpoint_s": 50.252,
+      "high_risk_extras_s": [
+        52.002,
+        53.052
+      ],
+      "high_risk": true,
+      "effects": [
+        "3d-text-depth-layers",
+        "asr-keyword-glow",
+        "card-morph-anchor"
+      ]
+    },
+    {
+      "scene_id": "scene_9",
+      "start_s": 53.752,
+      "duration_s": 6,
+      "midpoint_s": 56.752,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "svg-path-draw",
+        "discrete-text-sequence",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_10",
+      "start_s": 59.752,
+      "duration_s": 6,
+      "midpoint_s": 62.752,
+      "high_risk_extras_s": [
+        64.252,
+        65.152
+      ],
+      "high_risk": true,
+      "effects": [
+        "scale-swap-transition",
+        "asr-keyword-glow",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_11",
+      "start_s": 65.752,
+      "duration_s": 7,
+      "midpoint_s": 69.252,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "svg-path-draw",
+        "3d-text-depth-layers",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_12",
+      "start_s": 72.752,
+      "duration_s": 7,
+      "midpoint_s": 76.252,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "center-outward-expansion",
+        "asr-keyword-glow",
+        "svg-path-draw"
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "from": "scene_1",
+      "to": "scene_2",
+      "from_scene": "scene_1",
+      "to_scene": "scene_2",
+      "type": "push-slide",
+      "direction": "RIGHT",
+      "duration_s": 0.5,
+      "tier": "b",
+      "seam_mid_s": 5.25
+    },
+    {
+      "from": "scene_2",
+      "to": "scene_3",
+      "from_scene": "scene_2",
+      "to_scene": "scene_3",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "seam_mid_s": 11.3
+    },
+    {
+      "from": "scene_3",
+      "to": "scene_4",
+      "from_scene": "scene_3",
+      "to_scene": "scene_4",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "seam_mid_s": 18.3
+    },
+    {
+      "from": "scene_4",
+      "to": "scene_5",
+      "from_scene": "scene_4",
+      "to_scene": "scene_5",
+      "type": "zoom-through",
+      "direction": null,
+      "duration_s": 0.4,
+      "tier": "b",
+      "seam_mid_s": 24.2
+    },
+    {
+      "from": "scene_5",
+      "to": "group_w6",
+      "from_scene": "scene_5",
+      "to_scene": "scene_6",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "seam_mid_s": 30.3
+    },
+    {
+      "from": "group_w6",
+      "to": "scene_8",
+      "from_scene": "scene_7",
+      "to_scene": "scene_8",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "seam_mid_s": 47.052
+    },
+    {
+      "from": "scene_8",
+      "to": "scene_9",
+      "from_scene": "scene_8",
+      "to_scene": "scene_9",
+      "type": "push-slide",
+      "direction": "LEFT",
+      "duration_s": 0.5,
+      "tier": "b",
+      "seam_mid_s": 54.002
+    },
+    {
+      "from": "scene_9",
+      "to": "scene_10",
+      "from_scene": "scene_9",
+      "to_scene": "scene_10",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "seam_mid_s": 60.052
+    },
+    {
+      "from": "scene_10",
+      "to": "scene_11",
+      "from_scene": "scene_10",
+      "to_scene": "scene_11",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "seam_mid_s": 66.052
+    },
+    {
+      "from": "scene_11",
+      "to": "scene_12",
+      "from_scene": "scene_11",
+      "to_scene": "scene_12",
+      "type": "zoom-through",
+      "direction": null,
+      "duration_s": 0.4,
+      "tier": "b",
+      "seam_mid_s": 72.952
+    }
+  ],
+  "internal_seams": [
+    {
+      "from_scene": "scene_6",
+      "to_scene": "scene_7",
+      "visual_id": "group_w6",
+      "worker_id": "w6",
+      "seam_s": 36,
+      "local_time_s": 6
+    }
+  ]
+}
