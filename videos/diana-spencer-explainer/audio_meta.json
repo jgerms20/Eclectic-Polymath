@@ -1,6 +1,6 @@
 {
-  "tts_provider": "kokoro",
-  "voice_id": "am_michael",
+  "tts_provider": null,
+  "voice_id": null,
   "bgm_provider": null,
   "bgm_enabled": false,
   "bgm_path": null,
@@ -11,6 +11,67 @@
   "bgm_target_duration_s": null,
   "bgm_seed_duration_s": null,
   "bgm_loop_count": null,
-  "total_duration_s": 0,
-  "scenes": {}
+  "total_duration_s": 76,
+  "scenes": {
+    "scene_1": {
+      "duration_s": 5,
+      "wordsPath": null,
+      "voicePath": null
+    },
+    "scene_2": {
+      "duration_s": 6,
+      "wordsPath": null,
+      "voicePath": null
+    },
+    "scene_3": {
+      "duration_s": 7,
+      "wordsPath": null,
+      "voicePath": null
+    },
+    "scene_4": {
+      "duration_s": 6,
+      "wordsPath": null,
+      "voicePath": null
+    },
+    "scene_5": {
+      "duration_s": 6,
+      "wordsPath": null,
+      "voicePath": null
+    },
+    "scene_6": {
+      "duration_s": 6,
+      "wordsPath": null,
+      "voicePath": null
+    },
+    "scene_7": {
+      "duration_s": 7,
+      "wordsPath": null,
+      "voicePath": null
+    },
+    "scene_8": {
+      "duration_s": 7,
+      "wordsPath": null,
+      "voicePath": null
+    },
+    "scene_9": {
+      "duration_s": 6,
+      "wordsPath": null,
+      "voicePath": null
+    },
+    "scene_10": {
+      "duration_s": 6,
+      "wordsPath": null,
+      "voicePath": null
+    },
+    "scene_11": {
+      "duration_s": 7,
+      "wordsPath": null,
+      "voicePath": null
+    },
+    "scene_12": {
+      "duration_s": 7,
+      "wordsPath": null,
+      "voicePath": null
+    }
+  }
 }
