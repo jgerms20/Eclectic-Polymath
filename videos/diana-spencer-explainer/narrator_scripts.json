@@ -1,0 +1,238 @@
+{
+  "project": "Diana Spencer: Vulnerability as Weapon",
+  "narrativeArchetype": "story-explainer with concept-explainer",
+  "stylePreset": "pin-and-paper",
+  "orientation": "landscape",
+  "emotionalArc": "Awe and curiosity → dread and entrapment → surprise and defiance → sorrow and recognition → grief and rupture → hard-won awe at the legacy cost",
+  "scenes": [
+    {
+      "sceneNumber": 1,
+      "sceneName": "The Impossible Setup",
+      "transition": {
+        "continuity": "break",
+        "intent": "cut",
+        "description": "Cold open: handwritten title card slaps onto yellow notebook paper — stark ink, no fanfare."
+      },
+      "narrativeIntent": {
+        "type": "hook",
+        "narrativeRole": "Snap the viewer into the central paradox before they can look away.",
+        "keyMessage": "A 19-year-old with zero armor walked into a thousand-year machine — and won.",
+        "persuasion": "Juxtaposition — fragility vs. institutional permanence",
+        "emotionalBeat": "startled disbelief"
+      },
+      "assetCandidates": [],
+      "script": "She was 19. Zero media training. About to walk into a thousand-year-old machine.",
+      "estimatedDuration": "5s"
+    },
+    {
+      "sceneNumber": 2,
+      "sceneName": "More Royal Than the Royals",
+      "transition": {
+        "continuity": "break",
+        "intent": "slide",
+        "description": "New notebook page slides in from the right — a family tree sketched in ink appears."
+      },
+      "narrativeIntent": {
+        "type": "social_proof",
+        "narrativeRole": "Establish the historical irony that reframes everything that follows.",
+        "keyMessage": "Diana was more deeply English aristocratic than the German-born Windsors she was marrying into.",
+        "persuasion": "Dramatic irony — the audience knows what the palace missed",
+        "emotionalBeat": "wry recognition"
+      },
+      "assetCandidates": [],
+      "script": "The Windsors only changed their German surname in 1917. The Spencers were Tudor aristocracy for five centuries.",
+      "estimatedDuration": "6s"
+    },
+    {
+      "sceneNumber": 3,
+      "sceneName": "The Wound She Carried In",
+      "transition": {
+        "continuity": "break",
+        "intent": "dissolve",
+        "description": "Page blurs and re-settles — lighter, more personal handwriting emerges, as if a diary entry."
+      },
+      "narrativeIntent": {
+        "type": "pain_point",
+        "narrativeRole": "Show the human wreckage the palace completely failed to see.",
+        "keyMessage": "Diana entered the marriage already broken — unwanted at birth, abandoned by her mother, boiling with unresolved rage.",
+        "persuasion": "Specificity — concrete details that make abstraction visceral",
+        "emotionalBeat": "quiet dread"
+      },
+      "assetCandidates": [],
+      "script": "Her parents wanted a boy. She was left unnamed for a week. Her mother's footsteps on gravel were her earliest memory of loss.",
+      "estimatedDuration": "7s"
+    },
+    {
+      "sceneNumber": 4,
+      "sceneName": "The Firm",
+      "transition": {
+        "continuity": "break",
+        "intent": "cut",
+        "description": "Ink-stamped corporate logo graphic — hard block letters read THE FIRM — then dissolves into architectural floor plan."
+      },
+      "narrativeIntent": {
+        "type": "product_intro",
+        "narrativeRole": "Name the true antagonist: not Charles, but the institution itself.",
+        "keyMessage": "The monarchy isn't a family — it's a billion-dollar corporation whose primary product is emotional concealment.",
+        "persuasion": "Reframing — replace familiar narrative with accurate structural lens",
+        "emotionalBeat": "cold clarity"
+      },
+      "assetCandidates": [],
+      "script": "The monarchy isn't a family. It's a corporation — wealth preservation, image control, zero tolerance for emotional visibility.",
+      "estimatedDuration": "6s"
+    },
+    {
+      "sceneNumber": 5,
+      "sceneName": "The Fatal Mismatch",
+      "transition": {
+        "continuity": "break",
+        "intent": "zoom",
+        "description": "Camera zooms into a single ink-drawn figure dwarfed by towering institutional columns — scale communicates the horror."
+      },
+      "narrativeIntent": {
+        "type": "feature_showcase",
+        "narrativeRole": "Show the collision point — how the firm absorbed Diana and what it did to her.",
+        "keyMessage": "The palace viewed her despair as an operational glitch, not a cry for help.",
+        "persuasion": "Contrast — corporate language applied to human suffering",
+        "emotionalBeat": "suffocating horror"
+      },
+      "assetCandidates": [],
+      "script": "Her bulimia, self-harm, depression — the firm called them glitches. Embarrassments to be managed. The brand had to be protected.",
+      "estimatedDuration": "6s"
+    },
+    {
+      "sceneNumber": 6,
+      "sceneName": "The Ungloved Hand",
+      "transition": {
+        "continuity": "break",
+        "intent": "dissolve",
+        "description": "Dissolve into a scene sketch of a hand extended — simple ink gesture, no glove, enormous negative space around it."
+      },
+      "narrativeIntent": {
+        "type": "feature_showcase",
+        "narrativeRole": "The pivot: show the moment she found her weapon — physical touch as political act.",
+        "keyMessage": "One ungloved handshake with an AIDS patient did more than a decade of government pamphlets.",
+        "persuasion": "Concrete example as proof of mechanism",
+        "emotionalBeat": "electrified awe"
+      },
+      "assetCandidates": [],
+      "script": "1987. AIDS ward. She shook a dying man's hand — no gloves. A silent visual that shattered a global panic.",
+      "estimatedDuration": "6s"
+    },
+    {
+      "sceneNumber": 7,
+      "sceneName": "The Currency of Empathy",
+      "transition": {
+        "continuity": "continue",
+        "intent": "morph",
+        "sharedMotif": "open hand becoming a bridge toward the viewer",
+        "description": "The extended hand from scene 6 morphs into a crowd reaching back — same gesture, global scale."
+      },
+      "narrativeIntent": {
+        "type": "benefit_highlight",
+        "narrativeRole": "Name the mechanism: she created a rival royal court built on public empathy instead of hereditary power.",
+        "keyMessage": "She generated consent the Crown couldn't manufacture — by being physically present with the suffering.",
+        "persuasion": "Theory of the equal — power flows upward through touch, not down through distance",
+        "emotionalBeat": "dawning recognition"
+      },
+      "assetCandidates": [],
+      "script": "Where the Queen offered distance, Diana offered touch. She walked into minefields, sat on amputees' beds, refused to wear hats so she could properly hug children.",
+      "estimatedDuration": "7s"
+    },
+    {
+      "sceneNumber": 8,
+      "sceneName": "The Revenge Dress",
+      "transition": {
+        "continuity": "break",
+        "intent": "cut",
+        "description": "Hard cut — bold ink silhouette of a figure in a cocktail dress, tabloid-headline text strips frame it."
+      },
+      "narrativeIntent": {
+        "type": "feature_showcase",
+        "narrativeRole": "Show her second weapon: fashion as wordless political warfare.",
+        "keyMessage": "The night Charles confessed adultery on TV, Diana walked out in a dress she'd kept waiting three years — and buried his story.",
+        "persuasion": "Premeditation as proof of strategic mastery",
+        "emotionalBeat": "fierce exhilaration"
+      },
+      "assetCandidates": [],
+      "script": "June 1994. Charles admitted the affair on national TV. Diana stepped out in the revenge dress and erased him from the front pages — without saying a word.",
+      "estimatedDuration": "7s"
+    },
+    {
+      "sceneNumber": 9,
+      "sceneName": "The War of the Tapes",
+      "transition": {
+        "continuity": "break",
+        "intent": "slide",
+        "description": "Classified-file folder slides open — cassette tape sketched inside, handwritten labels, spy-novel texture."
+      },
+      "narrativeIntent": {
+        "type": "social_proof",
+        "narrativeRole": "Prove she was a brilliant combatant — not just a victim — by detailing her espionage tactics.",
+        "keyMessage": "She dictated her own devastating exposé onto cassette tapes and smuggled them out in a doctor's bicycle basket.",
+        "persuasion": "Narrative detail — the logistics prove the intent",
+        "emotionalBeat": "conspiratorial thrill"
+      },
+      "assetCandidates": [],
+      "script": "She couldn't meet the author directly. So she recorded everything onto tapes — smuggled out of Kensington Palace in a bicycle basket.",
+      "estimatedDuration": "6s"
+    },
+    {
+      "sceneNumber": 10,
+      "sceneName": "The Cultural Canvas",
+      "transition": {
+        "continuity": "break",
+        "intent": "dissolve",
+        "description": "Ink splashes outward — same face rendered in fragments across different perspectives, Rorschach-like ink blot structure."
+      },
+      "narrativeIntent": {
+        "type": "branding",
+        "narrativeRole": "State the central thesis: she stopped being a person and became a mirror for how people feel about power.",
+        "keyMessage": "The establishment saw a threat to order. Marginalized communities saw their own experience in an institution that demands everything and protects nothing.",
+        "persuasion": "Dual-audience contrast — same facts, opposite readings reveal the deeper truth",
+        "emotionalBeat": "unsettled complexity"
+      },
+      "assetCandidates": [],
+      "script": "At a certain point she stopped being a person. She became a canvas — and everyone projected their own relationship with power onto her.",
+      "estimatedDuration": "6s"
+    },
+    {
+      "sceneNumber": 11,
+      "sceneName": "The Empty Flagpole",
+      "transition": {
+        "continuity": "break",
+        "intent": "cut",
+        "description": "Stark cut to a single bare pole drawn in ink against white — minimal, charged, pointed silence."
+      },
+      "narrativeIntent": {
+        "type": "benefit_highlight",
+        "narrativeRole": "Show the rupture: her death forced the Crown to publicly perform the emotion she'd spent fifteen years demanding.",
+        "keyMessage": "A bare flagpole broke a thousand-year institution — the monarchy had to learn to feel in public, or lose the consent of the people.",
+        "persuasion": "Object as argument — the flagpole becomes proof of her posthumous power",
+        "emotionalBeat": "grief turning to vindication"
+      },
+      "assetCandidates": [],
+      "script": "She died. The palace went silent. The public saw a bare flagpole and called it cruelty. The Queen broke centuries of protocol and came home to grieve in public.",
+      "estimatedDuration": "7s"
+    },
+    {
+      "sceneNumber": 12,
+      "sceneName": "The Blueprint",
+      "transition": {
+        "continuity": "break",
+        "intent": "zoom",
+        "description": "Zoom out to reveal the full notebook — all previous sketches visible as one interconnected map, then final ink title closes it."
+      },
+      "narrativeIntent": {
+        "type": "cta",
+        "narrativeRole": "Land the lasting provocation: her playbook is still running, and the question of whether the firm can survive it is still open.",
+        "keyMessage": "Every royal demanding privacy, every celebrity bypassing media gatekeepers with a raw documentary — that's her blueprint.",
+        "persuasion": "Living legacy — make the historical immediately present",
+        "emotionalBeat": "haunted recognition"
+      },
+      "assetCandidates": [],
+      "script": "Next time you see a royal go rogue or a celebrity bare their soul in a documentary — you're watching her playbook. Written in blood. Still running.",
+      "estimatedDuration": "7s"
+    }
+  ]
+}
