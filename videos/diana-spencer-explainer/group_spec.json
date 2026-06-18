@@ -1,0 +1,997 @@
+{
+  "scenes_per_group_max": 3,
+  "total_scenes": 12,
+  "width": 1920,
+  "height": 1080,
+  "captions_enabled": false,
+  "film_direction": "**Palette:** 60% warm paper base (canvas) / 30% hairline rules + repeated canvas layering (no surface token — this preset layers with hairlines) / 10% accent: brand-primary (ink blue) carries hero words, active diagram elements, and the critical stamp beats; brand-accent (crimson) reserved as a single flash for defiance moments only. Deco-4 pink and deco-3 cyan appear as rare particle scribbles only — never as fills.\n\n**Type:** Display tier = hero thesis words and scene-defining terms only. Mono uppercase with wide tracking = eyebrows, datelines, catalog tags (voice: \"FIELD REPORT / 1917 / JUNE 1994\"). Body = card copy, step labels, supporting context in sentence case. Scribble (Caveat voice) = marginal annotations, one handwritten aside per scene. Hero vs. eyebrow = four-dimensional contrast: size + weight + case + spacing.\n\n**Motion:** Entries on `EASE.entry` (heavy intent for hero words and diagram panels; snappy for chips and pills). Idle on `EASE.drift` at the subtle floor (±2-3 px / ±1-2% scale, 2.5-4s cycle). Exits: scenes hold the final frame (no exit tweens — harness handles Tier-B clip transitions). Budget: ONE root-level macro camera move per scene (slow dolly-in or slow drift) + at most one breathing hero as the secondary live slot; everything else rests.\n\n**Ambient:** Full-bleed paper-grain overlay (from `paper-grain-overlay` component) on every scene — this is the atmospheric constant. No mesh gradients, no dual-radial swell, no scanlines, no halftone on top of it. Paper is the ground.\n\n**Never (film-wide):** No mesh gradients, no bokeh, no purple-blue AI gradients, no neon-on-black, no glow bloom. No counter-rotation to 0° on tilted elements — the off-axis tilt is the system's identity. No bounce or elastic easings.\n\n**Transitions:** Two Tier-B types only: `blur-crossfade` (default — warm backgrounds are close but the emotional shift is large) and `push-slide` (forward narrative momentum moments).\n\n**Stillness-before-climax:** Scenes 6 and 11 only — the ungloved hand reveal and the empty flagpole rupture both earn the dramatic comma.\n\n**Register mix:** Scenes 1/4/8/11/12 = kinetic typography + abstract graphics. Scenes 2/9 = diagram/schematic (family tree, spy-file map). Scenes 3/5/10 = layered abstract graphics with pinned-card clusters. Scenes 6/7 = SVG-led ink-drawing register. Scene 12 = data-viz overview + kinetic type. No captured assets (assetCandidates all empty).",
+  "total_duration_s": 79.752,
+  "bgm_path": "",
+  "font_face_css": "",
+  "brand_tokens_css": ":root {\n  --brand-primary:   #1F3A8A;\n  --brand-secondary: #C9A66B;\n  --brand-tertiary:  #000000;\n  --brand-accent:    #C2342B;\n  --brand-costume:   #F8F1D6;\n  --ink:             #1F3A8A;\n  --canvas:          #EFE56A;\n  --brand-gradient:  linear-gradient(135deg, #1F3A8A 0%, #C9A66B 50%, #C2342B 100%);\n  --deco-1:          #F7CB46;\n  --deco-2:          #99E885;\n  --deco-3:          #C0F7FE;\n  --deco-4:          #FE90E8;\n  --font-display:    'Space Grotesk', system-ui, sans-serif;\n  --font-body:       'Space Grotesk', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;\n  --font-mono:       'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;\n  --anchor-paper-yellow: #efe56a; /* saturated cadmium yellow — the page */\n  --anchor-cream: #f8f1d6; /* off-white ivory — the cards */\n  --surface-paper: color-mix(in srgb, var(--brand-primary) 6%, var(--anchor-paper-yellow));\n  --surface-paper-2: color-mix(\n  in srgb,\n  var(--brand-primary) 4%,\n  color-mix(in srgb, var(--anchor-paper-yellow) 70%, white)\n);\n  --surface-paper-3: color-mix(\n  in srgb,\n  var(--brand-primary) 8%,\n  color-mix(in srgb, var(--anchor-paper-yellow) 85%, black 8%)\n);\n  --surface-cream: color-mix(in srgb, var(--brand-primary) 4%, var(--anchor-cream));\n  --shadow-pin-compact: 4px 5px 0 0 var(--brand-primary);\n  --shadow-pin-standard: 5px 6px 0 0 var(--brand-primary);\n  --shadow-pin-hero: 8px 9px 0 0 var(--brand-primary);\n  --border-hairline: 1.5px solid var(--brand-primary);\n  --border-dashed: 1.5px dashed color-mix(in srgb, var(--brand-primary) 45%, transparent);\n  --border-stamp: 3px solid var(--brand-accent);\n  --radius-card: 4px;\n  --radius-pill: 999px;\n  --pad-edge: 64px;\n  --pad-top: 110px;\n  --pad-bottom: 90px;\n  --card-pad: 28px;\n  --card-pad-lg: 36px 28px 28px;\n  --gap-card-sm: 22px;\n  --gap-card-md: 28px;\n  --gap-card-lg: 32px;\n  --tilt-pin: -10deg;\n  --tilt-pin-alt: 14deg;\n  --tilt-card-askew: 0.9deg;\n  --tilt-scribble: -2deg;\n  --tilt-stamp: -4deg;\n  --paper-grain: url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.45  0 0 0 0 0.2  0 0 0 .25 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>\");\n}",
+  "groups": [
+    {
+      "worker_id": "w1",
+      "scene_ids": [
+        "scene_1"
+      ],
+      "scenes": {
+        "scene_1": {
+          "start_s": 0,
+          "effects": [
+            "3d-text-depth-layers",
+            "discrete-text-sequence",
+            "sine-wave-loop"
+          ],
+          "rule_paths": [
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/3d-text-depth-layers.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/discrete-text-sequence.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/sine-wave-loop.md"
+          ],
+          "assetCandidates": [],
+          "estimatedDuration_s": 5,
+          "voicePath": "",
+          "wordsPath": "",
+          "design_chunks": {
+            "tokens_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/tokens.css",
+            "easings_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/easings.js",
+            "voice_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/voice.md",
+            "hints_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/composition-hints.md",
+            "type_roles_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/type-roles.md",
+            "components": [
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/chip.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/divider-loud.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/hero.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/paper-grain-overlay.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pill-yes.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pinned-card.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/process-step.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/quote-panel.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/safety-pin.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/scribble-note.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stamp.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stat-counter.html"
+            ]
+          },
+          "creative_brief": "Startled, cold, no fanfare — the paper slaps the desk before the eye is ready. Kinetic typography register, centered composition: a single massive display-tier number \"19\" occupies 55% of canvas height, three-layer offset shadow (`3d-text-depth-layers`) giving it the weight of a gravestone. `discrete-text-sequence` swaps in three quick text states below it — each a short dateline fragment — landing on the final paradox phrase. Macro motion: hard slow push-in on the scene root across the full 5s. `sine-wave-loop` keeps only the hero number breathing ±1% after it settles. Eyebrow mono chip (\"ZERO TRAINING\") sits top-left. No supporting cards — the empty space is the pressure. Eye exits into the page-turn cut.\n\n",
+          "local_start_s": 0,
+          "visual_id": "scene_1"
+        }
+      },
+      "start_s": 0,
+      "duration_s": 5,
+      "composition_id": "scene_1",
+      "composition_file": "compositions/scene_1.html",
+      "kind": "scene"
+    },
+    {
+      "worker_id": "w2",
+      "scene_ids": [
+        "scene_2"
+      ],
+      "scenes": {
+        "scene_2": {
+          "start_s": 5,
+          "effects": [
+            "svg-path-draw",
+            "dynamic-content-sequencing",
+            "sine-wave-loop"
+          ],
+          "rule_paths": [
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/svg-path-draw.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/dynamic-content-sequencing.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/sine-wave-loop.md"
+          ],
+          "assetCandidates": [],
+          "estimatedDuration_s": 6,
+          "voicePath": "",
+          "wordsPath": "",
+          "design_chunks": {
+            "tokens_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/tokens.css",
+            "easings_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/easings.js",
+            "voice_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/voice.md",
+            "hints_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/composition-hints.md",
+            "type_roles_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/type-roles.md",
+            "components": [
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/chip.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/divider-loud.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/hero.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/paper-grain-overlay.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pill-yes.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pinned-card.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/process-step.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/quote-panel.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/safety-pin.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/scribble-note.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stamp.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stat-counter.html"
+            ]
+          },
+          "creative_brief": "Wry, almost dry — a diagram proving an irony too good not to sketch. Diagram register, rule-of-thirds composition: an ink-drawn dual family tree fills the left 65%, with two vertical lineages — Windsor and Spencer — rendered as branching SVG paths that draw themselves via `svg-path-draw`. The Spencer line is taller, older, planted with firmer ink weight. A horizontal dashed connector bridges them at the marriage node. `dynamic-content-sequencing` staggers in the year labels (1917 Windsor name-change vs. Tudor century marks) along the branches, paced to the narration. Mono uppercase dateline eyebrow: \"TUDOR LINEAGE / 500 YRS.\" Macro motion: slow drift left-to-right, parallax on the two columns. `sine-wave-loop` keeps the marriage-node glyph breathing as the single live slot. Eye lands on the family tree's right trunk heading into the next cut.\n\n",
+          "local_start_s": 0,
+          "visual_id": "scene_2"
+        }
+      },
+      "start_s": 5,
+      "duration_s": 6,
+      "composition_id": "scene_2",
+      "composition_file": "compositions/scene_2.html",
+      "kind": "scene"
+    },
+    {
+      "worker_id": "w3",
+      "scene_ids": [
+        "scene_3"
+      ],
+      "scenes": {
+        "scene_3": {
+          "start_s": 11,
+          "effects": [
+            "asr-keyword-glow",
+            "card-morph-anchor",
+            "sine-wave-loop"
+          ],
+          "rule_paths": [
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/asr-keyword-glow.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/card-morph-anchor.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/sine-wave-loop.md"
+          ],
+          "assetCandidates": [],
+          "estimatedDuration_s": 7,
+          "voicePath": "",
+          "wordsPath": "",
+          "design_chunks": {
+            "tokens_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/tokens.css",
+            "easings_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/easings.js",
+            "voice_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/voice.md",
+            "hints_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/composition-hints.md",
+            "type_roles_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/type-roles.md",
+            "components": [
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/chip.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/divider-loud.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/hero.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/paper-grain-overlay.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pill-yes.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pinned-card.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/process-step.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/quote-panel.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/safety-pin.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/scribble-note.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stamp.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stat-counter.html"
+            ]
+          },
+          "creative_brief": "Quiet dread, the rhythm slows to a held breath. Layered abstract graphics, asymmetric 60/40 composition: a tall pinned-card (the \"diary entry\" surface) on the left 60% carries three stacked line-items — the want for a boy, the unnamed week, the footsteps on gravel — each entering in sequence. `asr-keyword-glow` pulses the key wound-words (\"unnamed,\" \"loss\") as they arrive, a soft ink-blue glow that fades quickly — emphasis, not spectacle. `card-morph-anchor` handles the card's initial drop onto the page (morph from a collapsed strip). Right 40% is intentional negative space: a single fine-ink vertical rule and a scribble marginal note in the Caveat voice (\"the palace never read this file\"). Macro motion: slow dolly-in on the scene root. `sine-wave-loop` keeps only the marginal scribble drifting ±2px. No glow on the card borders — this is grief, not a feature reveal.\n\n",
+          "local_start_s": 0,
+          "visual_id": "scene_3"
+        }
+      },
+      "start_s": 11,
+      "duration_s": 7,
+      "composition_id": "scene_3",
+      "composition_file": "compositions/scene_3.html",
+      "kind": "scene"
+    },
+    {
+      "worker_id": "w4",
+      "scene_ids": [
+        "scene_4"
+      ],
+      "scenes": {
+        "scene_4": {
+          "start_s": 18,
+          "effects": [
+            "3d-text-depth-layers",
+            "discrete-text-sequence",
+            "svg-path-draw"
+          ],
+          "rule_paths": [
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/3d-text-depth-layers.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/discrete-text-sequence.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/svg-path-draw.md"
+          ],
+          "assetCandidates": [],
+          "estimatedDuration_s": 6,
+          "voicePath": "",
+          "wordsPath": "",
+          "design_chunks": {
+            "tokens_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/tokens.css",
+            "easings_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/easings.js",
+            "voice_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/voice.md",
+            "hints_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/composition-hints.md",
+            "type_roles_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/type-roles.md",
+            "components": [
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/chip.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/divider-loud.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/hero.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/paper-grain-overlay.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pill-yes.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pinned-card.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/process-step.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/quote-panel.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/safety-pin.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/scribble-note.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stamp.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stat-counter.html"
+            ]
+          },
+          "creative_brief": "Cold clarity, institutional snap. Kinetic typography + abstract graphics register, centered composition: a massive display-tier headline \"THE FIRM\" stamps onto the paper with a three-layer ink-shadow (`3d-text-depth-layers`), rotated −4° in the stamp aesthetic. A crimson border-stamp rectangle frames it (brand-accent, single flash). `discrete-text-sequence` cycles three alternate identities below — \"Wealth preservation,\" \"Image control,\" \"Zero tolerance\" — each replacing the last, machine-gun rhythm. `svg-path-draw` traces a sparse org-chart below the stamp at ~3.5s: three boxes on a hairline hierarchy connected to one block at top labeled THE FIRM. Macro motion: slow push-in on the scene root. No secondary live element — the stamp commands the frame. Eye exits clean into the next cut.\n\n",
+          "local_start_s": 0,
+          "visual_id": "scene_4"
+        }
+      },
+      "start_s": 18,
+      "duration_s": 6,
+      "composition_id": "scene_4",
+      "composition_file": "compositions/scene_4.html",
+      "kind": "scene"
+    },
+    {
+      "worker_id": "w5",
+      "scene_ids": [
+        "scene_5"
+      ],
+      "scenes": {
+        "scene_5": {
+          "start_s": 24,
+          "effects": [
+            "split-tilt-cards",
+            "asr-keyword-glow",
+            "sine-wave-loop"
+          ],
+          "rule_paths": [
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/split-tilt-cards.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/asr-keyword-glow.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/sine-wave-loop.md"
+          ],
+          "assetCandidates": [],
+          "estimatedDuration_s": 6,
+          "voicePath": "",
+          "wordsPath": "",
+          "design_chunks": {
+            "tokens_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/tokens.css",
+            "easings_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/easings.js",
+            "voice_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/voice.md",
+            "hints_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/composition-hints.md",
+            "type_roles_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/type-roles.md",
+            "components": [
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/chip.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/divider-loud.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/hero.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/paper-grain-overlay.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pill-yes.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pinned-card.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/process-step.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/quote-panel.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/safety-pin.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/scribble-note.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stamp.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stat-counter.html"
+            ]
+          },
+          "creative_brief": "Suffocating, the scale difference is the horror. Layered abstract graphics, split-screen (asymmetric 70/30) composition: two vertically opposed cards side by side with `split-tilt-cards` — left card (large, 70%) shows a simple ink-silhouette figure dwarfed under towering institutional columns (drawn with hairlines at display scale); right card (small, 30%) holds the three corporate-language words: \"Bulimia → Glitch / Self-harm → Embarrassment / Depression → Brand risk.\" `asr-keyword-glow` pulses the relabeled words on the right card as they enter — the glow here reads as the cold eye of corporate review, not warmth. Macro motion: slow zoom-in on the scene root. `sine-wave-loop` keeps the small figure drifting ±2px — alone, not breathing. Accent stays on the word labels only; the figure card is ink on paper with no accent. Eye enters the dissolve into Scene 6 via blur.\n\n",
+          "local_start_s": 0,
+          "visual_id": "scene_5"
+        }
+      },
+      "start_s": 24,
+      "duration_s": 6,
+      "composition_id": "scene_5",
+      "composition_file": "compositions/scene_5.html",
+      "kind": "scene"
+    },
+    {
+      "worker_id": "w6",
+      "scene_ids": [
+        "scene_6",
+        "scene_7"
+      ],
+      "scenes": {
+        "scene_6": {
+          "start_s": 30,
+          "effects": [
+            "svg-path-draw",
+            "svg-icon-enrichment",
+            "sine-wave-loop"
+          ],
+          "rule_paths": [
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/svg-path-draw.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/svg-icon-enrichment.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/sine-wave-loop.md"
+          ],
+          "assetCandidates": [],
+          "estimatedDuration_s": 6,
+          "voicePath": "",
+          "wordsPath": "",
+          "design_chunks": {
+            "tokens_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/tokens.css",
+            "easings_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/easings.js",
+            "voice_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/voice.md",
+            "hints_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/composition-hints.md",
+            "type_roles_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/type-roles.md",
+            "components": [
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/chip.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/divider-loud.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/hero.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/paper-grain-overlay.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pill-yes.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pinned-card.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/process-step.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/quote-panel.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/safety-pin.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/scribble-note.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stamp.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stat-counter.html"
+            ]
+          },
+          "creative_brief": "Electrified awe, rhythm pulls back to a single breath. SVG ink-drawing register, centered composition with enormous negative space: a single open hand, drawn in thick ink strokes via `svg-path-draw` starting from the wrist and revealing to the fingertips over ~2.5s, occupies the center 45% of the canvas. `svg-icon-enrichment` adds a subtle pulse in the palm — an ink-ring radiating outward at ~3.0s, suggesting the moment of contact. **Stillness-before-climax:** at ~2.5s the hand is fully drawn; 0.65s of silence holds before the marginal scribble appears (\"no glove / 1987\") in Caveat voice at the lower right. Mono dateline eyebrow: \"AIDS WARD / APRIL 1987.\" Macro motion: slow drift — the camera barely moves, holding the hand as the subject. `sine-wave-loop` keeps only the ink-ring breathing ±1%. Eye follows the hand as it morphs open toward the crowd in Scene 7 (continue seam).\n\n",
+          "local_start_s": 0,
+          "visual_id": "group_w6"
+        },
+        "scene_7": {
+          "start_s": 36,
+          "effects": [
+            "center-outward-expansion",
+            "svg-path-draw",
+            "sine-wave-loop"
+          ],
+          "rule_paths": [
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/center-outward-expansion.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/svg-path-draw.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/sine-wave-loop.md"
+          ],
+          "assetCandidates": [],
+          "estimatedDuration_s": 10.752,
+          "voicePath": "",
+          "wordsPath": "",
+          "design_chunks": {
+            "tokens_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/tokens.css",
+            "easings_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/easings.js",
+            "voice_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/voice.md",
+            "hints_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/composition-hints.md",
+            "type_roles_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/type-roles.md",
+            "components": [
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/chip.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/divider-loud.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/hero.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/paper-grain-overlay.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pill-yes.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pinned-card.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/process-step.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/quote-panel.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/safety-pin.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/scribble-note.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stamp.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stat-counter.html"
+            ]
+          },
+          "creative_brief": "Dawning recognition, rhythm expands — the single hand becomes a field. SVG + abstract graphics register, layered-depth composition: the open hand from Scene 6 persists at center, and `center-outward-expansion` drives a cluster of smaller ink-figure silhouettes outward from it — a crowd reaching back, distributed on the canvas at varying scales and opacities to create depth (larger-closer, smaller-farther). `svg-path-draw` traces connecting dashed lines between hand and figures as they land, one arc at a time, like a network diagram being drawn live. Macro motion: slow push-in on the scene root — the crowd expands as the camera moves toward it. `sine-wave-loop` keeps the crowd cluster drifting ±2px as a single correlated mass. Mono eyebrow: \"CONSENT THE CROWN COULDN'T MANUFACTURE.\" At handoff (~6.5s): figures are fully landed at final positions, hand sits at center, dashed arcs are fully traced — ready for the break into Scene 8.\n\n",
+          "local_start_s": 6,
+          "visual_id": "group_w6"
+        }
+      },
+      "start_s": 30,
+      "duration_s": 16.752,
+      "composition_id": "group_w6",
+      "composition_file": "compositions/group_w6.html",
+      "kind": "group"
+    },
+    {
+      "worker_id": "w7",
+      "scene_ids": [
+        "scene_8"
+      ],
+      "scenes": {
+        "scene_8": {
+          "start_s": 46.752,
+          "effects": [
+            "3d-text-depth-layers",
+            "asr-keyword-glow",
+            "card-morph-anchor"
+          ],
+          "rule_paths": [
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/3d-text-depth-layers.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/asr-keyword-glow.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/card-morph-anchor.md"
+          ],
+          "assetCandidates": [],
+          "estimatedDuration_s": 7,
+          "voicePath": "",
+          "wordsPath": "",
+          "design_chunks": {
+            "tokens_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/tokens.css",
+            "easings_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/easings.js",
+            "voice_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/voice.md",
+            "hints_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/composition-hints.md",
+            "type_roles_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/type-roles.md",
+            "components": [
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/chip.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/divider-loud.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/hero.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/paper-grain-overlay.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pill-yes.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pinned-card.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/process-step.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/quote-panel.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/safety-pin.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/scribble-note.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stamp.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stat-counter.html"
+            ]
+          },
+          "creative_brief": "Fierce exhilaration, sudden and sharp — the silence that buries a story. Kinetic typography + abstract graphics, rule-of-thirds composition: a bold ink-silhouette dress figure is anchored at the upper-left third intersection, occupying ~45% of canvas height. `card-morph-anchor` morphs the silhouette's bounding card from a collapsed headline strip. Tabloid-style strip labels frame the figure — three horizontal ink-band strips (top: \"JUNE 1994\"; left: \"CHARLES ADMITS\"; right: \"DIANA STEPS OUT\") — text set in display tier with tight tracking, heavy weight. `3d-text-depth-layers` gives depth to the key word \"OUT\" — the word that wins. `asr-keyword-glow` pulses \"erased\" and \"front pages\" as the narration passes them (crimson accent flash, then returns to ink). Macro motion: slow drift. No secondary live element beyond the glow pulse. Eye exits toward the classified-file slide right.\n\n",
+          "local_start_s": 0,
+          "visual_id": "scene_8"
+        }
+      },
+      "start_s": 46.752,
+      "duration_s": 7,
+      "composition_id": "scene_8",
+      "composition_file": "compositions/scene_8.html",
+      "kind": "scene"
+    },
+    {
+      "worker_id": "w8",
+      "scene_ids": [
+        "scene_9"
+      ],
+      "scenes": {
+        "scene_9": {
+          "start_s": 53.752,
+          "effects": [
+            "svg-path-draw",
+            "discrete-text-sequence",
+            "sine-wave-loop"
+          ],
+          "rule_paths": [
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/svg-path-draw.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/discrete-text-sequence.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/sine-wave-loop.md"
+          ],
+          "assetCandidates": [],
+          "estimatedDuration_s": 6,
+          "voicePath": "",
+          "wordsPath": "",
+          "design_chunks": {
+            "tokens_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/tokens.css",
+            "easings_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/easings.js",
+            "voice_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/voice.md",
+            "hints_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/composition-hints.md",
+            "type_roles_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/type-roles.md",
+            "components": [
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/chip.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/divider-loud.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/hero.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/paper-grain-overlay.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pill-yes.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pinned-card.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/process-step.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/quote-panel.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/safety-pin.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/scribble-note.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stamp.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stat-counter.html"
+            ]
+          },
+          "creative_brief": "Conspiratorial thrill — a diagram drawn in secret. Diagram/schematic register, asymmetric 60/40 composition: a spy-file folder schematic drawn via `svg-path-draw` opens on the left 60% — folder cover, then inside reveals a cassette tape sketch (two reels connected by a tape path drawn live), then three handwritten labels appear on the tape (\"Session 1,\" \"Session 2,\" \"SMUGGLED\"). Right 40% holds a route diagram: a dashed-line path from a palace silhouette outline (hairlines) to a bicycle icon (ink mark) to an open book/pages (the author). `discrete-text-sequence` pulses a secondary text strip cycling: \"PALACE → BASKET → AUTHOR.\" Macro motion: slow dolly-in on the scene root. `sine-wave-loop` keeps the cassette reels rotating — the single live element within the drawing. Stamp in top-right: \"CLASSIFIED / RECEIVED\" rotated −4°. Eye exits via push-slide into the ink-splash opening of Scene 10.\n\n",
+          "local_start_s": 0,
+          "visual_id": "scene_9"
+        }
+      },
+      "start_s": 53.752,
+      "duration_s": 6,
+      "composition_id": "scene_9",
+      "composition_file": "compositions/scene_9.html",
+      "kind": "scene"
+    },
+    {
+      "worker_id": "w9",
+      "scene_ids": [
+        "scene_10"
+      ],
+      "scenes": {
+        "scene_10": {
+          "start_s": 59.752,
+          "effects": [
+            "scale-swap-transition",
+            "asr-keyword-glow",
+            "sine-wave-loop"
+          ],
+          "rule_paths": [
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/scale-swap-transition.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/asr-keyword-glow.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/sine-wave-loop.md"
+          ],
+          "assetCandidates": [],
+          "estimatedDuration_s": 6,
+          "voicePath": "",
+          "wordsPath": "",
+          "design_chunks": {
+            "tokens_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/tokens.css",
+            "easings_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/easings.js",
+            "voice_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/voice.md",
+            "hints_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/composition-hints.md",
+            "type_roles_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/type-roles.md",
+            "components": [
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/chip.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/divider-loud.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/hero.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/paper-grain-overlay.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pill-yes.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pinned-card.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/process-step.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/quote-panel.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/safety-pin.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/scribble-note.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stamp.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stat-counter.html"
+            ]
+          },
+          "creative_brief": "Unsettled complexity — the same face in fragments, no single reading. Layered abstract graphics, triptych composition: three equal-width panels each carry a different ink rendering of the same abstract face-silhouette (a Rorschach-style ink-blot structure, same base shape, rotated and mirrored). `scale-swap-transition` drives each panel entering — the center panel first (scale in), then left and right (coordinated shrink-in/spring-out from center outward). `asr-keyword-glow` pulses the key term \"canvas\" in the eyebrow chip at ~3.5s — brand-primary glow, soft. Below each panel, a short label in mono uppercase: \"THE ESTABLISHMENT\" / \"THE MARGINALIZED\" / \"THE MIRROR.\" Macro motion: slow drift, all three panels correlated. `sine-wave-loop` keeps only the center panel breathing ±1% — the focal point. No accent on the panels themselves — the labels do the semantic work. Eye exits clean into the stark cut of Scene 11.\n\n",
+          "local_start_s": 0,
+          "visual_id": "scene_10"
+        }
+      },
+      "start_s": 59.752,
+      "duration_s": 6,
+      "composition_id": "scene_10",
+      "composition_file": "compositions/scene_10.html",
+      "kind": "scene"
+    },
+    {
+      "worker_id": "w10",
+      "scene_ids": [
+        "scene_11"
+      ],
+      "scenes": {
+        "scene_11": {
+          "start_s": 65.752,
+          "effects": [
+            "svg-path-draw",
+            "3d-text-depth-layers",
+            "sine-wave-loop"
+          ],
+          "rule_paths": [
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/svg-path-draw.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/3d-text-depth-layers.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/sine-wave-loop.md"
+          ],
+          "assetCandidates": [],
+          "estimatedDuration_s": 7,
+          "voicePath": "",
+          "wordsPath": "",
+          "design_chunks": {
+            "tokens_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/tokens.css",
+            "easings_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/easings.js",
+            "voice_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/voice.md",
+            "hints_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/composition-hints.md",
+            "type_roles_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/type-roles.md",
+            "components": [
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/chip.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/divider-loud.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/hero.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/paper-grain-overlay.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pill-yes.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pinned-card.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/process-step.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/quote-panel.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/safety-pin.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/scribble-note.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stamp.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stat-counter.html"
+            ]
+          },
+          "creative_brief": "Grief turning to vindication — a single object as argument. Kinetic typography + abstract graphics, centered composition with extreme negative space: a single ink flagpole drawn vertically via `svg-path-draw` from base to top over ~1.5s, flag-end bare, halts. The pole occupies 15% of canvas width, centered, with the empty flag-end suggesting absence without labeling it. Below the pole, a one-word display-tier statement enters in three-layer offset shadow via `3d-text-depth-layers`: \"CRUELTY.\" — the word the public read in the empty flagpole. **Stillness-before-climax:** at ~4.5s, after \"CRUELTY.\" lands, 0.6s of silence holds before the counter-statement arrives: a smaller body-tier line beneath — \"Queen breaks protocol. Grief. Public.\" — entering on `EASE.entry`. Macro motion: slow push-in on the scene root, barely perceptible. `sine-wave-loop` keeps only the pole itself drifting ±1.5px — alone, upright, still. Eye exits into the zoom-out of Scene 12.\n\n",
+          "local_start_s": 0,
+          "visual_id": "scene_11"
+        }
+      },
+      "start_s": 65.752,
+      "duration_s": 7,
+      "composition_id": "scene_11",
+      "composition_file": "compositions/scene_11.html",
+      "kind": "scene"
+    },
+    {
+      "worker_id": "w11",
+      "scene_ids": [
+        "scene_12"
+      ],
+      "scenes": {
+        "scene_12": {
+          "start_s": 72.752,
+          "effects": [
+            "center-outward-expansion",
+            "asr-keyword-glow",
+            "svg-path-draw"
+          ],
+          "rule_paths": [
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/center-outward-expansion.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/asr-keyword-glow.md",
+            "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/svg-path-draw.md"
+          ],
+          "assetCandidates": [],
+          "estimatedDuration_s": 7,
+          "voicePath": "",
+          "wordsPath": "",
+          "design_chunks": {
+            "tokens_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/tokens.css",
+            "easings_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/easings.js",
+            "voice_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/voice.md",
+            "hints_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/composition-hints.md",
+            "type_roles_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/type-roles.md",
+            "components": [
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/chip.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/divider-loud.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/hero.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/paper-grain-overlay.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pill-yes.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pinned-card.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/process-step.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/quote-panel.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/safety-pin.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/scribble-note.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stamp.html",
+              "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stat-counter.html"
+            ]
+          },
+          "creative_brief": "Haunted recognition — all the sketches connect, and the playbook is still running. Data-viz / kinetic typography, layered-depth composition: opens on a wide view suggesting a notebook spread — all 11 prior visual motifs represented as small thumbnail sketches at varying positions across the canvas (drawn via `svg-path-draw` in staggered sequence, total stagger ~450ms), connecting to each other with hairline dashed arcs. `center-outward-expansion` drives the arc-lines radiating outward from a central node labeled \"THE BLUEPRINT.\" At ~4.5s, `asr-keyword-glow` pulses the words \"playbook\" and \"still running\" in the hero headline — display tier, centered, brand-accent (crimson) flash only here, last accent beat in the film. Macro motion: slow pull-back (counter of the zoom-through transition), revealing the whole map. The final frame: notebook map fully drawn, headline centered, a closing ink stamp \"WRITTEN IN BLOOD\" rotated −4° at lower-right. No secondary live element after the arc-draw completes — settle and hold for the final 2s.\n",
+          "local_start_s": 0,
+          "visual_id": "scene_12"
+        }
+      },
+      "start_s": 72.752,
+      "duration_s": 7,
+      "composition_id": "scene_12",
+      "composition_file": "compositions/scene_12.html",
+      "kind": "scene"
+    }
+  ],
+  "visual_clips": [
+    {
+      "id": "scene_1",
+      "file": "compositions/scene_1.html",
+      "kind": "scene",
+      "worker_id": "w1",
+      "scene_ids": [
+        "scene_1"
+      ],
+      "start_s": 0,
+      "duration_s": 5
+    },
+    {
+      "id": "scene_2",
+      "file": "compositions/scene_2.html",
+      "kind": "scene",
+      "worker_id": "w2",
+      "scene_ids": [
+        "scene_2"
+      ],
+      "start_s": 5,
+      "duration_s": 6
+    },
+    {
+      "id": "scene_3",
+      "file": "compositions/scene_3.html",
+      "kind": "scene",
+      "worker_id": "w3",
+      "scene_ids": [
+        "scene_3"
+      ],
+      "start_s": 11,
+      "duration_s": 7
+    },
+    {
+      "id": "scene_4",
+      "file": "compositions/scene_4.html",
+      "kind": "scene",
+      "worker_id": "w4",
+      "scene_ids": [
+        "scene_4"
+      ],
+      "start_s": 18,
+      "duration_s": 6
+    },
+    {
+      "id": "scene_5",
+      "file": "compositions/scene_5.html",
+      "kind": "scene",
+      "worker_id": "w5",
+      "scene_ids": [
+        "scene_5"
+      ],
+      "start_s": 24,
+      "duration_s": 6
+    },
+    {
+      "id": "group_w6",
+      "file": "compositions/group_w6.html",
+      "kind": "group",
+      "worker_id": "w6",
+      "scene_ids": [
+        "scene_6",
+        "scene_7"
+      ],
+      "start_s": 30,
+      "duration_s": 16.752
+    },
+    {
+      "id": "scene_8",
+      "file": "compositions/scene_8.html",
+      "kind": "scene",
+      "worker_id": "w7",
+      "scene_ids": [
+        "scene_8"
+      ],
+      "start_s": 46.752,
+      "duration_s": 7
+    },
+    {
+      "id": "scene_9",
+      "file": "compositions/scene_9.html",
+      "kind": "scene",
+      "worker_id": "w8",
+      "scene_ids": [
+        "scene_9"
+      ],
+      "start_s": 53.752,
+      "duration_s": 6
+    },
+    {
+      "id": "scene_10",
+      "file": "compositions/scene_10.html",
+      "kind": "scene",
+      "worker_id": "w9",
+      "scene_ids": [
+        "scene_10"
+      ],
+      "start_s": 59.752,
+      "duration_s": 6
+    },
+    {
+      "id": "scene_11",
+      "file": "compositions/scene_11.html",
+      "kind": "scene",
+      "worker_id": "w10",
+      "scene_ids": [
+        "scene_11"
+      ],
+      "start_s": 65.752,
+      "duration_s": 7
+    },
+    {
+      "id": "scene_12",
+      "file": "compositions/scene_12.html",
+      "kind": "scene",
+      "worker_id": "w11",
+      "scene_ids": [
+        "scene_12"
+      ],
+      "start_s": 72.752,
+      "duration_s": 7
+    }
+  ],
+  "scene_to_visual": {
+    "scene_1": "scene_1",
+    "scene_2": "scene_2",
+    "scene_3": "scene_3",
+    "scene_4": "scene_4",
+    "scene_5": "scene_5",
+    "scene_6": "group_w6",
+    "scene_7": "group_w6",
+    "scene_8": "scene_8",
+    "scene_9": "scene_9",
+    "scene_10": "scene_10",
+    "scene_11": "scene_11",
+    "scene_12": "scene_12"
+  },
+  "internal_seams": [
+    {
+      "from_scene": "scene_6",
+      "to_scene": "scene_7",
+      "visual_id": "group_w6",
+      "worker_id": "w6",
+      "global_time_s": 36,
+      "local_time_s": 6,
+      "is_break": false
+    }
+  ],
+  "transitions": [
+    {
+      "from": "scene_1",
+      "to": "scene_2",
+      "from_scene": "scene_1",
+      "to_scene": "scene_2",
+      "type": "push-slide",
+      "direction": "RIGHT",
+      "duration_s": 0.5,
+      "tier": "b",
+      "is_break": true,
+      "bridge_id": null,
+      "from_worker": "w1",
+      "to_worker": "w2"
+    },
+    {
+      "from": "scene_2",
+      "to": "scene_3",
+      "from_scene": "scene_2",
+      "to_scene": "scene_3",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "is_break": true,
+      "bridge_id": null,
+      "from_worker": "w2",
+      "to_worker": "w3"
+    },
+    {
+      "from": "scene_3",
+      "to": "scene_4",
+      "from_scene": "scene_3",
+      "to_scene": "scene_4",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "is_break": true,
+      "bridge_id": null,
+      "from_worker": "w3",
+      "to_worker": "w4"
+    },
+    {
+      "from": "scene_4",
+      "to": "scene_5",
+      "from_scene": "scene_4",
+      "to_scene": "scene_5",
+      "type": "zoom-through",
+      "direction": null,
+      "duration_s": 0.4,
+      "tier": "b",
+      "is_break": true,
+      "bridge_id": null,
+      "from_worker": "w4",
+      "to_worker": "w5"
+    },
+    {
+      "from": "scene_5",
+      "to": "group_w6",
+      "from_scene": "scene_5",
+      "to_scene": "scene_6",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "is_break": true,
+      "bridge_id": null,
+      "from_worker": "w5",
+      "to_worker": "w6"
+    },
+    {
+      "from": "group_w6",
+      "to": "scene_8",
+      "from_scene": "scene_7",
+      "to_scene": "scene_8",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "is_break": true,
+      "bridge_id": null,
+      "from_worker": "w6",
+      "to_worker": "w7"
+    },
+    {
+      "from": "scene_8",
+      "to": "scene_9",
+      "from_scene": "scene_8",
+      "to_scene": "scene_9",
+      "type": "push-slide",
+      "direction": "LEFT",
+      "duration_s": 0.5,
+      "tier": "b",
+      "is_break": true,
+      "bridge_id": null,
+      "from_worker": "w7",
+      "to_worker": "w8"
+    },
+    {
+      "from": "scene_9",
+      "to": "scene_10",
+      "from_scene": "scene_9",
+      "to_scene": "scene_10",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "is_break": true,
+      "bridge_id": null,
+      "from_worker": "w8",
+      "to_worker": "w9"
+    },
+    {
+      "from": "scene_10",
+      "to": "scene_11",
+      "from_scene": "scene_10",
+      "to_scene": "scene_11",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "is_break": true,
+      "bridge_id": null,
+      "from_worker": "w9",
+      "to_worker": "w10"
+    },
+    {
+      "from": "scene_11",
+      "to": "scene_12",
+      "from_scene": "scene_11",
+      "to_scene": "scene_12",
+      "type": "zoom-through",
+      "direction": null,
+      "duration_s": 0.4,
+      "tier": "b",
+      "is_break": true,
+      "bridge_id": null,
+      "from_worker": "w10",
+      "to_worker": "w11"
+    }
+  ],
+  "sfx": [
+    {
+      "file": "impact-bass-1.mp3",
+      "t": 0.3,
+      "duration": 2.12,
+      "volume": 0.4,
+      "scene_id": "scene_1",
+      "t_local": 0.3,
+      "note": "hero number \"19\" slams onto the page"
+    },
+    {
+      "file": "impact-bass-2.mp3",
+      "t": 18.4,
+      "duration": 2.59,
+      "volume": 0.45,
+      "scene_id": "scene_4",
+      "t_local": 0.4,
+      "note": "THE FIRM stamp lands"
+    },
+    {
+      "file": "chime.mp3",
+      "t": 32.8,
+      "duration": 2.5,
+      "volume": 0.3,
+      "scene_id": "scene_6",
+      "t_local": 2.8,
+      "note": "the hand fully extends; the stillness-before-climax holds"
+    },
+    {
+      "file": "ping.mp3",
+      "t": 47.252,
+      "duration": 1.32,
+      "volume": 0.4,
+      "scene_id": "scene_8",
+      "t_local": 0.5,
+      "note": "bold silhouette snaps into frame"
+    },
+    {
+      "file": "whoosh-cinematic.mp3",
+      "t": 65.752,
+      "duration": 5.54,
+      "volume": 0.25,
+      "scene_id": "scene_11",
+      "t_local": 0,
+      "note": "cinematic swell rising through the scene"
+    },
+    {
+      "file": "impact-bass-1.mp3",
+      "t": 65.852,
+      "duration": 2.12,
+      "volume": 0.35,
+      "scene_id": "scene_11",
+      "t_local": 0.1,
+      "note": "the bare pole appears on the cut"
+    }
+  ]
+}

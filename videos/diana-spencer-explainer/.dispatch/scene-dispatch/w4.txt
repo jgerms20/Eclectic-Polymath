@@ -1,0 +1,168 @@
+## Film direction
+**Palette:** 60% warm paper base (canvas) / 30% hairline rules + repeated canvas layering (no surface token — this preset layers with hairlines) / 10% accent: brand-primary (ink blue) carries hero words, active diagram elements, and the critical stamp beats; brand-accent (crimson) reserved as a single flash for defiance moments only. Deco-4 pink and deco-3 cyan appear as rare particle scribbles only — never as fills.
+
+**Type:** Display tier = hero thesis words and scene-defining terms only. Mono uppercase with wide tracking = eyebrows, datelines, catalog tags (voice: "FIELD REPORT / 1917 / JUNE 1994"). Body = card copy, step labels, supporting context in sentence case. Scribble (Caveat voice) = marginal annotations, one handwritten aside per scene. Hero vs. eyebrow = four-dimensional contrast: size + weight + case + spacing.
+
+**Motion:** Entries on `EASE.entry` (heavy intent for hero words and diagram panels; snappy for chips and pills). Idle on `EASE.drift` at the subtle floor (±2-3 px / ±1-2% scale, 2.5-4s cycle). Exits: scenes hold the final frame (no exit tweens — harness handles Tier-B clip transitions). Budget: ONE root-level macro camera move per scene (slow dolly-in or slow drift) + at most one breathing hero as the secondary live slot; everything else rests.
+
+**Ambient:** Full-bleed paper-grain overlay (from `paper-grain-overlay` component) on every scene — this is the atmospheric constant. No mesh gradients, no dual-radial swell, no scanlines, no halftone on top of it. Paper is the ground.
+
+**Never (film-wide):** No mesh gradients, no bokeh, no purple-blue AI gradients, no neon-on-black, no glow bloom. No counter-rotation to 0° on tilted elements — the off-axis tilt is the system's identity. No bounce or elastic easings.
+
+**Transitions:** Two Tier-B types only: `blur-crossfade` (default — warm backgrounds are close but the emotional shift is large) and `push-slide` (forward narrative momentum moments).
+
+**Stillness-before-climax:** Scenes 6 and 11 only — the ungloved hand reveal and the empty flagpole rupture both earn the dramatic comma.
+
+**Register mix:** Scenes 1/4/8/11/12 = kinetic typography + abstract graphics. Scenes 2/9 = diagram/schematic (family tree, spy-file map). Scenes 3/5/10 = layered abstract graphics with pinned-card clusters. Scenes 6/7 = SVG-led ink-drawing register. Scene 12 = data-viz overview + kinetic type. No captured assets (assetCandidates all empty).
+## Tokens/easings/voice
+:root {
+  --brand-primary:   #1F3A8A;
+  --brand-secondary: #C9A66B;
+  --brand-tertiary:  #000000;
+  --brand-accent:    #C2342B;
+  --brand-costume:   #F8F1D6;
+  --ink:             #1F3A8A;
+  --canvas:          #EFE56A;
+  --brand-gradient:  linear-gradient(135deg, #1F3A8A 0%, #C9A66B 50%, #C2342B 100%);
+  --deco-1:          #F7CB46;
+  --deco-2:          #99E885;
+  --deco-3:          #C0F7FE;
+  --deco-4:          #FE90E8;
+  --font-display:    'Space Grotesk', system-ui, sans-serif;
+  --font-body:       'Space Grotesk', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono:       'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --anchor-paper-yellow: #efe56a; /* saturated cadmium yellow — the page */
+  --anchor-cream: #f8f1d6; /* off-white ivory — the cards */
+  --surface-paper: color-mix(in srgb, var(--brand-primary) 6%, var(--anchor-paper-yellow));
+  --surface-paper-2: color-mix(
+  in srgb,
+  var(--brand-primary) 4%,
+  color-mix(in srgb, var(--anchor-paper-yellow) 70%, white)
+);
+  --surface-paper-3: color-mix(
+  in srgb,
+  var(--brand-primary) 8%,
+  color-mix(in srgb, var(--anchor-paper-yellow) 85%, black 8%)
+);
+  --surface-cream: color-mix(in srgb, var(--brand-primary) 4%, var(--anchor-cream));
+  --shadow-pin-compact: 4px 5px 0 0 var(--brand-primary);
+  --shadow-pin-standard: 5px 6px 0 0 var(--brand-primary);
+  --shadow-pin-hero: 8px 9px 0 0 var(--brand-primary);
+  --border-hairline: 1.5px solid var(--brand-primary);
+  --border-dashed: 1.5px dashed color-mix(in srgb, var(--brand-primary) 45%, transparent);
+  --border-stamp: 3px solid var(--brand-accent);
+  --radius-card: 4px;
+  --radius-pill: 999px;
+  --pad-edge: 64px;
+  --pad-top: 110px;
+  --pad-bottom: 90px;
+  --card-pad: 28px;
+  --card-pad-lg: 36px 28px 28px;
+  --gap-card-sm: 22px;
+  --gap-card-md: 28px;
+  --gap-card-lg: 32px;
+  --tilt-pin: -10deg;
+  --tilt-pin-alt: 14deg;
+  --tilt-card-askew: 0.9deg;
+  --tilt-scribble: -2deg;
+  --tilt-stamp: -4deg;
+  --paper-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.45  0 0 0 0 0.2  0 0 0 .25 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+const EASE = {
+  entry: "power2.out", // soft arrival, no overshoot — paper settling onto the page
+  emphasis: "power3.out", // a touch more authority on pin-reveal / stamp-slam beats
+  exit: "power2.in", // calm departure, no acceleration spike
+  drift: "sine.inOut", // ambient pin / scribble tilt drift
+};
+const DUR = {
+  snap: 0.18,
+  med: 0.5,
+  slow: 0.95,
+};
+// RULE: never back.out / elastic / bounce — the field-notebook register is
+//       quiet and considered. Overshoot breaks the "paper settling" feel.
+// RULE: pin illustrations and stamps may rotate within ±2° on entry — never
+//       counter-rotate to 0°. The off-axis tilt is the system's identity.
+// RULE: scene transitions are short cross-dissolves (DUR.med). NEVER slide,
+//       wipe, or zoom — they read as digital chrome and break the paper aesthetic.
+// RULE: scribble entries should write-on (clip-path reveal left→right) at
+//       DUR.med with EASE.entry. Don't fade — fade is for printed type.
+# Voice register: pin-and-paper
+
+## From the site (DNA)
+- Tone: warm
+- Heading style: Sentence case
+
+## Transform recipe
+
+Take the brand's product description / value prop. Transform with:
+
+1. Hero headlines: 2–5 words, mixed case (NOT uppercase), Space Grotesk 700 with negative letter-spacing. Period optional — the cover behaves like a book title.
+2. Top-chrome lockups, dates, source attributions: DM Mono UPPERCASE with 0.12–0.18em tracking. Terse, indexical — pretend it's a catalog-card tag.
+3. Stamps: UPPERCASE DM Mono, 1–2 words ("CONFIDENTIAL", "RECEIVED", "DRAFT 04"). Always rotated −4°.
+4. Marginal notes (Caveat scribble): sentence case, 4–10 words, conversational. This is the "me" voice — write as if annotating someone else's document. Use `<span class="pp-underline">word</span>` for hand-drawn underline emphasis.
+5. Step numerals: Caveat hand-script (1, 2, 3 — not "Step 1"). The script numeral is the system's ordering voice; never substitute a numeric font.
+6. Card bodies: Space Grotesk sentence case, terse, full sentences. Never set body in Caveat — the script is for marginal notes, never paragraphs.
+
+**Example:**
+
+- IN: `Figma helps teams design products collaboratively in real time`
+- OUT: hero=`Designed together.` / chip=`FIELD REPORT 04` / stamp=`RECEIVED` / margin-note=`finally — one canvas, everyone home`
+
+> Phase 4b scene workers: apply to DOM text only (headline / chip / button copy).
+> Phase 2 narrator scripts are TTS-bound — do NOT uppercase or strip articles.
+
+
+## Worker context
+Worker ID: w4
+Composition ID: scene_4
+Composition file: compositions/scene_4.html
+Composition width: 1920
+Composition height: 1080
+Duration: 6s
+Captions: disabled
+
+## Scenes
+{
+  "scene_4": {
+    "start_s": 18,
+    "effects": [
+      "3d-text-depth-layers",
+      "discrete-text-sequence",
+      "svg-path-draw"
+    ],
+    "rule_paths": [
+      "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/3d-text-depth-layers.md",
+      "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/discrete-text-sequence.md",
+      "/home/user/Eclectic-Polymath/.agents/skills/hyperframes-animation/rules/svg-path-draw.md"
+    ],
+    "assetCandidates": [],
+    "estimatedDuration_s": 6,
+    "voicePath": "",
+    "wordsPath": "",
+    "design_chunks": {
+      "tokens_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/tokens.css",
+      "easings_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/easings.js",
+      "voice_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/voice.md",
+      "hints_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/composition-hints.md",
+      "type_roles_file": "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/type-roles.md",
+      "components": [
+        "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/chip.html",
+        "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/divider-loud.html",
+        "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/hero.html",
+        "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/paper-grain-overlay.html",
+        "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pill-yes.html",
+        "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/pinned-card.html",
+        "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/process-step.html",
+        "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/quote-panel.html",
+        "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/safety-pin.html",
+        "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/scribble-note.html",
+        "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stamp.html",
+        "/home/user/Eclectic-Polymath/videos/diana-spencer-explainer/design-system/chunks/components/stat-counter.html"
+      ]
+    },
+    "creative_brief": "Cold clarity, institutional snap. Kinetic typography + abstract graphics register, centered composition: a massive display-tier headline \"THE FIRM\" stamps onto the paper with a three-layer ink-shadow (`3d-text-depth-layers`), rotated −4° in the stamp aesthetic. A crimson border-stamp rectangle frames it (brand-accent, single flash). `discrete-text-sequence` cycles three alternate identities below — \"Wealth preservation,\" \"Image control,\" \"Zero tolerance\" — each replacing the last, machine-gun rhythm. `svg-path-draw` traces a sparse org-chart below the stamp at ~3.5s: three boxes on a hairline hierarchy connected to one block at top labeled THE FIRM. Macro motion: slow push-in on the scene root. No secondary live element — the stamp commands the frame. Eye exits clean into the next cut.\n\n",
+    "local_start_s": 0,
+    "visual_id": "scene_4"
+  }
+}
