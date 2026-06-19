@@ -1,0 +1,18 @@
+## init [done]
+Project: diana-spencer-portrait
+Orientation: portrait (9:16, 1080x1920)
+Source: narrator_scripts.json copied from landscape version with orientation changed
+
+## scriptwriting [done - reused from landscape]
+Structure: story-explainer with concept-explainer
+Style: pin-and-paper
+Orientation: portrait
+Scenes: 12, total ~76s
+
+## audio [done - no TTS]
+TTS: none (user will overlay podcast audio)
+BGM: none
+
+## Phase 3: visual-design [done 2026-06-19T10:43:56Z]
+Scenes: 12
+Notes: pin-and-paper portrait; kinetic-type/diagram/abstract-graphics mix; blur-crossfade + push-slide transitions; stillness-before-climax on scenes 6 + 11; morph continue-run on scenes 6→7
