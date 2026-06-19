@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&family=Caveat:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --canvas: #F5E6C8;
+      --brand-primary: #1A2E4A;
+      --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23grain)' opacity='0.04'/%3E%3C/svg%3E");
+      --shadow-pin-standard: 2px 4px 12px rgba(26,46,74,0.18);
+    }
+    html, body {
+      margin: 0; padding: 0;
+      width: 1080px; height: 1920px;
+      overflow: hidden;
+      background: var(--canvas);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    #root {
+      position: relative;
+      width: 1080px; height: 1920px;
+      overflow: hidden;
+      background: var(--canvas);
+    }
+    #root::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: var(--paper-grain);
+      pointer-events: none;
+      z-index: 999;
+    }
+    .camera {
+      position: absolute; inset: 0;
+      width: 1080px; height: 1920px;
+      transform-origin: center top;
+    }
+    .left-col {
+      position: absolute;
+      left: 80px;
+      top: 260px;
+      width: 580px;
+    }
+    .hero-phrase {
+      display: block;
+      font-weight: 900;
+      color: #1A2E4A;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+    .right-card {
+      position: absolute;
+      right: 40px;
+      top: 640px;
+      width: 380px;
+      border: 1px solid rgba(26,46,74,0.25);
+      padding: 24px;
+      box-shadow: 2px 4px 12px rgba(26,46,74,0.18);
+      background: rgba(245,230,200,0.8);
+      transform: rotate(-2deg);
+      font-size: 28px;
+      font-weight: 400;
+      color: #1A2E4A;
+      line-height: 1.5;
+      opacity: 0;
+    }
+    #gravel-glow {
+      display: inline;
+    }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="scene-03" data-width="1080" data-height="1920">
+    <!-- Diary margin SVG line -->
+    <svg id="diary-line-svg" width="80" height="1920" style="position:absolute;left:0;top:0;z-index:1;">
+      <line id="diary-line" x1="60" y1="0" x2="60" y2="1920"
+            stroke="#1A2E4A" stroke-width="1" opacity="0.35"
+            stroke-dasharray="1920" stroke-dashoffset="1920"/>
+    </svg>
+
+    <div class="camera" id="camera">
+      <!-- Left column: stacked phrases -->
+      <div class="left-col">
+        <span class="hero-phrase clip" id="phrase-1" data-start="0" data-duration="7" data-track-index="2"
+              style="font-size:120px;opacity:0;">"unnamed"</span>
+        <span class="hero-phrase clip" id="phrase-2" data-start="0" data-duration="7" data-track-index="3"
+              style="font-size:80px;opacity:0.7;display:block;opacity:0;">/ one week</span>
+        <span class="hero-phrase clip" id="phrase-3" data-start="0" data-duration="7" data-track-index="4"
+              style="font-size:100px;opacity:0;">wanted a boy</span>
+        <span class="hero-phrase clip" id="phrase-4" data-start="0" data-duration="7" data-track-index="5"
+              style="font-size:70px;opacity:0;">footsteps on <span id="gravel-glow">gravel</span></span>
+      </div>
+
+      <!-- Right pinned card -->
+      <div class="right-card clip" id="right-card" data-start="0" data-duration="7" data-track-index="6">
+        She entered the marriage already broken. Abandoned by her mother. Boiling with unresolved rage.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    const tl = gsap.timeline({ paused: true });
+
+    // Diary line draw from top to bottom
+    tl.to("#diary-line", { strokeDashoffset: 0, duration: 1.5, ease: "power2.inOut" }, 0);
+
+    // Diary line idle breathing
+    tl.to("#diary-line", {
+      opacity: 0.5,
+      duration: 3,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1
+    }, 2.0);
+
+    // Hero phrases entry
+    tl.fromTo("#phrase-1",
+      { x: -30, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.7, ease: "power3.out" },
+      0.5
+    );
+    tl.fromTo("#phrase-2",
+      { x: -20, opacity: 0 },
+      { x: 0, opacity: 0.7, duration: 0.6, ease: "power3.out" },
+      1.0
+    );
+    tl.fromTo("#phrase-3",
+      { x: -25, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.65, ease: "power3.out" },
+      1.6
+    );
+    tl.fromTo("#phrase-4",
+      { opacity: 0 },
+      { opacity: 0.85, duration: 0.6, ease: "power3.out" },
+      2.3
+    );
+
+    // Right card entry
+    tl.fromTo("#right-card",
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+      2.0
+    );
+
+    // ASR glow on "gravel" at t=5s
+    tl.to("#gravel-glow", {
+      opacity: 0.6,
+      duration: 0.3,
+      ease: "power2.out",
+      yoyo: true,
+      repeat: 1
+    }, 5.0);
+
+    // Macro dolly-in from slight upward angle
+    tl.fromTo("#camera",
+      { y: 20, scale: 1.0 },
+      { y: 0, scale: 1.05, duration: 7, ease: "none" },
+      0
+    );
+
+    window.__timelines["scene-03"] = tl;
+  </script>
+</body>
+</html>

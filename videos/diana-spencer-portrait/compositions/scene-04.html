@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&family=Caveat:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --canvas: #F5E6C8;
+      --brand-primary: #1A2E4A;
+      --brand-accent: #C0392B;
+      --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23grain)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+    html, body {
+      margin: 0; padding: 0;
+      width: 1080px; height: 1920px;
+      overflow: hidden;
+      background: var(--canvas);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    #root {
+      position: relative;
+      width: 1080px; height: 1920px;
+      overflow: hidden;
+      background: var(--canvas);
+    }
+    #root::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: var(--paper-grain);
+      pointer-events: none;
+      z-index: 999;
+    }
+    .camera {
+      position: absolute; inset: 0;
+      width: 1080px; height: 1920px;
+      transform-origin: center center;
+    }
+    .stamp-hero {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-4deg);
+      font-size: 200px;
+      font-weight: 900;
+      color: #1A2E4A;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border: 6px solid #C0392B;
+      padding: 20px 50px;
+      background: var(--canvas);
+      white-space: nowrap;
+      opacity: 0;
+      z-index: 10;
+    }
+    .org-node {
+      position: absolute;
+      font-size: 28px;
+      font-weight: 600;
+      color: #1A2E4A;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1.5px solid #1A2E4A;
+      padding: 10px 20px;
+      background: var(--canvas);
+      opacity: 0;
+      white-space: nowrap;
+      z-index: 5;
+    }
+    /* Center the nodes initially at stamp center */
+    #node-wealth { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    #node-image  { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    #node-emotion{ top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="scene-04" data-width="1080" data-height="1920">
+    <!-- Connector lines SVG -->
+    <svg id="connector-svg" width="1080" height="1920" style="position:absolute;top:0;left:0;z-index:3;pointer-events:none;">
+      <!-- Line to top node (center ~540,960 → 540,680) -->
+      <line id="line-wealth" x1="540" y1="960" x2="540" y2="680"
+            stroke="#1A2E4A" stroke-width="1.5" stroke-dasharray="6 4"
+            opacity="0" />
+      <!-- Line to bottom-left (540,960 → 340,1160) -->
+      <line id="line-image" x1="540" y1="960" x2="340" y2="1160"
+            stroke="#1A2E4A" stroke-width="1.5" stroke-dasharray="6 4"
+            opacity="0" />
+      <!-- Line to bottom-right (540,960 → 740,1160) -->
+      <line id="line-emotion" x1="540" y1="960" x2="740" y2="1160"
+            stroke="#1A2E4A" stroke-width="1.5" stroke-dasharray="6 4"
+            opacity="0" />
+    </svg>
+
+    <div class="camera" id="camera">
+      <!-- Stamp hero -->
+      <div class="stamp-hero clip" id="stamp-firm" data-start="0" data-duration="6" data-track-index="1">THE FIRM</div>
+
+      <!-- Org nodes -->
+      <div class="org-node clip" id="node-wealth" data-start="0" data-duration="6" data-track-index="2">WEALTH PRESERVATION</div>
+      <div class="org-node clip" id="node-image" data-start="0" data-duration="6" data-track-index="3">IMAGE CONTROL</div>
+      <div class="org-node clip" id="node-emotion" data-start="0" data-duration="6" data-track-index="4">EMOTIONAL CONCEALMENT</div>
+    </div>
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    const tl = gsap.timeline({ paused: true });
+
+    // Stamp hero slam at t=0.2s
+    tl.fromTo("#stamp-firm",
+      { scale: 2.0, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.35, ease: "power4.out" },
+      0.2
+    );
+
+    // Connector lines appear
+    tl.to("#line-wealth", { opacity: 0.7, duration: 0.4, ease: "power2.out" }, 0.7);
+    tl.to("#line-image",  { opacity: 0.7, duration: 0.4, ease: "power2.out" }, 0.9);
+    tl.to("#line-emotion",{ opacity: 0.7, duration: 0.4, ease: "power2.out" }, 1.1);
+
+    // Org nodes expand outward from center
+    // Node: WEALTH PRESERVATION → up (y: -280px)
+    tl.fromTo("#node-wealth",
+      { x: 0, y: 0, opacity: 0 },
+      { x: 0, y: -280, opacity: 1, duration: 0.5, ease: "power3.out" },
+      0.7
+    );
+    // Node: IMAGE CONTROL → bottom-left (y: +200, x: -200)
+    tl.fromTo("#node-image",
+      { x: 0, y: 0, opacity: 0 },
+      { x: -200, y: 200, opacity: 1, duration: 0.5, ease: "power3.out" },
+      0.9
+    );
+    // Node: EMOTIONAL CONCEALMENT → bottom-right (y: +200, x: +200)
+    tl.fromTo("#node-emotion",
+      { x: 0, y: 0, opacity: 0 },
+      { x: 200, y: 200, opacity: 1, duration: 0.5, ease: "power3.out" },
+      1.1
+    );
+
+    // Stamp breathing sine wave after t=1s
+    tl.to("#stamp-firm", {
+      scale: 1.01,
+      duration: 2.5,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1
+    }, 1.0);
+
+    // Macro: camera pull-back (start close, reveal org structure)
+    tl.fromTo("#camera",
+      { scale: 1.1 },
+      { scale: 1.0, duration: 5, ease: "power1.inOut" },
+      0
+    );
+
+    window.__timelines["scene-04"] = tl;
+  </script>
+</body>
+</html>
