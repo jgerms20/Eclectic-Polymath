@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1920, height=1080" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&family=Caveat:wght@400;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <style>
       * {
@@ -10,21 +13,47 @@
         padding: 0;
         box-sizing: border-box;
       }
-      html,
-      body {
+      :root {
+        --canvas: #F5E6C8;
+        --anchor-paper-yellow: #F5E6C8;
+        --brand-primary: #1A2E4A;
+        --brand-accent: #C0392B;
+        --ink: #1A2E4A;
+        --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23grain)' opacity='0.04'/%3E%3C/svg%3E");
+        --shadow-pin-standard: 2px 4px 12px rgba(26,46,74,0.18);
+        --tilt-card-askew: -2deg;
+        --ease-entry: power3.out;
+      }
+      html, body {
         margin: 0;
-        width: 1920px;
-        height: 1080px;
+        padding: 0;
+        width: 1080px;
+        height: 1920px;
         overflow: hidden;
-        background: #000;
+        background: var(--canvas);
+        font-family: 'Space Grotesk', sans-serif;
       }
-      body {
-        font-family: "Inter", sans-serif;
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
       }
-      code,
-      pre,
-      .monospace {
-        font-family: "JetBrains Mono", monospace;
+      .scene::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: var(--paper-grain);
+        pointer-events: none;
+        z-index: 999;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--canvas);
       }
     </style>
   </head>
@@ -33,26 +62,27 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="10"
-      data-width="1920"
-      data-height="1080"
+      data-duration="76"
+      data-width="1080"
+      data-height="1920"
     >
-      
-      
-
-      <!--
-        Add your clips here. Example:
-        <div id="title" class="clip" data-start="0" data-duration="5" data-track-index="1"
-             style="font-size: 64px; color: #fff; padding: 40px">
-          Hello World
-        </div>
-      -->
+      <div class="clip" data-composition-src="compositions/scene-01.html" data-composition-id="scene-01-host" data-start="0" data-duration="5" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;"></div>
+      <div class="clip" data-composition-src="compositions/scene-02.html" data-composition-id="scene-02-host" data-start="5" data-duration="6" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;"></div>
+      <div class="clip" data-composition-src="compositions/scene-03.html" data-composition-id="scene-03-host" data-start="11" data-duration="7" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;"></div>
+      <div class="clip" data-composition-src="compositions/scene-04.html" data-composition-id="scene-04-host" data-start="18" data-duration="6" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;"></div>
+      <div class="clip" data-composition-src="compositions/scene-05.html" data-composition-id="scene-05-host" data-start="24" data-duration="6" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;"></div>
+      <div class="clip" data-composition-src="compositions/scene-06.html" data-composition-id="scene-06-host" data-start="30" data-duration="6" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;"></div>
+      <div class="clip" data-composition-src="compositions/scene-07.html" data-composition-id="scene-07-host" data-start="36" data-duration="7" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;"></div>
+      <div class="clip" data-composition-src="compositions/scene-08.html" data-composition-id="scene-08-host" data-start="43" data-duration="7" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;"></div>
+      <div class="clip" data-composition-src="compositions/scene-09.html" data-composition-id="scene-09-host" data-start="50" data-duration="6" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;"></div>
+      <div class="clip" data-composition-src="compositions/scene-10.html" data-composition-id="scene-10-host" data-start="56" data-duration="6" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;"></div>
+      <div class="clip" data-composition-src="compositions/scene-11.html" data-composition-id="scene-11-host" data-start="62" data-duration="7" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;"></div>
+      <div class="clip" data-composition-src="compositions/scene-12.html" data-composition-id="scene-12-host" data-start="69" data-duration="7" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;"></div>
     </div>
 
     <script>
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });
-      // Example: tl.from("#title", { opacity: 0, y: -50, duration: 1 }, 0);
       window.__timelines["main"] = tl;
     </script>
   </body>
