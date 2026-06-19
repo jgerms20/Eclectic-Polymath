@@ -8,3 +8,17 @@ Scenes: 12, total ~76s
 ## Phase 3: visual-design [done 2026-06-18T20:00:13Z]
 Scenes: 12
 Notes: pin-and-paper faceless explainer, no captions, no voice
+
+## Phase 4a: composition-build [done 2026-06-19T00:00:00Z]
+Gates: lint 0 errors / validate 0 errors / inspect 0 errors
+Fixes: GSAP CDN → local public/gsap.min.js; CSS var font-family → literal names; scene_12 text_occluded → data-layout-ignore
+
+## Phase 4b: visual-qa [done 2026-06-19T00:01:00Z]
+Contact sheets: 13 tiles captured (2 sheets)
+Result: all panels clean — no blank frames, no cut text, no broken seams
+
+## Phase 4c: finalize [done 2026-06-19T00:02:00Z]
+Render: renders/video.mp4
+Size: 31.68 MB
+Duration: 79.788s (expected 79.752s, drift 0.036s ≤ 0.5s)
+Verify: PASS
