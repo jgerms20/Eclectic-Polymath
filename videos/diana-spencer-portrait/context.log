@@ -16,3 +16,21 @@ BGM: none
 ## Phase 3: visual-design [done 2026-06-19T10:43:56Z]
 Scenes: 12
 Notes: pin-and-paper portrait; kinetic-type/diagram/abstract-graphics mix; blur-crossfade + push-slide transitions; stillness-before-climax on scenes 6 + 11; morph continue-run on scenes 6→7
+
+## Phase 2b: design-system [done 2026-06-19]
+Style: pin-and-paper
+Output: design-system/design.html + chunks/
+
+## Phase 3: visual-design [done 2026-06-19]
+Canvas: 1080×1920 (portrait)
+Scenes: 12
+
+## Phase 4a: composition-build [done 2026-06-19]
+Gates: lint 0 errors / validate 0 errors / inspect 0 errors (24 samples)
+Fixes: CDN GSAP → local public/gsap.min.js; CSS var font-family → literals; s2 parallax overflow → data-layout-allow-overflow; s9 cards top/gap adjusted
+
+## Phase 4c: finalize [done 2026-06-19]
+Render: renders/video.mp4
+Size: 35.79 MB
+Duration: 76.021s (expected 76s, drift 0.021s ≤ 0.5s)
+Verify: PASS

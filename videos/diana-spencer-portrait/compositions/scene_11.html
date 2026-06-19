@@ -1,0 +1,337 @@
+<template id="scene_11-template">
+  <div id="root" class="scene_11-root" data-composition-id="scene_11" data-width="1080" data-height="1920" data-duration="7" style="position:relative; width:1080px; height:1920px; overflow:hidden;">
+    <style>
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+
+      #root {
+        background: var(--canvas);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+      }
+      #root *,
+      #root *::before,
+      #root *::after {
+        box-sizing: border-box;
+      }
+
+      /* ── paper grain overlay ─────────────────────────────────────── */
+      .s11-grain {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        background-image: var(--paper-grain);
+      }
+
+      /* ── macro camera container ──────────────────────────────────── */
+      .s11-camera {
+        position: absolute;
+        inset: 0;
+        will-change: transform;
+      }
+
+      /* ── pole SVG ────────────────────────────────────────────────── */
+      .s11-pole-wrap {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 1920px;
+        z-index: 2;
+      }
+      .s11-pole-svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+      #s11-pole-path {
+        fill: none;
+        stroke: var(--brand-primary);
+        stroke-width: 4;
+        stroke-linecap: round;
+      }
+      /* bracket at top of pole */
+      #s11-bracket-left,
+      #s11-bracket-right,
+      #s11-bracket-top {
+        fill: none;
+        stroke: var(--brand-primary);
+        stroke-width: 3;
+        stroke-linecap: round;
+      }
+
+      /* ── text block area ─────────────────────────────────────────── */
+      .s11-text-block {
+        position: absolute;
+        left: 64px;
+        right: 64px;
+        /* sits just below the bracket — pole top is at y≈380, text starts below at y≈620 */
+        top: 620px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        z-index: 3;
+      }
+
+      /* depth stack container per word */
+      .s11-depth-stack {
+        position: relative;
+        line-height: 1;
+      }
+      .s11-depth-text {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        color: var(--brand-primary);
+        white-space: nowrap;
+      }
+      .s11-depth-text.s11-is-back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+      }
+      .s11-depth-text.s11-is-front {
+        position: relative;
+        z-index: 10;
+      }
+      /* descending size per line */
+      .s11-line-1 .s11-depth-text { font-size: 128px; }
+      .s11-line-2 .s11-depth-text { font-size: 96px; }
+      .s11-line-3 .s11-depth-text { font-size: 72px; }
+
+      /* ── scribble note: "She came home." ────────────────────────── */
+      .s11-scribble {
+        position: absolute;
+        left: 72px;
+        /* bottom quarter of 1920 = below y 1440; put top at ~1480 */
+        top: 1490px;
+        font-family: 'Caveat', cursive;
+        font-weight: 700;
+        font-size: 62px;
+        line-height: 1.05;
+        color: var(--brand-primary);
+        transform: rotate(-2deg);
+        transform-origin: left bottom;
+        z-index: 4;
+        max-width: 700px;
+      }
+    </style>
+
+    <!-- Paper grain -->
+    <div class="s11-grain" aria-hidden="true"></div>
+
+    <!-- Macro camera wrapper — everything drifts upward after stillness beat -->
+    <div class="s11-camera" id="s11-camera">
+
+      <!-- Flagpole SVG — vertical axis drawn by svg-path-draw -->
+      <div class="s11-pole-wrap">
+        <svg class="s11-pole-svg" id="s11-pole-svg" viewBox="0 0 40 1920" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <!-- pole: from bottom (y=1920) to upper quarter (y=380) -->
+          <path id="s11-pole-path" d="M 20 1900 L 20 400" />
+          <!-- empty bracket at top: two arms + crossbar (separate paths for sequential draw) -->
+          <path id="s11-bracket-left"  d="M 20 400 L 3 400 L 3 420" />
+          <path id="s11-bracket-right" d="M 20 400 L 37 400 L 37 420" />
+        </svg>
+      </div>
+
+      <!-- Three weighted text lines below the bracket (3d-text-depth-layers) -->
+      <div class="s11-text-block" id="s11-text-block" data-layout-role="primary" data-layout-act="depth-text">
+        <!-- Line 1: SILENCE. — largest -->
+        <div class="s11-depth-stack s11-line-1" id="s11-stack-1"></div>
+        <!-- Line 2: BARE POLE. — medium -->
+        <div class="s11-depth-stack s11-line-2" id="s11-stack-2"></div>
+        <!-- Line 3: CRUELTY. — smallest -->
+        <div class="s11-depth-stack s11-line-3" id="s11-stack-3"></div>
+      </div>
+
+      <!-- Scribble: "She came home." — handwritten at bottom quarter -->
+      <p class="s11-scribble" id="s11-scribble">She came home.</p>
+
+    </div><!-- /s11-camera -->
+
+    <script>
+      const EASE = {
+        entry: "power2.out",
+        emphasis: "power3.out",
+        exit: "power2.in",
+        drift: "sine.inOut",
+      };
+      const DUR = {
+        snap: 0.18,
+        med: 0.5,
+        slow: 0.95,
+      };
+
+      window.__timelines = window.__timelines || {};
+
+      // ── 3D depth-layer builder ─────────────────────────────────────
+      const LAYER_COUNT = 4;
+      const OFFSET_X = 2;
+      const OFFSET_Y = 2;
+      const BACK_ALPHA_MAX = 0.70;
+      const BACK_ALPHA_STEP = 0.14;
+      const BACK_ALPHA_MIN = 0.15;
+      // back layer hue: brand-primary rgb
+      const BACK_RGB = "31,58,138";
+
+      function buildDepthStack(containerId, text) {
+        const stack = document.getElementById(containerId);
+        for (let i = LAYER_COUNT - 1; i >= 0; i--) {
+          const el = document.createElement("div");
+          el.className = "s11-depth-text " + (i === 0 ? "s11-is-front" : "s11-is-back");
+          el.textContent = text;
+          el.dataset.layer = String(i);
+          if (i > 0) {
+            const alpha = Math.max(BACK_ALPHA_MAX - i * BACK_ALPHA_STEP, BACK_ALPHA_MIN);
+            el.style.color = "rgba(" + BACK_RGB + ", " + alpha + ")";
+            el.style.transform = "translate(" + (i * OFFSET_X) + "px, " + (i * OFFSET_Y) + "px)";
+          } else {
+            el.style.color = "var(--brand-primary)";
+          }
+          stack.appendChild(el);
+        }
+      }
+
+      buildDepthStack("s11-stack-1", "SILENCE.");
+      buildDepthStack("s11-stack-2", "BARE POLE.");
+      buildDepthStack("s11-stack-3", "CRUELTY.");
+
+      // ── SVG path draw setup ────────────────────────────────────────
+      const polePath     = document.getElementById("s11-pole-path");
+      const bracketLeft  = document.getElementById("s11-bracket-left");
+      const bracketRight = document.getElementById("s11-bracket-right");
+
+      const poleLen    = polePath.getTotalLength();
+      const leftLen    = bracketLeft.getTotalLength();
+      const rightLen   = bracketRight.getTotalLength();
+
+      polePath.style.strokeDasharray    = String(poleLen);
+      polePath.style.strokeDashoffset   = String(poleLen);
+      bracketLeft.style.strokeDasharray  = String(leftLen);
+      bracketLeft.style.strokeDashoffset = String(leftLen);
+      bracketRight.style.strokeDasharray  = String(rightLen);
+      bracketRight.style.strokeDashoffset = String(rightLen);
+
+      // ── initial hidden states ──────────────────────────────────────
+      // Text stacks start hidden
+      gsap.set("#s11-stack-1 .s11-depth-text", { opacity: 0 });
+      gsap.set("#s11-stack-2 .s11-depth-text", { opacity: 0 });
+      gsap.set("#s11-stack-3 .s11-depth-text", { opacity: 0 });
+      // Scribble hidden
+      gsap.set("#s11-scribble", { opacity: 0, clipPath: "inset(0 100% 0 0)" });
+
+      // ── TIMELINE ───────────────────────────────────────────────────
+      const tl = gsap.timeline({ paused: true });
+
+      // ── Phase 1: Pole draws from bottom to top (0 → 2s) ──────────
+      // SVG path draws bottom→top: strokeDashoffset poleLen→0
+      tl.to(polePath, {
+        strokeDashoffset: 0,
+        duration: 2.0,
+        ease: "none",   // constant-speed "real pen" tracing feel
+      }, 0);
+
+      // Bracket arms draw as pole nears top (start at 1.8s)
+      tl.to(bracketLeft, {
+        strokeDashoffset: 0,
+        duration: 0.3,
+        ease: EASE.entry,
+      }, 1.8);
+      tl.to(bracketRight, {
+        strokeDashoffset: 0,
+        duration: 0.3,
+        ease: EASE.entry,
+      }, 1.95);
+
+      // ── Phase 2: Depth-text drops in (2.1 → 3.5s) ─────────────────
+      // Line 1: SILENCE. — at 2.1s
+      const stk1Els = document.querySelectorAll("#s11-stack-1 .s11-depth-text");
+      stk1Els.forEach((el) => {
+        const i = Number(el.dataset.layer);
+        const finalAlpha = el.classList.contains("s11-is-front")
+          ? 1
+          : Math.max(BACK_ALPHA_MAX - i * BACK_ALPHA_STEP, BACK_ALPHA_MIN);
+        tl.fromTo(el,
+          { opacity: 0, y: -24 },
+          { opacity: finalAlpha, y: 0, duration: 0.45, ease: EASE.emphasis },
+          2.1 + (LAYER_COUNT - 1 - i) * 0.05
+        );
+      });
+
+      // Line 2: BARE POLE. — at 2.5s
+      const stk2Els = document.querySelectorAll("#s11-stack-2 .s11-depth-text");
+      stk2Els.forEach((el) => {
+        const i = Number(el.dataset.layer);
+        const finalAlpha = el.classList.contains("s11-is-front")
+          ? 1
+          : Math.max(BACK_ALPHA_MAX - i * BACK_ALPHA_STEP, BACK_ALPHA_MIN);
+        tl.fromTo(el,
+          { opacity: 0, y: -20 },
+          { opacity: finalAlpha, y: 0, duration: 0.42, ease: EASE.emphasis },
+          2.5 + (LAYER_COUNT - 1 - i) * 0.05
+        );
+      });
+
+      // Line 3: CRUELTY. — at 2.85s
+      const stk3Els = document.querySelectorAll("#s11-stack-3 .s11-depth-text");
+      stk3Els.forEach((el) => {
+        const i = Number(el.dataset.layer);
+        const finalAlpha = el.classList.contains("s11-is-front")
+          ? 1
+          : Math.max(BACK_ALPHA_MAX - i * BACK_ALPHA_STEP, BACK_ALPHA_MIN);
+        tl.fromTo(el,
+          { opacity: 0, y: -16 },
+          { opacity: finalAlpha, y: 0, duration: 0.40, ease: EASE.emphasis },
+          2.85 + (LAYER_COUNT - 1 - i) * 0.05
+        );
+      });
+
+      // ── Phase 3: Stillness-before-climax 4.0 → 4.6s (0.6s hold) ──
+      // (no new tweens — timeline holds the settled frame)
+
+      // ── Phase 4: "She came home." scribble write-on (4.6 → 5.4s) ──
+      tl.fromTo("#s11-scribble",
+        { opacity: 0, clipPath: "inset(0 100% 0 0)" },
+        { opacity: 1, clipPath: "inset(0 0% 0 0)", duration: 0.8, ease: EASE.entry },
+        4.6
+      );
+
+      // ── Phase 5: Macro camera slow upward drift (4.6 → 7s) ────────
+      // Camera exhales upward by ~60px after stillness beat
+      tl.fromTo("#s11-camera",
+        { y: 0 },
+        { y: -60, duration: 2.4, ease: EASE.drift },
+        4.6
+      );
+
+      // ── Phase 6: Sine-wave breathing on pole only (4.8 → 7s) ─────
+      // Very minimal: just a subtle scale on the pole wrap
+      // Use the sine approach: drive a phase object
+      const polePhase = { p: 0 };
+      const IDLE_START = 4.8;
+      const IDLE_DUR = 7 - IDLE_START;  // 2.2s
+      const CYCLES = IDLE_DUR / 2.5;   // ≈0.88 cycles — ~2.5s period
+      const SCALE_AMP = 0.008;          // barely-perceptible breathing
+
+      const poleWrap = document.querySelector(".s11-pole-wrap");
+      tl.to(polePhase, {
+        p: Math.PI * 2 * CYCLES,
+        duration: IDLE_DUR,
+        ease: "none",
+        onUpdate: () => {
+          const sc = 1 + Math.sin(polePhase.p) * SCALE_AMP;
+          poleWrap.style.transform = "translateX(-50%) scaleX(" + sc + ")";
+        },
+      }, IDLE_START);
+
+      window.__timelines["scene_11"] = tl;
+    </script>
+  </div>
+</template>

@@ -1,0 +1,398 @@
+{
+  "version": 3,
+  "generated_at": "2026-06-19T18:51:35.044Z",
+  "pinned_hyperframes_version": "0.6.112",
+  "cli_version_line": "0.6.112",
+  "npx_prefix": "npx --yes hyperframes@0.6.112",
+  "gates_clean": true,
+  "gates": {
+    "lint": {
+      "ok": true,
+      "exit_code": 0,
+      "duration_s": 1.4,
+      "errors": 0,
+      "warnings": 23,
+      "info": null,
+      "output_tail": "◆  Linting diana-spencer-portrait/12 files\n\n  ⚠ [index.html] gsap_studio_edit_blocked: GSAP tweens target \"#el-scene_1\", \"#el-scene_2\", \"#el-scene_3\", \"#el-scene_4\", \"#el-scene_5\", \"#el-group_w6\", \"#el-scene_8\", \"#el-scene_9\", \"#el-scene_10\", \"#el-scene_11\", \"#el-scene_12\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ⚠ [compositions/group_w6.html] gsap_studio_edit_blocked: GSAP tweens target \"#s6-scene\", \"#s7-scene\", \"#s6-swap-in\", \"#s6-swap-out\", \"#s6-scribble\", \".s7-spoke-line\", \"#s7-label-0\", \"#s7-label-1\", \"#s7-label-2\", \"#s7-body-chip\", \"#s6-palm\", \"#s6-thumb\", \"#s6-wrist\", \"#s6-index\", \"#s6-middle\", \"#s6-ring\", \"#s6-pinky\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ⚠ [compositions/group_w6.html] composition_file_too_large: This HTML composition file has 409 lines. Smaller sub-compositions are easier to read, iterate on, and diff.\n    Fix: Split this sub-composition further into smaller .html files, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently.\n  ⚠ [compositions/scene_1.html] gsap_studio_edit_blocked: GSAP tweens target \"#s1-chip\", \"#s1-scribble\", \"#s1-depth-stack\", \"#s1-dolly\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ⚠ [compositions/scene_10.html] overlapping_gsap_tweens: GSAP tweens overlap on \"__unresolved__\" for p between 2.50s and 6.00s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_10.html] gsap_studio_edit_blocked: GSAP tweens target \"#s10-eyebrow\", \"#s10-blot-inner\", \"#s10-hero-wrap\", \"#s10-canvas-word\", \"#s10-scribble\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ⚠ [compositions/scene_11.html] gsap_studio_edit_blocked: GSAP tweens target \"#s11-stack-1 .s11-depth-text\", \"#s11-stack-2 .s11-depth-text\", \"#s11-stack-3 .s11-depth-text\", \"#s11-scribble\", \"#s11-camera\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ⚠ [compositions/scene_12.html] composition_file_too_large: This HTML composition file has 344 lines. Smaller sub-compositions are easier to read, iterate on, and diff.\n    Fix: Split this sub-composition further into smaller .html files, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently.\n  ⚠ [compositions/scene_2.html] overlapping_gsap_tweens: GSAP tweens overlap on \"__unresolved__\" for p between 1.50s and 6.00s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_2.html] gsap_studio_edit_blocked: GSAP tweens target \"#s2-eyebrow\", \"#s2-deco-pin\", \"#s2-head-windsor\", \"#s2-head-spencer\", \"#s2-chip-windsor\", \"#s2-chip-spencer\", \"#s2-scribble\", \".s2-leaf-label\", \"#s2-divider\", \"#s2-w-trunk\", \"#s2-s-trunk\", \"#s2-w-crossbar\", \"#s2-s-crossbar\", \"#s2-w-branch-l\", \"#s2-w-branch-r\", \"#s2-s-branch-l\", \"#s2-s-branch-r\", \"#s2-w-leaf-1\", \"#s2-w-leaf-2\", \"#s2-w-leaf-3\", \"#s2-s-leaf-1\", \"#s2-s-leaf-2\", \"#s2-s-leaf-3\", \"#s2-w-gen2-trunk\", \"#s2-s-gen2-trunk\", \"#s2-w-gen2-crossbar\", \"#s2-s-gen2-crossbar\", \"#s2-w-gen2-branch-l\", \"#s2-w-gen2-branch-r\", \"#s2-s-gen2-branch-l\", \"#s2-s-gen2-branch-r\", \"#s2-clan-bridge\", \"#s2-scribble-wrap\", \"#s2-parallax-wrap\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ⚠ [compositions/scene_3.html] gsap_studio_edit_blocked: GSAP tweens target \"#s3-eyebrow\", \".s3-phrase-line\", \"#s3-pinned-card\", \"#s3-dolly-wrap\", \"#s3-margin-line\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ⚠ [compositions/scene_4.html] gsap_studio_edit_blocked: GSAP tweens target \"#s4-stamp-firm\", \"#s4-node-wealth\", \"#s4-node-image\", \"#s4-node-emotion\", \"#s4-camera\", \"#s4-line-wealth\", \"#s4-line-image\", \"#s4-line-emotion\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ⚠ [compositions/scene_5.html] overlapping_gsap_tweens: GSAP tweens overlap on \"__unresolved__\" for p between 0.90s and 6.00s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_5.html] overlapping_gsap_tweens: GSAP tweens overlap on \"__unresolved__\" for p between 0.90s and 0.92s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_5.html] overlapping_gsap_tweens: GSAP tweens overlap on \"__unresolved__\" for p between 0.90s and 1.18s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_5.html] overlapping_gsap_tweens: GSAP tweens overlap on \"__unresolved__\" for p between 0.94s and 1.44s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_5.html] overlapping_gsap_tweens: GSAP tweens overlap on \".s5-glitch-text\" for opacity between 0.00s and 0.38s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_5.html] overlapping_gsap_tweens: GSAP tweens overlap on \"__unresolved__\" for p between 0.68s and 0.92s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_5.html] overlapping_gsap_tweens: GSAP tweens overlap on \"__unresolved__\" for p between 0.94s and 1.18s.\n    Fix: Shorten the earlier tween, move the later tween, or add `overwrite: \"auto\"`.\n  ⚠ [compositions/scene_5.html] gsap_studio_edit_blocked: GSAP tweens target \"#s5-chips-col\", \"#s5-figure-svg\", \"#s5-brand-word\", \"#s5-col-1, #s5-col-2, #s5-col-3\", \"#s5-term-bulimia\", \"#s5-term-selfharm\", \"#s5-term-depression\", \"#s5-zoom-outer\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ⚠ [compositions/scene_5.html] composition_file_too_large: This HTML composition file has 365 lines. Smaller sub-compositions are easier to read, iterate on, and diff.\n    Fix: Split this sub-composition further into smaller .html files, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently.\n  ⚠ [compositions/scene_8.html] gsap_studio_edit_blocked: GSAP tweens target \"#s8-stamp\", \"#s8-date-chip\", \"#s8-hl-1\", \"#s8-hl-2\", \"#s8-hl-3\", \"#s8-hl-4\", \"#s8-seq-el\", \"#s8-dress-fig\", \"#s8-hw-1\", \"#s8-hw-2\", \"#s8-scribble\", \"#s8-left-rule\", \"#s8-camera\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n  ⚠ [compositions/scene_9.html] gsap_studio_edit_blocked: GSAP tweens target \"#s9-eyebrow\", \"#s9-cassette-wrap\", \"#s9-tape-label-wrap\", \"#s9-card-1\", \"#s9-card-2\", \"#s9-card-3\", \"#s9-scribble\", \"#s9-tape-label\", \"#s9-cam\" in a registered timeline. Studio cannot save drag/resize edits to these elements — the runtime skips write-back for any element that appears in a registered window.__timelines timeline.\n    Fix: The hyperframes runtime registers timelines automatically. Do not add a manual window.__timelines script unless GSAP intentionally controls element positions. For initial visibility states, use CSS (e.g. opacity:0) instead of gsap.set(). If GSAP must own these elements' positions, avoid drag-editing them in Studio.\n\n◇  0 error(s), 23 warning(s)\n"
+    },
+    "validate": {
+      "ok": true,
+      "exit_code": 0,
+      "duration_s": 7.83,
+      "errors": 0,
+      "warnings": 0,
+      "info": null,
+      "output_tail": "◆  Validating diana-spencer-portrait in headless Chrome\n\n\n  ⚠ WCAG AA contrast warnings (25):\n    · div.s1-depth-text.s1-is-back \"19.\" — 1.51:1 (need 3:1, t=7.6s)\n    · div.s1-depth-text.s1-is-back \"19.\" — 1.9:1 (need 3:1, t=7.6s)\n    · div.s1-depth-text.s1-is-back \"19.\" — 2.44:1 (need 3:1, t=7.6s)\n    · span.s12-morph-chip-text \"THE PLAYBOOK\" — 1.04:1 (need 4.5:1, t=7.6s)\n    · div.s12-morph-display \"STILLRUNNING.\" — 1.03:1 (need 3:1, t=7.6s)\n    · div.s1-depth-text.s1-is-back \"19.\" — 1.51:1 (need 3:1, t=22.8s)\n    · div.s1-depth-text.s1-is-back \"19.\" — 1.9:1 (need 3:1, t=22.8s)\n    · div.s1-depth-text.s1-is-back \"19.\" — 2.44:1 (need 3:1, t=22.8s)\n    · span.s12-morph-chip-text \"THE PLAYBOOK\" — 1.04:1 (need 4.5:1, t=22.8s)\n    · div.s12-morph-display \"STILLRUNNING.\" — 1.03:1 (need 3:1, t=22.8s)\n    · div.s1-depth-text.s1-is-back \"19.\" — 1.51:1 (need 3:1, t=38s)\n    · div.s1-depth-text.s1-is-back \"19.\" — 1.9:1 (need 3:1, t=38s)\n    · div.s1-depth-text.s1-is-back \"19.\" — 2.44:1 (need 3:1, t=38s)\n    · span.s12-morph-chip-text \"THE PLAYBOOK\" — 1.04:1 (need 4.5:1, t=38s)\n    · div.s12-morph-display \"STILLRUNNING.\" — 1.03:1 (need 3:1, t=38s)\n    · div.s1-depth-text.s1-is-back \"19.\" — 1.51:1 (need 3:1, t=53.2s)\n    · div.s1-depth-text.s1-is-back \"19.\" — 1.9:1 (need 3:1, t=53.2s)\n    · div.s1-depth-text.s1-is-back \"19.\" — 2.44:1 (need 3:1, t=53.2s)\n    · span.s12-morph-chip-text \"THE PLAYBOOK\" — 1.04:1 (need 4.5:1, t=53.2s)\n    · div.s12-morph-display \"STILLRUNNING.\" — 1.03:1 (need 3:1, t=53.2s)\n    · div.s1-depth-text.s1-is-back \"19.\" — 1.51:1 (need 3:1, t=68.4s)\n    · div.s1-depth-text.s1-is-back \"19.\" — 1.9:1 (need 3:1, t=68.4s)\n    · div.s1-depth-text.s1-is-back \"19.\" — 2.44:1 (need 3:1, t=68.4s)\n    · span.s12-morph-chip-text \"THE PLAYBOOK\" — 1.04:1 (need 4.5:1, t=68.4s)\n    · div.s12-morph-display \"STILLRUNNING.\" — 1.03:1 (need 3:1, t=68.4s)\n\n◇  0 error(s), 0 warning(s), 25 contrast warning(s)\n"
+    },
+    "inspect": {
+      "ok": true,
+      "exit_code": 0,
+      "duration_s": 7,
+      "errors": 0,
+      "warnings": 29,
+      "info": 1,
+      "output_tail": "        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=1.58-4.75s (2 samples) content_overlap #s1-chip inside div.s1-depth-text.s1-is-front \"FIELD FILE 01\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=1.58-4.75s (2 samples) content_overlap div.s1-depth-text.s1-is-back inside div.s1-depth-text.s1-is-back \"19.\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=1.58-4.75s (2 samples) content_overlap div.s1-depth-text.s1-is-back inside div.s1-depth-text.s1-is-front \"19.\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=4.75s container_overflow #s1-dolly inside div.scene_1-root overflowed left 30.67px, right 30.67px, top 54.53px, bottom 54.53px — Element extends outside a clipping layout container.\n        Fix: Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.\n  ⚠ t=14.25s container_overflow #s3-dolly-wrap inside div.scene_3-root overflowed left 4.05px, right 4.05px, top 6.48px, bottom 7.92px — Element extends outside a clipping layout container.\n        Fix: Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.\n  ⚠ t=14.25-17.42s (2 samples) content_overlap #s3-w-unnamed inside #s3-w-one-week \"unnamed\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=14.25-17.42s (2 samples) content_overlap #s3-w-wanted inside #s3-w-boy \"wanted\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=14.25-17.42s (2 samples) content_overlap #s3-w-footsteps inside #s3-w-on \"footsteps\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=14.25-17.42s (2 samples) content_overlap #s3-w-footsteps inside #s3-w-gravel \"footsteps\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=20.58s container_overflow #s4-camera inside div.scene_4-root overflowed left 61.61px, right 61.61px, top 109.54px, bottom 109.54px — Element extends outside a clipping layout container.\n        Fix: Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.\n  ⚠ t=26.92s container_overflow #s5-zoom-outer inside div.scene_5-root overflowed left 18.25px, right 18.25px, top 35.69px, bottom 29.2px — Element extends outside a clipping layout container.\n        Fix: Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.\n  ⚠ t=26.92-30.08s (2 samples) content_overlap span.s5-glitch-text.s5-glitch-back inside span.s5-glitch-text.s5-glitch-back \"GLITCH\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=26.92-30.08s (2 samples) content_overlap span.s5-glitch-text.s5-glitch-back inside span.s5-glitch-text.s5-glitch-front \"GLITCH\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=30.08s container_overflow #s5-zoom-outer inside div.scene_5-root overflowed left 37.81px, right 37.81px, top 73.94px, bottom 60.49px — Element extends outside a clipping layout container.\n        Fix: Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.\n  ⚠ t=45.92s container_overflow #s8-camera inside div.scene_8-root overflowed left 11.65px, right 6.27px, top 12.11px, bottom 19.76px — Element extends outside a clipping layout container.\n        Fix: Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.\n  ⚠ t=45.92-49.08s (2 samples) content_overlap #s8-hw-1 inside #s8-hw-2 \"Without.\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=49.08s container_overflow #s8-camera inside div.scene_8-root overflowed left 24.36px, right 13.12px, top 25.32px, bottom 41.31px — Element extends outside a clipping layout container.\n        Fix: Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.\n  ⚠ t=64.92-68.08s (2 samples) content_overlap div.s11-depth-text.s11-is-back inside div.s11-depth-text.s11-is-back \"SILENCE.\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=64.92-68.08s (2 samples) content_overlap div.s11-depth-text.s11-is-back inside div.s11-depth-text.s11-is-front \"SILENCE.\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=64.92-68.08s (2 samples) content_overlap div.s11-depth-text.s11-is-back inside div.s11-depth-text.s11-is-back \"BARE POLE.\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=64.92-68.08s (2 samples) content_overlap div.s11-depth-text.s11-is-back inside div.s11-depth-text.s11-is-front \"BARE POLE.\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=68.08s container_overflow #s11-camera inside div.scene_11-root overflowed top 40.26px — Element extends outside a clipping layout container.\n        Fix: Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.\n  ⚠ t=68.08s content_overlap div.s11-depth-text.s11-is-back inside div.s11-depth-text.s11-is-back \"CRUELTY.\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=68.08s content_overlap div.s11-depth-text.s11-is-back inside div.s11-depth-text.s11-is-front \"CRUELTY.\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=74.42s content_overlap span.s12-word inside div.s12-morph-display \"In\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=74.42s content_overlap span.s12-word inside div.s12-morph-display \"the\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ⚠ t=74.42s content_overlap span.s12-word.s12-word-blood inside div.s12-morph-display \"BLOOD.\" — Two text blocks overlap and may render unreadable.\n        Fix: Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.\n  ℹ t=20.58s canvas_overflow #s4-node-emotion inside #root overflowed right 10.34px \"EMOTIONAL CONCEALMENT\" — Text extends outside the composition canvas.\n        Fix: Move the text inward, reduce its size, or mark intentional off-canvas animation with data-layout-allow-overflow.\n\n◇  0 error(s), 29 warning(s), 1 info(s)\n"
+    }
+  },
+  "bgm": {
+    "enabled": false,
+    "path": null,
+    "ready": false,
+    "status_file": "bgm_status.json",
+    "status": "disabled",
+    "provider": null,
+    "mode": null,
+    "log": null,
+    "pid": null,
+    "target_duration_s": null,
+    "seed_duration_s": null,
+    "loop_count": null,
+    "message": "BGM not requested or disabled in audio_meta.json."
+  },
+  "overlap": {
+    "status": "ok",
+    "canvas": {
+      "width": 1080,
+      "height": 1920
+    },
+    "probe_ratios": [
+      0.4,
+      0.7,
+      0.92
+    ],
+    "min_overlap_px": 4,
+    "scenes_scanned": 10,
+    "scenes_skipped": 2,
+    "scenes_no_timeline": 10,
+    "violations": [],
+    "transients": []
+  },
+  "caption_keepout": {
+    "enabled": false,
+    "canvas_height_px": 1920,
+    "caption_band_top_y": 1600,
+    "fail_threshold_bottom_px": 320,
+    "suggested_min_bottom_px": 340,
+    "scenes_scanned": 0,
+    "violations": []
+  },
+  "anomalies": [],
+  "preflight_clean": true,
+  "deterministic_fixes_applied": [],
+  "snapshot_times_s": [
+    2.5,
+    5.25,
+    8,
+    11.3,
+    14.5,
+    18.3,
+    21,
+    24.2,
+    27,
+    30.3,
+    33,
+    34.5,
+    35.4,
+    36,
+    39.5,
+    43.3,
+    46.5,
+    50.25,
+    53,
+    56.3,
+    59,
+    62.3,
+    65.5,
+    69.2,
+    72.5,
+    74.25,
+    75.3
+  ],
+  "total_duration_s": 76,
+  "scenes": [
+    {
+      "scene_id": "scene_1",
+      "start_s": 0,
+      "duration_s": 5,
+      "midpoint_s": 2.5,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "kinetic-beat-slam",
+        "3d-text-depth-layers",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_2",
+      "start_s": 5,
+      "duration_s": 6,
+      "midpoint_s": 8,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "svg-path-draw",
+        "discrete-text-sequence",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_3",
+      "start_s": 11,
+      "duration_s": 7,
+      "midpoint_s": 14.5,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "asr-keyword-glow",
+        "svg-path-draw",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_4",
+      "start_s": 18,
+      "duration_s": 6,
+      "midpoint_s": 21,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "kinetic-beat-slam",
+        "center-outward-expansion",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_5",
+      "start_s": 24,
+      "duration_s": 6,
+      "midpoint_s": 27,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "3d-text-depth-layers",
+        "asr-keyword-glow",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_6",
+      "start_s": 30,
+      "duration_s": 6,
+      "midpoint_s": 33,
+      "high_risk_extras_s": [
+        34.5,
+        35.4
+      ],
+      "high_risk": true,
+      "effects": [
+        "svg-path-draw",
+        "scale-swap-transition",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_7",
+      "start_s": 36,
+      "duration_s": 7,
+      "midpoint_s": 39.5,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "center-outward-expansion",
+        "svg-icon-enrichment",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_8",
+      "start_s": 43,
+      "duration_s": 7,
+      "midpoint_s": 46.5,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "kinetic-beat-slam",
+        "discrete-text-sequence",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_9",
+      "start_s": 50,
+      "duration_s": 6,
+      "midpoint_s": 53,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "svg-path-draw",
+        "discrete-text-sequence",
+        "dynamic-content-sequencing"
+      ]
+    },
+    {
+      "scene_id": "scene_10",
+      "start_s": 56,
+      "duration_s": 6,
+      "midpoint_s": 59,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "center-outward-expansion",
+        "asr-keyword-glow",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_11",
+      "start_s": 62,
+      "duration_s": 7,
+      "midpoint_s": 65.5,
+      "high_risk_extras_s": [],
+      "high_risk": false,
+      "effects": [
+        "svg-path-draw",
+        "3d-text-depth-layers",
+        "sine-wave-loop"
+      ]
+    },
+    {
+      "scene_id": "scene_12",
+      "start_s": 69,
+      "duration_s": 7,
+      "midpoint_s": 72.5,
+      "high_risk_extras_s": [
+        74.25,
+        75.3
+      ],
+      "high_risk": true,
+      "effects": [
+        "multi-phase-camera",
+        "asr-keyword-glow",
+        "card-morph-anchor"
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "from": "scene_1",
+      "to": "scene_2",
+      "from_scene": "scene_1",
+      "to_scene": "scene_2",
+      "type": "push-slide",
+      "direction": "RIGHT",
+      "duration_s": 0.5,
+      "tier": "b",
+      "seam_mid_s": 5.25
+    },
+    {
+      "from": "scene_2",
+      "to": "scene_3",
+      "from_scene": "scene_2",
+      "to_scene": "scene_3",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "seam_mid_s": 11.3
+    },
+    {
+      "from": "scene_3",
+      "to": "scene_4",
+      "from_scene": "scene_3",
+      "to_scene": "scene_4",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "seam_mid_s": 18.3
+    },
+    {
+      "from": "scene_4",
+      "to": "scene_5",
+      "from_scene": "scene_4",
+      "to_scene": "scene_5",
+      "type": "zoom-through",
+      "direction": null,
+      "duration_s": 0.4,
+      "tier": "b",
+      "seam_mid_s": 24.2
+    },
+    {
+      "from": "scene_5",
+      "to": "group_w6",
+      "from_scene": "scene_5",
+      "to_scene": "scene_6",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "seam_mid_s": 30.3
+    },
+    {
+      "from": "group_w6",
+      "to": "scene_8",
+      "from_scene": "scene_7",
+      "to_scene": "scene_8",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "seam_mid_s": 43.3
+    },
+    {
+      "from": "scene_8",
+      "to": "scene_9",
+      "from_scene": "scene_8",
+      "to_scene": "scene_9",
+      "type": "push-slide",
+      "direction": "LEFT",
+      "duration_s": 0.5,
+      "tier": "b",
+      "seam_mid_s": 50.25
+    },
+    {
+      "from": "scene_9",
+      "to": "scene_10",
+      "from_scene": "scene_9",
+      "to_scene": "scene_10",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "seam_mid_s": 56.3
+    },
+    {
+      "from": "scene_10",
+      "to": "scene_11",
+      "from_scene": "scene_10",
+      "to_scene": "scene_11",
+      "type": "blur-crossfade",
+      "direction": null,
+      "duration_s": 0.6,
+      "tier": "b",
+      "seam_mid_s": 62.3
+    },
+    {
+      "from": "scene_11",
+      "to": "scene_12",
+      "from_scene": "scene_11",
+      "to_scene": "scene_12",
+      "type": "zoom-through",
+      "direction": null,
+      "duration_s": 0.4,
+      "tier": "b",
+      "seam_mid_s": 69.2
+    }
+  ],
+  "internal_seams": [
+    {
+      "from_scene": "scene_6",
+      "to_scene": "scene_7",
+      "visual_id": "group_w6",
+      "worker_id": "w6",
+      "seam_s": 36,
+      "local_time_s": 6
+    }
+  ]
+}

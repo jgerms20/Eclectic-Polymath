@@ -1,0 +1,440 @@
+<template id="scene_10-template">
+  <div id="root" class="scene_10-root" data-composition-id="scene_10" data-width="1080" data-height="1920" data-duration="6" style="position:relative; width:1080px; height:1920px; overflow:hidden;">
+    <style>
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+
+      #root {
+        background: var(--canvas);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+      }
+      #root *,
+      #root *::before,
+      #root *::after {
+        box-sizing: border-box;
+      }
+
+      /* Paper grain background texture */
+      .s10-grain-bg {
+        position: absolute;
+        inset: 0;
+        background-image: var(--paper-grain);
+        background-size: 240px 240px;
+        opacity: 0.52;
+        pointer-events: none;
+        z-index: 6;
+      }
+
+      /* Eyebrow chip */
+      .s10-eyebrow {
+        position: absolute;
+        top: 90px;
+        left: 50%;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-size: 22px;
+        font-weight: 400;
+        letter-spacing: 0.16em;
+        color: var(--brand-primary);
+        text-transform: uppercase;
+        white-space: nowrap;
+        z-index: 4;
+        will-change: opacity, transform;
+      }
+
+      /* Ink-blot outer container — positioned at center via JS gsap.set */
+      .s10-blot-outer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      /* Blot inner — the actual SVG wrapper; rotational drift applied here */
+      .s10-blot-inner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 900px;
+        height: 900px;
+        margin-left: -450px;
+        margin-top: -450px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform-origin: 50% 50%;
+        will-change: transform;
+      }
+
+      /* Burst wrap — full canvas, shards absolutely placed via JS */
+      .s10-burst-wrap {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        pointer-events: none;
+      }
+
+      /* Shard positioners — each absolutely placed at center, JS moves them out */
+      .s10-shard-pos {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        will-change: transform;
+      }
+
+      /* Shard pill — inner floater for idle breathing */
+      .s10-shard {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: 0.13em;
+        color: var(--brand-primary);
+        text-transform: uppercase;
+        text-align: center;
+        line-height: 1.2;
+        white-space: nowrap;
+        background: color-mix(in srgb, var(--anchor-paper-yellow) 90%, transparent);
+        border: var(--border-hairline);
+        padding: 6px 16px;
+        border-radius: var(--radius-pill);
+        will-change: transform;
+      }
+
+      /* Hero "CANVAS" word — centered over the blot */
+      .s10-hero-wrap {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 5;
+        text-align: center;
+        pointer-events: none;
+        will-change: opacity, transform;
+      }
+
+      .s10-canvas-word {
+        display: inline-block;
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 108px;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        color: var(--brand-primary);
+        transform-origin: 50% 50%;
+        will-change: transform;
+      }
+
+      /* Caveat scribble */
+      .s10-scribble {
+        position: absolute;
+        bottom: 200px;
+        left: 50%;
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 40px;
+        font-weight: 400;
+        font-style: italic;
+        color: var(--brand-primary);
+        white-space: nowrap;
+        z-index: 4;
+        will-change: opacity, transform;
+      }
+    </style>
+
+    <!-- Paper grain texture overlay (decorative background) -->
+    <div class="s10-grain-bg"></div>
+
+    <!-- Eyebrow chip -->
+    <div id="s10-eyebrow" class="s10-eyebrow">FIELD FILE 10</div>
+
+    <!-- Ink-blot Rorschach SVG — abstract face-like fragments, symmetric, ink-blue on yellow -->
+    <div class="s10-blot-outer">
+      <div id="s10-blot-inner" class="s10-blot-inner" data-layout-role="primary" data-layout-act="blot">
+        <svg viewBox="0 0 900 900" width="900" height="900" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <filter id="s10-ink-tex">
+              <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="12" result="noise"/>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+          </defs>
+          <g filter="url(#s10-ink-tex)" fill="var(--brand-primary)">
+            <!-- Central body mass — elongated vertical oval -->
+            <path d="M450,130 C426,130 374,155 336,208 C298,262 278,328 274,398 C270,468 290,528 332,578 C362,616 402,644 450,656 C498,644 538,616 568,578 C610,528 630,468 626,398 C622,328 602,262 564,208 C526,155 474,130 450,130 Z" opacity="0.94"/>
+            <!-- Left wing lobe -->
+            <path d="M450,295 C420,274 366,265 316,286 C266,308 238,360 234,422 C230,484 256,538 302,566 C332,583 370,588 400,574 C430,560 448,533 450,504 Z" opacity="0.84"/>
+            <!-- Right wing lobe (mirror of left) -->
+            <path d="M450,295 C480,274 534,265 584,286 C634,308 662,360 666,422 C670,484 644,538 598,566 C568,583 530,588 500,574 C470,560 452,533 450,504 Z" opacity="0.84"/>
+            <!-- Left eye-like ellipse fragment (upper) -->
+            <ellipse cx="372" cy="228" rx="40" ry="23" opacity="0.68" transform="rotate(-22,372,228)"/>
+            <!-- Right eye-like ellipse fragment (upper, mirrored) -->
+            <ellipse cx="528" cy="228" rx="40" ry="23" opacity="0.68" transform="rotate(22,528,228)"/>
+            <!-- Left mid cheek mass -->
+            <ellipse cx="296" cy="442" rx="52" ry="33" opacity="0.58" transform="rotate(-12,296,442)"/>
+            <!-- Right mid cheek mass -->
+            <ellipse cx="604" cy="442" rx="52" ry="33" opacity="0.58" transform="rotate(12,604,442)"/>
+            <!-- Nose bridge -->
+            <path d="M432,358 C432,336 427,320 437,306 C443,297 457,297 463,306 C473,320 468,336 468,358 C468,382 460,394 450,394 C440,394 432,382 432,358 Z" opacity="0.78"/>
+            <!-- Chin mass -->
+            <ellipse cx="450" cy="600" rx="58" ry="38" opacity="0.74"/>
+            <!-- Left drip tendril -->
+            <path d="M348,558 C337,590 328,622 324,654 C321,670 330,678 340,668 C349,658 350,638 360,608 C368,585 368,566 358,556 Z" opacity="0.52"/>
+            <!-- Right drip tendril -->
+            <path d="M552,558 C563,590 572,622 576,654 C579,670 570,678 560,668 C551,658 550,638 540,608 C532,585 532,566 542,556 Z" opacity="0.52"/>
+            <!-- Left ear fragment -->
+            <path d="M246,368 C225,352 210,374 216,400 C222,424 244,436 266,430 C282,424 292,408 286,393 C278,376 260,370 246,368 Z" opacity="0.44"/>
+            <!-- Right ear fragment -->
+            <path d="M654,368 C675,352 690,374 684,400 C678,424 656,436 634,430 C618,424 608,408 614,393 C622,376 640,370 654,368 Z" opacity="0.44"/>
+            <!-- Crown left -->
+            <path d="M388,152 C376,130 357,115 342,122 C327,130 330,154 344,167 C357,180 378,177 388,168 Z" opacity="0.48"/>
+            <!-- Crown right -->
+            <path d="M512,152 C524,130 543,115 558,122 C573,130 570,154 556,167 C543,180 522,177 512,168 Z" opacity="0.48"/>
+            <!-- Crown center peak -->
+            <path d="M441,128 C440,105 443,88 450,86 C457,88 460,105 459,128 Z" opacity="0.58"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Six radial label shards — positioned at canvas center, expanded by JS -->
+    <div class="s10-burst-wrap" data-layout-role="supporting" data-layout-act="shards">
+      <!-- data-tx / data-ty are the pixel offsets from center each shard expands to -->
+      <div class="s10-shard-pos" id="s10-pos-0" data-tx="0"    data-ty="-560">
+        <div class="s10-shard" id="s10-shard-0">THE WORLD</div>
+      </div>
+      <div class="s10-shard-pos" id="s10-pos-1" data-tx="350"  data-ty="-310">
+        <div class="s10-shard" id="s10-shard-1">MEDIA</div>
+      </div>
+      <div class="s10-shard-pos" id="s10-pos-2" data-tx="358"  data-ty="298">
+        <div class="s10-shard" id="s10-shard-2">THE ESTABLISHMENT</div>
+      </div>
+      <div class="s10-shard-pos" id="s10-pos-3" data-tx="0"    data-ty="560">
+        <div class="s10-shard" id="s10-shard-3">ROYALISTS</div>
+      </div>
+      <div class="s10-shard-pos" id="s10-pos-4" data-tx="-358" data-ty="298">
+        <div class="s10-shard" id="s10-shard-4">THE MARGINALIZED</div>
+      </div>
+      <div class="s10-shard-pos" id="s10-pos-5" data-tx="-350" data-ty="-310">
+        <div class="s10-shard" id="s10-shard-5">THE PEOPLE</div>
+      </div>
+    </div>
+
+    <!-- Hero CANVAS word — asr-keyword-glow lands at ~3.8s -->
+    <div id="s10-hero-wrap" class="s10-hero-wrap" data-layout-role="primary" data-layout-act="hero">
+      <span id="s10-canvas-word" class="s10-canvas-word" data-word="canvas">CANVAS</span>
+    </div>
+
+    <!-- Caveat scribble annotation -->
+    <div id="s10-scribble" class="s10-scribble">everyone saw themselves.</div>
+
+    <script>
+      const EASE = {
+        entry:    "power2.out",
+        emphasis: "power3.out",
+        exit:     "power2.in",
+        drift:    "sine.inOut",
+      };
+      const DUR = {
+        snap: 0.18,
+        med:  0.5,
+        slow: 0.95,
+      };
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ── INITIAL STATES via gsap.set ──
+      // (Never CSS opacity:0 — use gsap.set so frame-seek is correct)
+      gsap.set("#s10-eyebrow",    { opacity: 0, xPercent: -50, y: -14 });
+      gsap.set("#s10-blot-inner", { opacity: 0, scale: 0.80, transformOrigin: "50% 50%" });
+      gsap.set("#s10-hero-wrap",  { opacity: 0, xPercent: -50, yPercent: -50 });
+      gsap.set("#s10-canvas-word",{ scale: 1 });
+      gsap.set("#s10-scribble",   { opacity: 0, xPercent: -50, y: 18 });
+
+      // Shard positioners start at center (xPercent/yPercent self-center + x/y at 0)
+      const posDivs = document.querySelectorAll(".s10-shard-pos");
+      posDivs.forEach((el) => {
+        gsap.set(el, {
+          xPercent: -50,
+          yPercent: -50,
+          x: 0,
+          y: 0,
+          opacity: 0,
+          scale: 0.5,
+          transformOrigin: "50% 50%",
+        });
+      });
+
+      // ── BEAT 0: eyebrow chip fades in ──
+      tl.fromTo(
+        "#s10-eyebrow",
+        { opacity: 0, y: -14 },
+        { opacity: 0.7, y: 0, duration: DUR.slow, ease: EASE.entry },
+        0
+      );
+
+      // ── BEAT 0.25: ink-blot scales in from center ──
+      tl.fromTo(
+        "#s10-blot-inner",
+        { opacity: 0, scale: 0.80 },
+        { opacity: 1, scale: 1, duration: 1.1, ease: EASE.entry },
+        0.25
+      );
+
+      // ── BEAT 0.85: center-outward-expansion — six label shards fan radially ──
+      const EXPAND_DUR  = 1.25;
+      const EXPAND_EASE = "power2.out";
+      const STAGGER_S   = 0.055;
+      const ENTRY_AT    = 0.85;
+
+      posDivs.forEach((el, i) => {
+        const tx = Number(el.dataset.tx);
+        const ty = Number(el.dataset.ty);
+        tl.fromTo(
+          el,
+          {
+            xPercent: -50, yPercent: -50,
+            x: tx * 0.12, y: ty * 0.12,
+            scale: 0.5, opacity: 0,
+          },
+          {
+            xPercent: -50, yPercent: -50,
+            x: tx, y: ty,
+            scale: 1, opacity: 1,
+            duration: EXPAND_DUR,
+            ease: EXPAND_EASE,
+          },
+          i * STAGGER_S + ENTRY_AT
+        );
+      });
+
+      // ── ASR driver — advances t from 0 → 6 (scene duration) with ease:"none" ──
+      // This drives both the keyword-glow envelope and can be shared for timing.
+      const SCENE_DUR    = 6;
+      const ATTACK_DUR   = 0.18;
+      const RELEASE_DUR  = 0.38;
+      const REST_LEVEL   = 0.10;
+      const MAX_BLUR     = 30;
+      const MAX_SCALE_B  = 0.13;
+
+      const TIMINGS = {
+        canvas: { start: 3.8, end: 5.1 },
+      };
+
+      function envelope(t, start, end) {
+        const releaseEnd = end + RELEASE_DUR;
+        if (t < start) return 0;
+        if (t < end) return Math.min((t - start) / ATTACK_DUR, 1);
+        if (t < releaseEnd) {
+          const decay = (t - end) / RELEASE_DUR;
+          return 1 - decay * (1 - REST_LEVEL);
+        }
+        return REST_LEVEL;
+      }
+
+      function glowRgba(env) {
+        // brand-primary: #1F3A8A → R31 G58 B138
+        const alpha = 0.06 + env * 0.68;
+        return `rgba(31,58,138,${alpha.toFixed(3)})`;
+      }
+
+      const asrDriver    = { t: 0 };
+      const canvasWordEl = document.getElementById("s10-canvas-word");
+
+      tl.to(
+        asrDriver,
+        {
+          t: SCENE_DUR,
+          duration: SCENE_DUR,
+          ease: "none",
+          onUpdate: () => {
+            const env   = envelope(asrDriver.t, TIMINGS.canvas.start, TIMINGS.canvas.end);
+            const blur  = MAX_BLUR * env;
+            const scale = 1 + MAX_SCALE_B * env;
+            canvasWordEl.style.textShadow =
+              `0 0 ${blur}px ${glowRgba(env)}, 0 0 ${(blur * 1.7).toFixed(1)}px ${glowRgba(env * 0.45)}`;
+            canvasWordEl.style.transform  = `scale(${scale})`;
+          },
+        },
+        0
+      );
+
+      // ── BEAT 3.45: CANVAS hero word fades in before the glow peak ──
+      tl.fromTo(
+        "#s10-hero-wrap",
+        { opacity: 0 },
+        { opacity: 1, duration: DUR.med, ease: EASE.entry },
+        3.45
+      );
+
+      // ── BEAT 3.95: caveat scribble writes in ──
+      tl.fromTo(
+        "#s10-scribble",
+        { opacity: 0, y: 18 },
+        { opacity: 0.72, y: 0, duration: DUR.slow, ease: EASE.entry },
+        3.95
+      );
+
+      // ── sine-wave-loop #1: ink-blot slow rotational drift ──
+      // per brief: ~0.3° rotation, 4s cycle — starts after blot entry settles (~1.35s)
+      const BLOT_IDLE_START = 1.4;
+      const BLOT_IDLE_DUR   = SCENE_DUR - BLOT_IDLE_START; // 4.6s
+      const ROT_AMP         = 0.3;    // ±0.3° as specified
+      const BLOT_SCALE_AMP  = 0.009;  // barely-perceptible breath
+      const BLOT_CYCLES     = BLOT_IDLE_DUR / 4.0; // 4s period per brief → ~1.15 cycles
+
+      const blotPhase  = { p: 0 };
+      const blotInner  = document.getElementById("s10-blot-inner");
+
+      tl.to(
+        blotPhase,
+        {
+          p: Math.PI * 2 * BLOT_CYCLES,
+          duration: BLOT_IDLE_DUR,
+          ease: "none",
+          onUpdate: () => {
+            const rot = Math.sin(blotPhase.p) * ROT_AMP;
+            const sc  = 1 + Math.sin(blotPhase.p) * BLOT_SCALE_AMP;
+            // Compose with the entry scale landing at 1 (entry tween has already settled)
+            blotInner.style.transform = `rotate(${rot}deg) scale(${sc})`;
+          },
+        },
+        BLOT_IDLE_START
+      );
+
+      // ── sine-wave-loop #2: outer label shards collective breath ──
+      // Starts after expansion fully lands (last shard: 0.85 + 5*0.055 + 1.25 ≈ 2.375s → use 2.5s)
+      const SHARD_IDLE_START = 2.5;
+      const SHARD_IDLE_DUR   = SCENE_DUR - SHARD_IDLE_START; // 3.5s
+      const SHARD_Y_AMP      = 2.8;   // ±2.8px vertical (default range: 2-3px)
+      const SHARD_CYCLES     = SHARD_IDLE_DUR / 2.3; // ~1.52 cycles → 2.3s period
+
+      const shardPhase   = { p: 0 };
+      const shardPosEls  = Array.from(posDivs);
+
+      tl.to(
+        shardPhase,
+        {
+          p: Math.PI * 2 * SHARD_CYCLES,
+          duration: SHARD_IDLE_DUR,
+          ease: "none",
+          onUpdate: () => {
+            shardPosEls.forEach((el, i) => {
+              const tx = Number(el.dataset.tx);
+              const ty = Number(el.dataset.ty);
+              // Per-element phase offset for out-of-phase organic breathing
+              const phaseOffset = (Math.PI / 3) * i;
+              const dy = Math.sin(shardPhase.p + phaseOffset) * SHARD_Y_AMP;
+              // Use gsap.set to write through GSAP's transform system
+              // so it composes with the expansion landing transform (xPercent:-50, yPercent:-50, x:tx, y:ty)
+              gsap.set(el, { x: tx, y: ty + dy });
+            });
+          },
+        },
+        SHARD_IDLE_START
+      );
+
+      window.__timelines["scene_10"] = tl;
+    </script>
+  </div>
+</template>

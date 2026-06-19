@@ -1,0 +1,396 @@
+<template id="scene_3-template">
+  <div id="root" class="scene_3-root" data-composition-id="scene_3" data-width="1080" data-height="1920" data-duration="7" style="position:relative; width:1080px; height:1920px; overflow:hidden;">
+    <style>
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+
+      #root {
+        background: var(--canvas);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+      }
+      #root *,
+      #root *::before,
+      #root *::after {
+        box-sizing: border-box;
+      }
+
+      /* Layout: asymmetric 60/40 left-heavy column split */
+      .s3-layout {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 140px 52px 0 52px;
+        gap: 0;
+        z-index: 2;
+      }
+
+      /* Left column ~60% */
+      .s3-left-col {
+        width: 58%;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 0;
+        position: relative;
+      }
+
+      /* Diary margin SVG line */
+      .s3-margin-svg {
+        width: 36px;
+        flex-shrink: 0;
+        margin-top: 0;
+        margin-right: 28px;
+      }
+
+      /* Hero phrases stacked vertically */
+      .s3-phrases {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        padding-top: 8px;
+      }
+
+      /* Each hero phrase line */
+      .s3-phrase-line {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0 16px;
+        line-height: 1.0;
+      }
+
+      /* Individual word spans — required for asr-keyword-glow */
+      .s3-word {
+        display: inline-block;
+        transform-origin: 50% 50%;
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 88px;
+        letter-spacing: -0.04em;
+        color: var(--brand-primary);
+        will-change: transform;
+        line-height: 1.0;
+      }
+
+      /* Eyebrow label chip above phrases */
+      .s3-eyebrow {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-size: 22px;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        opacity: 0.55;
+        margin-bottom: 28px;
+        line-height: 1;
+      }
+
+      /* Right column ~40% */
+      .s3-right-col {
+        width: 42%;
+        padding-left: 36px;
+        padding-top: 72px;
+      }
+
+      /* Pinned card (prefixed from pp-pinned-card) */
+      .s3-pinned-card {
+        position: relative;
+        background: var(--surface-cream);
+        border: var(--border-hairline);
+        border-radius: var(--radius-card);
+        box-shadow: var(--shadow-pin-standard);
+        padding: var(--card-pad-lg);
+        color: var(--brand-primary);
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .s3-card-kicker {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 20px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        opacity: 0.65;
+        line-height: 1;
+      }
+
+      .s3-card-title {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        margin: 0;
+        color: var(--brand-primary);
+      }
+
+      .s3-card-body {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-weight: 400;
+        font-size: 22px;
+        line-height: 1.5;
+        margin: 0;
+        color: var(--brand-primary);
+      }
+
+      /* Paper grain overlay */
+      .s3-paper-grain {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        background-image: var(--paper-grain);
+      }
+
+      /* Macro dolly-in zoom wrapper */
+      .s3-dolly-wrap {
+        position: absolute;
+        inset: 0;
+        transform-origin: 50% 45%;
+        will-change: transform;
+        z-index: 2;
+      }
+    </style>
+
+    <!-- Paper grain overlay (decorative, behind content) -->
+    <div class="s3-paper-grain" aria-hidden="true"></div>
+
+    <!-- Dolly-in wrapper for macro camera slow push -->
+    <div class="s3-dolly-wrap" id="s3-dolly-wrap">
+
+      <!-- Main layout -->
+      <div class="s3-layout" data-layout-role="primary" data-layout-act="diary-texture">
+
+        <!-- LEFT COLUMN: margin line + hero phrases -->
+        <div class="s3-left-col">
+
+          <!-- SVG margin line (svg-path-draw) -->
+          <svg class="s3-margin-svg" id="s3-margin-svg" viewBox="0 0 12 800" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="overflow:visible; height:800px;">
+            <path id="s3-margin-line" d="M 6 0 L 6 800" fill="none" stroke="var(--brand-primary)" stroke-width="1.5" stroke-linecap="round" opacity="0.45"/>
+          </svg>
+
+          <!-- Eyebrow + hero phrases -->
+          <div>
+            <div class="s3-eyebrow" id="s3-eyebrow" data-layout-role="supporting">FIELD FILE 03</div>
+
+            <div class="s3-phrases" data-layout-role="primary">
+              <!-- Line 1: "unnamed / one week" -->
+              <div class="s3-phrase-line">
+                <span class="s3-word" data-word="unnamed" id="s3-w-unnamed">unnamed</span>
+                <span class="s3-word" data-word="slash" id="s3-w-slash" style="opacity:0.35;">/</span>
+                <span class="s3-word" data-word="one-week" id="s3-w-one-week">one week,</span>
+              </div>
+              <!-- Line 2: "wanted a boy" -->
+              <div class="s3-phrase-line">
+                <span class="s3-word" data-word="wanted" id="s3-w-wanted">wanted</span>
+                <span class="s3-word" data-word="a" id="s3-w-a">a</span>
+                <span class="s3-word" data-word="boy" id="s3-w-boy">boy,</span>
+              </div>
+              <!-- Line 3: "footsteps on gravel" -->
+              <div class="s3-phrase-line">
+                <span class="s3-word" data-word="footsteps" id="s3-w-footsteps">footsteps</span>
+                <span class="s3-word" data-word="on" id="s3-w-on">on</span>
+                <span class="s3-word" data-word="gravel" id="s3-w-gravel">gravel.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: pinned card slightly askew -->
+        <div class="s3-right-col" data-layout-role="supporting">
+          <div class="s3-pinned-card" id="s3-pinned-card">
+            <span class="s3-card-kicker">1961</span>
+            <h3 class="s3-card-title">A third daughter. No celebration.</h3>
+            <p class="s3-card-body">Born into Althorp's long shadow. Her father recorded the birth without remark. The estate waited for an heir.</p>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /s3-dolly-wrap -->
+
+    <script>
+      const EASE = {
+        entry: "power2.out",
+        emphasis: "power3.out",
+        exit: "power2.in",
+        drift: "sine.inOut",
+      };
+      const DUR = {
+        snap: 0.18,
+        med: 0.5,
+        slow: 0.95,
+      };
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      const SCENE_DURATION = 7;
+
+      // ─── Initial hidden states ───────────────────────────────────────────
+      gsap.set("#s3-eyebrow", { opacity: 0, y: 12 });
+      gsap.set(".s3-phrase-line", { opacity: 0, y: 24 });
+      gsap.set("#s3-pinned-card", { opacity: 0, x: 20 });
+      gsap.set("#s3-dolly-wrap", { scale: 1.06 });
+
+      // ─── ASR per-word glow constants ─────────────────────────────────────
+      const ATTACK_DUR = 0.15;
+      const RELEASE = 0.35;
+      const REST_LEVEL = 0.12;
+      const MAX_BLUR = 28;
+      const MAX_SCALE_BOOST = 0.10;
+
+      // Hardcoded word timings (all local seconds)
+      const TIMINGS = {
+        "unnamed":    { start: 1.2, end: 2.0 },
+        "slash":      { start: 2.0, end: 2.3 },
+        "one-week":   { start: 2.3, end: 3.0 },
+        "wanted":     { start: 3.0, end: 3.6 },
+        "a":          { start: 3.6, end: 3.85 },
+        "boy":        { start: 3.85, end: 4.5 },
+        "footsteps":  { start: 4.5, end: 5.1 },
+        "on":         { start: 5.1, end: 5.35 },
+        "gravel":     { start: 5.35, end: 6.2 },
+      };
+
+      function envelope(time, start, end) {
+        const releaseEnd = end + RELEASE;
+        if (time < start) return 0;
+        if (time < end) {
+          return Math.min((time - start) / ATTACK_DUR, 1);
+        }
+        if (time < releaseEnd) {
+          const decay = (time - end) / RELEASE;
+          return 1 - decay * (1 - REST_LEVEL);
+        }
+        return REST_LEVEL;
+      }
+
+      // Glow color: accent red (#C2342B) with envelope-modulated alpha
+      function glowColorRgba(env) {
+        const alpha = 0.05 + env * 0.75;
+        return `rgba(194, 52, 43, ${alpha.toFixed(3)})`;
+      }
+
+      // "gravel" gets accent-color lerp at peak
+      function gravellColorAt(env) {
+        // rest: ink-blue, peak: brand-accent red
+        const rR = 31,  rG = 58,  rB = 138; // --brand-primary #1F3A8A
+        const pR = 194, pG = 52,  pB = 43;  // --brand-accent  #C2342B
+        const r = Math.round(rR + (pR - rR) * env);
+        const g = Math.round(rG + (pG - rG) * env);
+        const b = Math.round(rB + (pB - rB) * env);
+        return `rgb(${r},${g},${b})`;
+      }
+
+      const words = document.querySelectorAll(".s3-word");
+
+      // ─── svg-path-draw: margin line ──────────────────────────────────────
+      const marginLine = document.getElementById("s3-margin-line");
+      const lineLen = marginLine.getTotalLength();
+      marginLine.style.strokeDasharray = `${lineLen}`;
+      marginLine.style.strokeDashoffset = `${lineLen}`;
+
+      tl.to("#s3-margin-line", {
+        strokeDashoffset: 0,
+        duration: 1.5,
+        ease: "power2.out",
+      }, 0.1);
+
+      // ─── Macro dolly-in: slow camera push ────────────────────────────────
+      tl.to("#s3-dolly-wrap", {
+        scale: 1.0,
+        duration: 5.0,
+        ease: "power1.out",
+      }, 0);
+
+      // ─── Eyebrow label entry ──────────────────────────────────────────────
+      tl.fromTo("#s3-eyebrow",
+        { opacity: 0, y: 12 },
+        { opacity: 0.55, y: 0, duration: DUR.med, ease: EASE.entry },
+        0.3
+      );
+
+      // ─── Hero phrase lines: staggered entry ──────────────────────────────
+      tl.fromTo(".s3-phrase-line",
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: DUR.slow, ease: EASE.entry, stagger: 0.28 },
+        0.5
+      );
+
+      // ─── Pinned card entry (right column) ────────────────────────────────
+      tl.fromTo("#s3-pinned-card",
+        { opacity: 0, x: 20 },
+        { opacity: 1, x: 0, duration: DUR.slow, ease: EASE.entry },
+        0.65
+      );
+      // Bake in slight askew rotation via gsap.set so GSAP owns the transform
+      gsap.set("#s3-pinned-card", { rotation: 0.9 });
+      tl.fromTo("#s3-pinned-card",
+        { opacity: 0, x: 20, rotation: 0.9 },
+        { opacity: 1, x: 0, rotation: 0.9, duration: DUR.slow, ease: EASE.entry },
+        0.65
+      );
+
+      // ─── asr-keyword-glow: single driver 0 → SCENE_DURATION ──────────────
+      const driver = { t: 0 };
+      tl.to(driver, {
+        t: SCENE_DURATION,
+        duration: SCENE_DURATION,
+        ease: "none",
+        onUpdate: () => {
+          words.forEach((el) => {
+            const word = el.dataset.word;
+            const timing = TIMINGS[word];
+            if (!timing) return;
+            const env = envelope(driver.t, timing.start, timing.end);
+            const blur = MAX_BLUR * env;
+            const scale = 1 + MAX_SCALE_BOOST * env;
+            const glowC = glowColorRgba(env);
+            el.style.textShadow = `0 0 ${blur}px ${glowC}`;
+            // "gravel" gets the accent color shift at peak
+            if (word === "gravel") {
+              el.style.color = gravellColorAt(env);
+            }
+            el.style.transform = `scale(${scale})`;
+          });
+        },
+      }, 0);
+
+      // ─── sine-wave-loop: margin line breathing (idle after draw) ─────────
+      // Applied to the SVG opacity for a subtle breath after stroke draws
+      const IDLE_START = 1.7;
+      const IDLE_DUR = SCENE_DURATION - IDLE_START;
+      const CYCLES = IDLE_DUR / 3.0; // ~1.76 cycles, ~3s per cycle
+      const SCALE_AMP = 0.008;
+      const Y_AMP_PX = 2;
+      const sinePhase = { p: 0 };
+
+      tl.to(sinePhase, {
+        p: Math.PI * 2 * CYCLES,
+        duration: IDLE_DUR,
+        ease: "none",
+        onUpdate: () => {
+          const t = sinePhase.p / (Math.PI * 2 * CYCLES);
+          // Fade out amplitude in last 20% so scene settles before transition
+          const env = t < 0.8 ? 1 : (1 - t) / 0.2;
+          const yOff = Math.sin(sinePhase.p) * Y_AMP_PX * env;
+          const sc = 1 + Math.sin(sinePhase.p) * SCALE_AMP * env;
+          // Apply to left column for subtle living page feel
+          const marginSvg = document.getElementById("s3-margin-svg");
+          if (marginSvg) {
+            marginSvg.style.transform = `translateY(${yOff}px) scaleY(${sc})`;
+          }
+        },
+      }, IDLE_START);
+
+      window.__timelines["scene_3"] = tl;
+    </script>
+  </div>
+</template>

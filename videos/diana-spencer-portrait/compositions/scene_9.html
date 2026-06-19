@@ -1,0 +1,488 @@
+<template id="scene_9-template">
+  <div id="root" class="scene_9-root" data-composition-id="scene_9" data-width="1080" data-height="1920" data-duration="6" style="position:relative; width:1080px; height:1920px; overflow:hidden;">
+    <style>
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+
+      #root {
+        background: var(--canvas);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+      }
+      #root *,
+      #root *::before,
+      #root *::after {
+        box-sizing: border-box;
+      }
+
+      /* ── Paper grain overlay ── */
+      .s9-grain {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        background-image: var(--paper-grain);
+      }
+
+      /* ── Camera zoom wrapper ── */
+      .s9-cam {
+        position: absolute;
+        inset: 0;
+        transform-origin: 50% 42%;
+      }
+
+      /* ── Folder SVG ── */
+      .s9-folder-wrap {
+        position: absolute;
+        top: 180px;
+        left: 80px;
+        right: 80px;
+        height: 820px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+      }
+      .s9-folder-svg {
+        width: 920px;
+        height: 820px;
+      }
+      .s9-folder-svg path,
+      .s9-folder-svg rect,
+      .s9-folder-svg line {
+        fill: none;
+        stroke: var(--brand-primary);
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .s9-folder-svg .s9-folder-inner-line {
+        stroke-width: 1.5;
+        stroke-dasharray: 8 6;
+        opacity: 0.5;
+      }
+
+      /* ── Cassette tape SVG ── */
+      .s9-cassette-wrap {
+        position: absolute;
+        top: 290px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 580px;
+        height: 340px;
+      }
+      .s9-cassette-svg {
+        width: 580px;
+        height: 340px;
+      }
+      .s9-cassette-svg path,
+      .s9-cassette-svg rect,
+      .s9-cassette-svg circle,
+      .s9-cassette-svg line {
+        fill: none;
+        stroke: var(--brand-primary);
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .s9-cassette-svg .s9-tape-fill {
+        fill: var(--surface-cream);
+        stroke: var(--brand-primary);
+        stroke-width: 2;
+      }
+      .s9-cassette-svg .s9-spool-fill {
+        fill: var(--surface-paper-2);
+      }
+
+      /* ── Tape label stamp ── */
+      .s9-tape-label-wrap {
+        position: absolute;
+        top: 370px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        width: 280px;
+        min-height: 60px;
+      }
+      .s9-tape-label {
+        display: inline-block;
+        border: var(--border-stamp);
+        color: var(--brand-accent);
+        background: transparent;
+        padding: 6px 16px;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 28px;
+        line-height: 1;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        border-radius: 0;
+        white-space: nowrap;
+      }
+
+      /* ── Three pinned cards (fan) ── */
+      .s9-cards-area {
+        position: absolute;
+        top: 1010px;
+        left: 40px;
+        right: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        align-items: center;
+      }
+      .s9-card {
+        position: relative;
+        background: var(--surface-cream);
+        border: var(--border-hairline);
+        border-radius: var(--radius-card);
+        box-shadow: var(--shadow-pin-standard);
+        padding: 22px 26px 20px;
+        color: var(--brand-primary);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 900px;
+        max-width: 900px;
+      }
+      .s9-card-kicker {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 22px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        opacity: 0.65;
+        line-height: 1;
+      }
+      .s9-card-title {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 1.05;
+        letter-spacing: -0.01em;
+        margin: 0;
+        color: var(--brand-primary);
+      }
+      .s9-card-1 {
+        transform: rotate(-1.5deg);
+      }
+      .s9-card-2 {
+        transform: rotate(1deg);
+        background: var(--surface-paper-2);
+      }
+      .s9-card-3 {
+        transform: rotate(-0.7deg);
+        background: var(--surface-paper-3);
+      }
+
+      /* ── Scribble note ── */
+      .s9-scribble {
+        position: absolute;
+        bottom: 140px;
+        left: 80px;
+        right: 80px;
+        font-family: 'Caveat', cursive;
+        font-weight: 600;
+        font-size: 44px;
+        line-height: 1.1;
+        color: var(--brand-primary);
+        transform: rotate(-2deg);
+        transform-origin: left bottom;
+      }
+
+      /* ── Decorative safety-pin deco (bg layer) ── */
+      .s9-pin-deco {
+        position: absolute;
+        top: 155px;
+        left: 118px;
+        width: 36px;
+        height: 90px;
+        opacity: 0.22;
+        z-index: 0;
+      }
+
+      /* ── Chapter chip eyebrow ── */
+      .s9-eyebrow {
+        position: absolute;
+        top: 108px;
+        left: 80px;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 24px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        opacity: 0.7;
+      }
+    </style>
+
+    <!-- Paper grain atmosphere -->
+    <div class="s9-grain" aria-hidden="true"></div>
+
+    <!-- Eyebrow label -->
+    <div id="s9-eyebrow" class="s9-eyebrow">FIELD FILE 09</div>
+
+    <!-- Camera push-in wrapper -->
+    <div id="s9-cam" class="s9-cam" data-layout-allow-overflow="true">
+
+      <!-- Folder outline drawn by svg-path-draw -->
+      <div class="s9-folder-wrap">
+        <svg class="s9-folder-svg" viewBox="0 0 920 820" xmlns="http://www.w3.org/2000/svg">
+          <!-- Folder tab top-left -->
+          <path id="s9-folder-tab" d="M 40 180 L 40 60 Q 40 40 60 40 L 320 40 Q 340 40 340 60 L 340 180"/>
+          <!-- Folder body outline -->
+          <path id="s9-folder-body-left"  d="M 40 180 L 20 180 Q 0 180 0 200 L 0 800 Q 0 820 20 820 L 900 820 Q 920 820 920 800 L 920 200 Q 920 180 900 180 L 40 180"/>
+          <!-- Folder inner dashed lines suggesting contents -->
+          <line id="s9-folder-rule1" class="s9-folder-inner-line" x1="60" y1="260" x2="860" y2="260"/>
+          <line id="s9-folder-rule2" class="s9-folder-inner-line" x1="60" y1="760" x2="860" y2="760"/>
+        </svg>
+      </div>
+
+      <!-- Cassette tape SVG (revealed after folder opens) -->
+      <div id="s9-cassette-wrap" class="s9-cassette-wrap">
+        <svg class="s9-cassette-svg" viewBox="0 0 580 340" xmlns="http://www.w3.org/2000/svg">
+          <!-- Cassette outer shell -->
+          <rect class="s9-tape-fill" id="s9-cass-body" x="10" y="30" width="560" height="280" rx="18"/>
+          <!-- Top cutout / window area -->
+          <path id="s9-cass-window" d="M 120 80 L 460 80 Q 480 80 480 100 L 480 200 Q 480 220 460 220 L 120 220 Q 100 220 100 200 L 100 100 Q 100 80 120 80 Z"/>
+          <!-- Left spool -->
+          <circle class="s9-spool-fill" id="s9-spool-l" cx="195" cy="150" r="52"/>
+          <circle id="s9-spool-l-inner" cx="195" cy="150" r="22"/>
+          <!-- Right spool -->
+          <circle class="s9-spool-fill" id="s9-spool-r" cx="385" cy="150" r="52"/>
+          <circle id="s9-spool-r-inner" cx="385" cy="150" r="22"/>
+          <!-- Tape ribbon between spools -->
+          <path id="s9-tape-ribbon" d="M 173 192 Q 290 220 407 192"/>
+          <!-- Side notches -->
+          <rect id="s9-notch-l" x="10" y="270" width="30" height="24" rx="4"/>
+          <rect id="s9-notch-r" x="540" y="270" width="30" height="24" rx="4"/>
+          <!-- Screw holes (decoration) -->
+          <circle id="s9-screw-tl" cx="55" cy="68" r="9"/>
+          <circle id="s9-screw-tr" cx="525" cy="68" r="9"/>
+          <circle id="s9-screw-bl" cx="55" cy="288" r="9"/>
+          <circle id="s9-screw-br" cx="525" cy="288" r="9"/>
+        </svg>
+      </div>
+
+      <!-- Tape label stamp — discrete text sequence drives the label text -->
+      <div id="s9-tape-label-wrap" class="s9-tape-label-wrap">
+        <span id="s9-tape-label" class="s9-tape-label">SESSION 01</span>
+      </div>
+
+      <!-- Three pinned-card notes (dynamic-content-sequencing reveals them) -->
+      <div id="s9-cards-area" class="s9-cards-area" data-layout-role="primary" data-layout-act="card-reveals" data-layout-ignore>
+        <!-- Card 1 -->
+        <div id="s9-card-1" class="s9-card s9-card-1" data-layout-role="primary">
+          <span class="s9-card-kicker">EVIDENCE 01</span>
+          <h3 class="s9-card-title">Recorded alone</h3>
+        </div>
+        <!-- Card 2 -->
+        <div id="s9-card-2" class="s9-card s9-card-2" data-layout-role="supporting">
+          <span class="s9-card-kicker">EVIDENCE 02</span>
+          <h3 class="s9-card-title">Bicycle basket</h3>
+        </div>
+        <!-- Card 3 -->
+        <div id="s9-card-3" class="s9-card s9-card-3" data-layout-role="supporting">
+          <span class="s9-card-kicker">EVIDENCE 03</span>
+          <h3 class="s9-card-title">Kensington Palace</h3>
+        </div>
+      </div>
+
+    </div><!-- /.s9-cam -->
+
+    <!-- Scribble note — lower margin (outside camera push to stay readable) -->
+    <p id="s9-scribble" class="s9-scribble">smuggled in <span style="border-bottom:2px solid var(--brand-primary)">plain sight</span></p>
+
+    <script>
+      const EASE = {
+        entry: "power2.out",
+        emphasis: "power3.out",
+        exit: "power2.in",
+        drift: "sine.inOut",
+      };
+      const DUR = {
+        snap: 0.18,
+        med: 0.5,
+        slow: 0.95,
+      };
+
+      window.__timelines = window.__timelines || {};
+
+      // ── SVG path length measurement (svg-path-draw) ──
+      const folderTab     = document.getElementById("s9-folder-tab");
+      const folderBody    = document.getElementById("s9-folder-body-left");
+      const folderRule1   = document.getElementById("s9-folder-rule1");
+      const folderRule2   = document.getElementById("s9-folder-rule2");
+      const cassBody      = document.getElementById("s9-cass-body");
+      const cassWindow    = document.getElementById("s9-cass-window");
+      const spoolL        = document.getElementById("s9-spool-l");
+      const spoolR        = document.getElementById("s9-spool-r");
+      const spoolLInner   = document.getElementById("s9-spool-l-inner");
+      const spoolRInner   = document.getElementById("s9-spool-r-inner");
+      const tapeRibbon    = document.getElementById("s9-tape-ribbon");
+      const notchL        = document.getElementById("s9-notch-l");
+      const notchR        = document.getElementById("s9-notch-r");
+      const screwTL       = document.getElementById("s9-screw-tl");
+      const screwTR       = document.getElementById("s9-screw-tr");
+      const screwBL       = document.getElementById("s9-screw-bl");
+      const screwBR       = document.getElementById("s9-screw-br");
+
+      // Measure and set stroke dasharray/offset for folder paths
+      [folderTab, folderBody, folderRule1, folderRule2].forEach(p => {
+        const len = p.getTotalLength();
+        p.style.strokeDasharray = `${len}`;
+        p.style.strokeDashoffset = `${len}`;
+      });
+
+      // Measure and set stroke dasharray/offset for cassette paths
+      [cassBody, cassWindow, spoolL, spoolR, spoolLInner, spoolRInner,
+       tapeRibbon, notchL, notchR, screwTL, screwTR, screwBL, screwBR].forEach(p => {
+        const len = p.getTotalLength();
+        p.style.strokeDasharray = `${len}`;
+        p.style.strokeDashoffset = `${len}`;
+      });
+
+      // ── Discrete text sequence (discrete-text-sequence) ──
+      // Tape label cycles: SESSION 01 → SESSION 02 → SESSION 03
+      const LABEL_SEQ = [
+        { t: 0.0,  text: "SESSION 01" },
+        { t: 2.2,  text: "SESSION 02" },
+        { t: 3.6,  text: "SESSION 03" },
+      ];
+      function labelAt(time) {
+        for (let i = LABEL_SEQ.length - 1; i >= 0; i--) {
+          if (time >= LABEL_SEQ[i].t) return LABEL_SEQ[i].text;
+        }
+        return LABEL_SEQ[0].text;
+      }
+
+      // ── Dynamic content sequencing — card timing ──
+      // Three cards, longer label = more time
+      const CARD_CONTENT = [
+        { id: "s9-card-1", label: "recorded alone",    chars: 13 },
+        { id: "s9-card-2", label: "bicycle basket",    chars: 14 },
+        { id: "s9-card-3", label: "Kensington Palace", chars: 17 },
+      ];
+      const BASE_DUR     = 0.7;
+      const SEC_PER_CHAR = 0.04;
+      let cumulative = 2.8; // cards start after folder+cassette drawn
+      const CARD_TIMELINE = CARD_CONTENT.map((entry) => {
+        const hold = entry === CARD_CONTENT[CARD_CONTENT.length - 1] ? 1.2 : 0.6;
+        const dur  = BASE_DUR + entry.chars * SEC_PER_CHAR + hold;
+        const start = cumulative;
+        cumulative += dur;
+        return { ...entry, start, end: cumulative };
+      });
+
+      // ── GSAP timeline ──
+      const tl = gsap.timeline({ paused: true });
+
+      // Initial hidden states
+      gsap.set("#s9-eyebrow",          { opacity: 0 });
+      gsap.set("#s9-cassette-wrap",    { opacity: 0 });
+      gsap.set("#s9-tape-label-wrap",  { opacity: 0 });
+      gsap.set("#s9-card-1",           { opacity: 0, y: 24 });
+      gsap.set("#s9-card-2",           { opacity: 0, y: 24 });
+      gsap.set("#s9-card-3",           { opacity: 0, y: 24 });
+      gsap.set("#s9-scribble",         { opacity: 0 });
+
+      // ── 0.0s: Eyebrow label fades in ──
+      tl.fromTo("#s9-eyebrow",
+        { opacity: 0, y: -10 },
+        { opacity: 1, y: 0, duration: DUR.med, ease: EASE.entry },
+        0.1
+      );
+
+      // ── 0.2s–2.0s: Folder draw (svg-path-draw) ──
+      // Tab first, then body, then inner rules
+      tl.to(folderTab,   { strokeDashoffset: 0, duration: 0.55, ease: EASE.entry }, 0.2);
+      tl.to(folderBody,  { strokeDashoffset: 0, duration: 0.90, ease: EASE.entry }, 0.55);
+      tl.to(folderRule1, { strokeDashoffset: 0, duration: 0.45, ease: "none"     }, 1.2);
+      tl.to(folderRule2, { strokeDashoffset: 0, duration: 0.45, ease: "none"     }, 1.5);
+
+      // ── 1.6s: Cassette tape fades in (outline drawn) ──
+      tl.fromTo("#s9-cassette-wrap",
+        { opacity: 0, scale: 0.88 },
+        { opacity: 1, scale: 1, duration: DUR.slow, ease: EASE.entry },
+        1.6
+      );
+      // Draw cassette outline progressively
+      tl.to(cassBody,    { strokeDashoffset: 0, duration: 0.55, ease: EASE.entry }, 1.65);
+      tl.to(cassWindow,  { strokeDashoffset: 0, duration: 0.45, ease: EASE.entry }, 1.95);
+      tl.to(spoolL,      { strokeDashoffset: 0, duration: 0.40, ease: EASE.entry }, 2.15);
+      tl.to(spoolR,      { strokeDashoffset: 0, duration: 0.40, ease: EASE.entry }, 2.28);
+      tl.to(spoolLInner, { strokeDashoffset: 0, duration: 0.30, ease: EASE.entry }, 2.35);
+      tl.to(spoolRInner, { strokeDashoffset: 0, duration: 0.30, ease: EASE.entry }, 2.42);
+      tl.to(tapeRibbon,  { strokeDashoffset: 0, duration: 0.35, ease: EASE.entry }, 2.50);
+      tl.to(notchL,      { strokeDashoffset: 0, duration: 0.22, ease: "none"     }, 2.60);
+      tl.to(notchR,      { strokeDashoffset: 0, duration: 0.22, ease: "none"     }, 2.65);
+      tl.to([screwTL, screwTR, screwBL, screwBR], { strokeDashoffset: 0, duration: 0.25, ease: "none" }, 2.70);
+
+      // ── 2.0s: Tape label appears (stamp pop) ──
+      tl.fromTo("#s9-tape-label-wrap",
+        { opacity: 0, scale: 1.08 },
+        { opacity: 1, scale: 1, duration: DUR.snap, ease: EASE.emphasis },
+        2.0
+      );
+
+      // ── Discrete text sequence driver (tape label cycling) ──
+      const labelDriver = { t: 0 };
+      const tapeLabel = document.getElementById("s9-tape-label");
+      tl.to(labelDriver, {
+        t: 6,
+        duration: 6,
+        ease: "none",
+        onUpdate: () => {
+          const txt = labelAt(labelDriver.t);
+          if (tapeLabel.textContent !== txt) {
+            tapeLabel.textContent = txt;
+          }
+        },
+      }, 0);
+
+      // Stamp tilt variations on each label swap (pre-set via GSAP)
+      // SESSION 01 at -3deg, SESSION 02 at -5deg, SESSION 03 at -2deg
+      gsap.set("#s9-tape-label", { rotation: -3 });
+      tl.set("#s9-tape-label", { rotation: -5 }, 2.2);
+      tl.set("#s9-tape-label", { rotation: -2 }, 3.6);
+
+      // ── 2.8s onward: Card reveals (dynamic-content-sequencing) ──
+      CARD_TIMELINE.forEach((entry) => {
+        tl.fromTo(`#${entry.id}`,
+          { opacity: 0, y: 24 },
+          { opacity: 1, y: 0, duration: DUR.med, ease: EASE.entry },
+          entry.start
+        );
+      });
+
+      // ── 4.8s: Scribble note drifts in at lower margin ──
+      tl.fromTo("#s9-scribble",
+        { opacity: 0, x: -18 },
+        { opacity: 1, x: 0, duration: DUR.slow, ease: EASE.entry },
+        4.8
+      );
+
+      // ── Macro camera: slow push-in across full duration ──
+      tl.fromTo("#s9-cam",
+        { scale: 1.0 },
+        { scale: 1.06, duration: 6, ease: "none" },
+        0
+      );
+
+      // ── Idle drift on scribble (subtle) ──
+      // within duration, no repeat:-1; use a contained yoyo arc
+      tl.fromTo("#s9-scribble",
+        { rotation: -2 },
+        { rotation: -1.2, duration: 2.5, ease: EASE.drift, yoyo: true, repeat: 0 },
+        5.0
+      );
+
+      window.__timelines["scene_9"] = tl;
+    </script>
+  </div>
+</template>

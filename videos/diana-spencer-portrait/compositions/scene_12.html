@@ -1,0 +1,577 @@
+<template id="scene_12-template">
+  <div id="root" class="scene_12-root" data-composition-id="scene_12" data-width="1080" data-height="1920" data-duration="7" style="position:relative; width:1080px; height:1920px; overflow:hidden;">
+    <style>
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+
+      #root {
+        background: var(--canvas);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+      }
+      #root *,
+      #root *::before,
+      #root *::after {
+        box-sizing: border-box;
+      }
+
+      /* ── Camera wrapper ── */
+      .s12-camera {
+        position: absolute;
+        inset: 0;
+        transform-origin: 50% 50%;
+        will-change: transform;
+      }
+
+      /* ── Scene content inner (always full canvas) ── */
+      .s12-content {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* ── Hero text: "Her playbook." ── */
+      .s12-hero {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 110px;
+        line-height: 1.08;
+        letter-spacing: -0.04em;
+        color: var(--brand-primary);
+        text-align: center;
+        white-space: nowrap;
+        will-change: opacity, transform;
+      }
+
+      /* ── Dossier grid — 12 ink thumbnail scraps ── */
+      .s12-dossier {
+        position: absolute;
+        inset: 80px 40px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        gap: 16px;
+        pointer-events: none;
+      }
+
+      .s12-scrap {
+        border: var(--border-hairline);
+        border-radius: var(--radius-card);
+        background: var(--surface-cream);
+        box-shadow: var(--shadow-pin-compact);
+        opacity: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-end;
+        padding: 8px 10px;
+        overflow: hidden;
+        will-change: opacity;
+      }
+
+      /* Scrap inner labels — minimal ink marks */
+      .s12-scrap-label {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 14px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        opacity: 0.55;
+        line-height: 1.2;
+      }
+
+      .s12-scrap-line {
+        width: 100%;
+        height: 1.5px;
+        background: var(--brand-primary);
+        opacity: 0.25;
+        margin-bottom: 6px;
+      }
+
+      /* The scrap with darker fill stands out as the active one */
+      .s12-scrap.active {
+        background: var(--surface-paper);
+      }
+
+      /* ── Morph anchor area (bottom center) ── */
+      .s12-anchor-zone {
+        position: absolute;
+        bottom: 180px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      /* Morph container: starts as chip pill, morphs to display block */
+      .s12-morph-card {
+        background: var(--brand-primary);
+        border-radius: 999px;
+        width: 340px;
+        height: 60px;
+        overflow: hidden;
+        display: grid;
+        place-items: center;
+        will-change: width, height, border-radius, background;
+        opacity: 0;
+      }
+
+      /* Old chip content (small label) */
+      .s12-morph-old {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        opacity: 1;
+      }
+
+      .s12-morph-chip-text {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 20px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--canvas);
+      }
+
+      /* New display content (STILL RUNNING. stamp) */
+      .s12-morph-new {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        padding: 20px 32px;
+        opacity: 0;
+      }
+
+      .s12-morph-display {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 72px;
+        line-height: 1.0;
+        letter-spacing: -0.03em;
+        color: var(--canvas);
+        text-align: center;
+      }
+
+      /* ── ASR phrase — appears after zoom out, "BLOOD" is the glow word ── */
+      .s12-asr-phrase {
+        position: absolute;
+        bottom: 340px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        width: 900px;
+        opacity: 0;
+        will-change: opacity;
+      }
+
+      .s12-word {
+        display: inline-block;
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 44px;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        color: var(--brand-primary);
+        text-align: center;
+        transform-origin: 50% 50%;
+        will-change: transform, text-shadow;
+      }
+
+      .s12-word.s12-word-blood {
+        color: var(--brand-accent);
+      }
+
+      /* ── Scribble closing note ── */
+      .s12-scribble {
+        position: absolute;
+        bottom: 480px;
+        left: 60px;
+        right: 60px;
+        font-family: 'Caveat', cursive;
+        font-weight: 600;
+        font-size: 34px;
+        line-height: 1.1;
+        color: var(--brand-primary);
+        transform-origin: left bottom;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      /* ── Paper grain overlay (non-optional) ── */
+      .s12-paper-grain-overlay {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 10;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        background-image: var(--paper-grain);
+      }
+
+      /* ── Decorative safety-pin deco (background) ── */
+      .s12-deco-pin {
+        position: absolute;
+        top: 64px;
+        right: 64px;
+        width: 28px;
+        opacity: 0.14;
+        will-change: opacity;
+        z-index: 0;
+      }
+    </style>
+
+    <!-- Paper grain (non-optional, topmost decorative) -->
+    <div class="s12-paper-grain-overlay" aria-hidden="true"></div>
+
+    <!-- Camera wrapper (multi-phase-camera effect) -->
+    <div class="s12-camera" id="s12-camera" data-layout-allow-overflow="true">
+
+      <div class="s12-content">
+
+        <!-- Decorative safety-pin SVG (background deco) -->
+        <svg class="s12-deco-pin" viewBox="0 0 28 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <ellipse cx="14" cy="8" rx="8" ry="8" stroke="var(--brand-primary)" stroke-width="2.5"/>
+          <line x1="14" y1="16" x2="14" y2="62" stroke="var(--brand-primary)" stroke-width="2.5"/>
+          <path d="M14 62 C14 72 6 74 6 70 C6 66 14 64 14 62Z" stroke="var(--brand-primary)" stroke-width="2"/>
+        </svg>
+
+        <!-- Phase 1 primary: "Her playbook." hero fills ~50% canvas at zoom-in -->
+        <div class="s12-hero" id="s12-hero">Her playbook.</div>
+
+        <!-- Dossier grid — 12 thumbnail ink scraps (revealed in Phase 2 pull-back) -->
+        <div class="s12-dossier" id="s12-dossier" aria-label="Dossier of prior scenes">
+          <!-- Row 1 -->
+          <div class="s12-scrap" id="s12-scrap-1"><div class="s12-scrap-line"></div><span class="s12-scrap-label">Childhood</span></div>
+          <div class="s12-scrap" id="s12-scrap-2"><div class="s12-scrap-line"></div><span class="s12-scrap-label">Marriage</span></div>
+          <div class="s12-scrap" id="s12-scrap-3"><div class="s12-scrap-line"></div><span class="s12-scrap-label">Outsider</span></div>
+          <!-- Row 2 -->
+          <div class="s12-scrap" id="s12-scrap-4"><div class="s12-scrap-line"></div><span class="s12-scrap-label">Press</span></div>
+          <div class="s12-scrap active" id="s12-scrap-5"><div class="s12-scrap-line"></div><span class="s12-scrap-label">Charity</span></div>
+          <div class="s12-scrap" id="s12-scrap-6"><div class="s12-scrap-line"></div><span class="s12-scrap-label">Landmines</span></div>
+          <!-- Row 3 -->
+          <div class="s12-scrap" id="s12-scrap-7"><div class="s12-scrap-line"></div><span class="s12-scrap-label">Rupture</span></div>
+          <div class="s12-scrap" id="s12-scrap-8"><div class="s12-scrap-line"></div><span class="s12-scrap-label">Interview</span></div>
+          <div class="s12-scrap" id="s12-scrap-9"><div class="s12-scrap-line"></div><span class="s12-scrap-label">Paparazzi</span></div>
+          <!-- Row 4 -->
+          <div class="s12-scrap" id="s12-scrap-10"><div class="s12-scrap-line"></div><span class="s12-scrap-label">Legacy</span></div>
+          <div class="s12-scrap" id="s12-scrap-11"><div class="s12-scrap-line"></div><span class="s12-scrap-label">Flagpole</span></div>
+          <div class="s12-scrap" id="s12-scrap-12"><div class="s12-scrap-line"></div><span class="s12-scrap-label">Still here</span></div>
+        </div>
+
+        <!-- ASR phrase — "In the blood." with "BLOOD" as the glow keyword -->
+        <div class="s12-asr-phrase" id="s12-asr-phrase">
+          <span class="s12-word" data-word="in">In</span>
+          <span class="s12-word" data-word="the">the</span>
+          <span class="s12-word s12-word-blood" data-word="blood">BLOOD.</span>
+        </div>
+
+        <!-- Caveat scribble (closes the scene) -->
+        <p class="s12-scribble" id="s12-scribble">every royal going rogue. every raw documentary. <span style="border-bottom: 2px solid var(--brand-primary);">that's her.</span></p>
+
+        <!-- Morph anchor: chip → display block for "STILL RUNNING." -->
+        <div class="s12-anchor-zone" id="s12-anchor-zone">
+          <div class="s12-morph-card" id="s12-morph-card" style="position:relative;">
+            <div class="s12-morph-old" id="s12-morph-old">
+              <span class="s12-morph-chip-text">THE PLAYBOOK</span>
+            </div>
+            <div class="s12-morph-new" id="s12-morph-new">
+              <div class="s12-morph-display">STILL<br>RUNNING.</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.s12-content -->
+
+    </div><!-- /.s12-camera -->
+
+    <script>
+      const EASE = {
+        entry: "power2.out",
+        emphasis: "power3.out",
+        exit: "power2.in",
+        drift: "sine.inOut",
+      };
+      const DUR = {
+        snap: 0.18,
+        med: 0.5,
+        slow: 0.95,
+      };
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ── Multi-phase camera constants ──
+      // Phase 1: tight zoom-in (hero fills ~50% of canvas)
+      // At scale 2.1, a 110px text is rendered as ~231px which is ~21% of 1080px width,
+      // but the hero element spans the full word "Her playbook." ~560px → at 2.1× = ~1176px
+      // That is too wide. Recalculate: "Her playbook." at font-size 110px is ~600px wide.
+      // At scale 2.1: 600 * 2.1 = 1260px → overflows 1080. Need smaller scale.
+      // For 50% of 1080px width: 540px. Hero is ~600px → scale = 540/600 = 0.9
+      // So Phase 1 should be scale ~1.7 to make it "fill ~50%" visually prominent.
+      // Actually brief says "filling 50% of canvas" → the phrase occupies half the width
+      // At scale 1.8, 600px * 1.8 = 1080px which is exactly 100% width, too wide
+      // At scale 1.5, 600px * 1.5 = 900px = 83% of canvas — still prominent
+      // Let's use 1.6 (still allows some margin), then pull back to 1.0
+      const PHASE_1_SCALE = 1.6;
+      const PHASE_2_SCALE = 0.92; // pull back to see full dossier
+      const PHASE_3_SCALE = 1.18; // push into the bottom-center stamp area
+
+      // Phase 2 pull-back: starts at 1.8s, takes 1.5s → lands at 3.3s (before 4.5s deadline)
+      const PHASE_2_AT = 1.8;
+      const PHASE_2_DUR = 1.8;
+
+      // Phase 3 push-in to stamp: starts at 4.5s, takes 1.8s → lands at 6.3s
+      // For phase 3 we want to center on the bottom-center anchor zone
+      // The anchor-zone is at bottom:180px → top = 1920 - 180 - morph_card_height
+      // We'll use a Y offset to push camera down toward the anchor zone
+      // (Target center Y ≈ 1920 - 180 - 100 = 1640px; canvas center = 960px)
+      // Offset needed at scale 1.18: dy = (960 - 1640) / 1.18 = -680 / 1.18 ≈ -576px
+      // But multi-phase-camera uses drift.p for translate, not a static offset.
+      // For a targeted push toward bottom: we track a separate y-offset proxy.
+      const PHASE_3_AT = 4.5;
+      const PHASE_3_DUR = 1.8;
+
+      const TOTAL_DURATION = 7;
+      const DRIFT_CYCLES = 1.2;
+      const DRIFT_AMP_X = 4;
+      const DRIFT_AMP_Y = 3;
+      const DRIFT_FREQ_RATIO = 1.3;
+
+      const camera = document.getElementById("s12-camera");
+
+      // Phase scale proxy + camera y-offset proxy
+      const phase = { scale: PHASE_1_SCALE };
+      const camShift = { y: 0 };
+
+      // Initial camera state (Phase 1: zoomed in, centered on hero)
+      gsap.set(camera, { transformOrigin: "50% 50%" });
+
+      // ── Hero initial set (show it from the start) ──
+      const heroEl = document.getElementById("s12-hero");
+      gsap.set(heroEl, { opacity: 0, y: 16 });
+
+      // ── Dossier scraps initial state ──
+      const scrapEls = document.querySelectorAll(".s12-scrap");
+      gsap.set(scrapEls, { opacity: 0 });
+
+      // ── ASR phrase initial state ──
+      const asrPhraseEl = document.getElementById("s12-asr-phrase");
+      gsap.set(asrPhraseEl, { opacity: 0 });
+
+      // ── Scribble initial state ──
+      const scribbleEl = document.getElementById("s12-scribble");
+      gsap.set(scribbleEl, { opacity: 0, rotation: -2 });
+
+      // ── Morph card initial state ──
+      const morphCardEl = document.getElementById("s12-morph-card");
+      const morphOldEl = document.getElementById("s12-morph-old");
+      const morphNewEl = document.getElementById("s12-morph-new");
+      gsap.set(morphCardEl, { opacity: 0 });
+      gsap.set(morphNewEl, { opacity: 0 });
+      gsap.set(morphOldEl, { opacity: 1 });
+
+      // ── Deco pin initial state ──
+      const pinEl = document.querySelector(".s12-deco-pin");
+      gsap.set(pinEl, { opacity: 0 });
+
+      // ── Phase 1: Hero arrives (0.2s) ──
+      tl.fromTo(heroEl,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: DUR.slow, ease: EASE.entry },
+        0.15
+      );
+
+      // ── Camera drift driver (full 7s, sine) ──
+      const drift = { p: 0 };
+      tl.to(drift, {
+        p: Math.PI * 2 * DRIFT_CYCLES,
+        duration: TOTAL_DURATION,
+        ease: "none",
+        onUpdate: () => {
+          const dx = Math.sin(drift.p) * DRIFT_AMP_X;
+          const dy = Math.sin(drift.p * DRIFT_FREQ_RATIO) * DRIFT_AMP_Y + camShift.y;
+          camera.style.transform = `scale(${phase.scale}) translate(${dx}px, ${dy}px)`;
+        },
+      }, 0);
+
+      // ── Phase 2: Pull back (1.8s → 3.6s) revealing dossier grid ──
+      tl.to(phase, {
+        scale: PHASE_2_SCALE,
+        duration: PHASE_2_DUR,
+        ease: "power2.inOut",
+      }, PHASE_2_AT);
+
+      // Hero fades slightly as dossier appears
+      tl.to(heroEl, { opacity: 0.3, duration: DUR.med, ease: EASE.exit }, PHASE_2_AT + 0.2);
+
+      // Scraps stagger in during pull-back
+      tl.to(scrapEls, {
+        opacity: 0.72,
+        duration: DUR.med,
+        ease: EASE.entry,
+        stagger: 0.06,
+      }, PHASE_2_AT + 0.3);
+
+      // Deco pin fades in
+      tl.to(pinEl, { opacity: 0.14, duration: DUR.slow, ease: EASE.entry }, PHASE_2_AT + 0.5);
+
+      // ── Morph card appears as chip (3.6s) ──
+      tl.fromTo(morphCardEl,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: DUR.med, ease: EASE.entry },
+        3.6
+      );
+
+      // ── Phase 3: Push toward bottom-center stamp (4.5s → 6.3s) ──
+      tl.to(phase, {
+        scale: PHASE_3_SCALE,
+        duration: PHASE_3_DUR,
+        ease: "power2.inOut",
+      }, PHASE_3_AT);
+
+      // Simultaneously shift camera Y downward to center on bottom anchor
+      // At scale 1.18, to center on y=1680 (bottom anchor center): dy = 960 - 1680 = -720px
+      // Divide by scale for the translate value: -720 / 1.18 ≈ -610px
+      // We ease this from 0 toward -520px so the push feels like we're looking down
+      tl.to(camShift, {
+        y: -510,
+        duration: PHASE_3_DUR,
+        ease: "power2.inOut",
+      }, PHASE_3_AT);
+
+      // ── card-morph-anchor: chip → full display block (4.5s) ──
+      const MORPH_START = 4.5;
+      const MORPH_DUR = 1.0;
+
+      // Morph card expands: pill → wide block
+      tl.to(morphCardEl, {
+        width: 880,
+        height: 220,
+        borderRadius: 8,
+        duration: MORPH_DUR,
+        ease: "power2.inOut",
+      }, MORPH_START);
+
+      // Old chip text fades out (first 40% of morph)
+      tl.to(morphOldEl, {
+        opacity: 0,
+        duration: MORPH_DUR * 0.4,
+        ease: "power1.in",
+      }, MORPH_START);
+
+      // New display text fades in (last 40% of morph)
+      tl.to(morphNewEl, {
+        opacity: 1,
+        duration: MORPH_DUR * 0.4,
+        ease: "power1.out",
+      }, MORPH_START + MORPH_DUR * 0.6);
+
+      // ── ASR phrase "In the BLOOD." appears (5.0s) ──
+      tl.fromTo(asrPhraseEl,
+        { opacity: 0, y: 8 },
+        { opacity: 1, y: 0, duration: DUR.med, ease: EASE.entry },
+        5.0
+      );
+
+      // ── asr-keyword-glow: "BLOOD" fires at ~5.5s ──
+      const SCENE_DURATION = TOTAL_DURATION;
+      const ATTACK_DUR = 0.18;
+      const RELEASE = 0.35;
+      const REST_LEVEL = 0.18;
+      const MAX_BLUR = 28;
+      const MAX_SCALE_BOOST = 0.18;
+
+      // REST_RGB: muted brand-primary (dimmer)
+      const REST_RGB = { r: 31, g: 58, b: 138 };    // brand-primary blue at dim
+      // ACTIVE_RGB: ink-blue at full brightness
+      const ACTIVE_RGB = { r: 31, g: 58, b: 138 };
+      // BRAND_RGB: accent red (for BLOOD — the brand word)
+      const BRAND_RGB = { r: 194, g: 52, b: 43 };
+
+      const TIMINGS = {
+        "in":    { start: 5.0, end: 5.25 },
+        "the":   { start: 5.25, end: 5.45 },
+        "blood": { start: 5.5,  end: 6.2  },
+      };
+
+      function lerpChannel(a, b, t) {
+        return Math.round(a + (b - a) * t);
+      }
+
+      function colorAt(env, isBrand) {
+        const target = isBrand ? BRAND_RGB : ACTIVE_RGB;
+        return `rgb(${lerpChannel(REST_RGB.r, target.r, env)}, ${lerpChannel(REST_RGB.g, target.g, env)}, ${lerpChannel(REST_RGB.b, target.b, env)})`;
+      }
+
+      function glowColorRgba(env, isBrand) {
+        const baseR = isBrand ? 194 : 31;
+        const baseG = isBrand ? 52 : 58;
+        const baseB = isBrand ? 43 : 138;
+        const alpha = 0.1 + env * 0.75;
+        return `rgba(${baseR}, ${baseG}, ${baseB}, ${alpha})`;
+      }
+
+      function envelope(time, start, end) {
+        const releaseEnd = end + RELEASE;
+        if (time < start) return 0;
+        if (time < end) {
+          const attack = Math.min((time - start) / ATTACK_DUR, 1);
+          return attack;
+        }
+        if (time < releaseEnd) {
+          const decay = (time - end) / RELEASE;
+          return 1 - decay * (1 - REST_LEVEL);
+        }
+        return REST_LEVEL;
+      }
+
+      const wordEls = document.querySelectorAll(".s12-word");
+      const asrDriver = { t: 0 };
+
+      tl.to(asrDriver, {
+        t: SCENE_DURATION,
+        duration: SCENE_DURATION,
+        ease: "none",
+        onUpdate: () => {
+          wordEls.forEach((el) => {
+            const word = el.dataset.word;
+            const timing = TIMINGS[word];
+            if (!timing) return;
+            const env = envelope(asrDriver.t, timing.start, timing.end);
+            const isBrand = el.classList.contains("s12-word-blood");
+            const blur = MAX_BLUR * env;
+            const scale = 1 + MAX_SCALE_BOOST * env;
+            el.style.textShadow = `0 0 ${blur}px ${glowColorRgba(env, isBrand)}`;
+            el.style.transform = `scale(${scale})`;
+            el.style.color = colorAt(env, isBrand);
+          });
+        },
+      }, 0);
+
+      // ── Closing scribble (5.6s) ──
+      tl.fromTo(scribbleEl,
+        { opacity: 0, rotation: -2 },
+        { opacity: 1, rotation: -2, duration: DUR.slow, ease: EASE.entry },
+        5.6
+      );
+
+      // Register timeline
+      window.__timelines["scene_12"] = tl;
+    </script>
+  </div>
+</template>

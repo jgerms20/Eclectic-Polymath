@@ -1,0 +1,285 @@
+<template id="scene_1-template">
+  <div id="root" class="scene_1-root" data-composition-id="scene_1" data-width="1080" data-height="1920" data-duration="5" style="position:relative; width:1080px; height:1920px; overflow:hidden;">
+    <style>
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+
+      #root {
+        background: var(--canvas);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+      }
+      #root *,
+      #root *::before,
+      #root *::after {
+        box-sizing: border-box;
+      }
+
+      /* Paper grain overlay — full-bleed atmospheric texture */
+      .s1-grain {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        background-image: var(--paper-grain);
+      }
+
+      /* Dolly-in wrapper — the macro camera zooms this */
+      .s1-dolly {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        transform-origin: center center;
+        will-change: transform;
+      }
+
+      /* Content column — centered, flex column */
+      .s1-content {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px var(--pad-edge);
+      }
+
+      /* Eyebrow chip — mono uppercase, DM Mono */
+      .s1-chip {
+        display: inline-block;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 26px;
+        line-height: 1;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        padding: 6px 0;
+        margin-bottom: 32px;
+      }
+
+      /* Hero depth stack container */
+      .s1-depth-stack {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        will-change: transform, filter, opacity;
+        margin-bottom: 0;
+      }
+
+      /* Depth text layers */
+      .s1-depth-text {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 480px;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        color: var(--brand-primary);
+        white-space: nowrap;
+        will-change: transform;
+      }
+
+      /* Back layers — absolute, stacked behind */
+      .s1-depth-text.s1-is-back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+      }
+
+      /* Front layer — relative, defines container size */
+      .s1-depth-text.s1-is-front {
+        position: relative;
+        z-index: 10;
+      }
+
+      /* Scribble note — lower quarter, Caveat hand-script */
+      .s1-scribble {
+        position: absolute;
+        bottom: 260px;
+        left: var(--pad-edge);
+        right: var(--pad-edge);
+        z-index: 3;
+        font-family: 'Caveat', cursive;
+        font-weight: 600;
+        font-size: 42px;
+        line-height: 1.15;
+        color: var(--brand-primary);
+        transform: rotate(-2deg);
+        transform-origin: left bottom;
+        margin: 0;
+        max-width: 28ch;
+      }
+    </style>
+
+    <!-- Paper grain texture (decorative, full-bleed) -->
+    <div class="s1-grain" aria-hidden="true"></div>
+
+    <!-- Dolly-in camera wrapper -->
+    <div class="s1-dolly" id="s1-dolly">
+
+      <!-- Main content: chip above hero numeral -->
+      <div class="s1-content" data-layout-role="primary" data-layout-act="hero-entry">
+
+        <!-- Eyebrow chip: mono uppercase catalog tag -->
+        <span class="s1-chip" id="s1-chip">FIELD FILE 01</span>
+
+        <!-- Depth stack: hero numeral "19." with 3d offset layers -->
+        <div class="s1-depth-stack" id="s1-depth-stack">
+          <!-- Depth layers injected by script below — back-to-front -->
+        </div>
+
+      </div>
+
+      <!-- Caveat scribble — lower quarter, positioned absolute inside dolly -->
+      <p class="s1-scribble" id="s1-scribble">zero armor. <span style="border-bottom: 2px solid var(--brand-primary);">one thousand years.</span></p>
+
+    </div><!-- /s1-dolly -->
+
+    <script>
+      const EASE = {
+        entry: "power2.out",
+        emphasis: "power3.out",
+        exit: "power2.in",
+        drift: "sine.inOut",
+      };
+      const DUR = {
+        snap: 0.18,
+        med: 0.5,
+        slow: 0.95,
+      };
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ── 3d-text-depth-layers: build the depth stack ──────────────────────
+      const TEXT = "19.";
+      const stack = document.querySelector("#s1-depth-stack");
+
+      const LAYER_COUNT = 5;
+      const OFFSET_X = 2;   // px per layer, light from upper-left
+      const OFFSET_Y = 2;
+      const BACK_ALPHA_MAX = 0.72;
+      const BACK_ALPHA_STEP = 0.12;
+      const BACK_ALPHA_MIN = 0.12;
+      // Back color RGB — brand-primary #1F3A8A → 31, 58, 138
+      const BACK_RGB = "31, 58, 138";
+
+      // Build layers back-to-front (high i = deepest back)
+      for (let i = LAYER_COUNT - 1; i >= 0; i--) {
+        const el = document.createElement("div");
+        el.className = "s1-depth-text " + (i === 0 ? "s1-is-front" : "s1-is-back");
+        el.textContent = TEXT;
+        if (i > 0) {
+          const alpha = Math.max(BACK_ALPHA_MAX - i * BACK_ALPHA_STEP, BACK_ALPHA_MIN);
+          el.style.color = "rgba(" + BACK_RGB + ", " + alpha + ")";
+          el.style.transform = "translate(" + (i * OFFSET_X) + "px, " + (i * OFFSET_Y) + "px)";
+        } else {
+          el.style.color = "var(--brand-primary)";
+        }
+        el.dataset.layer = String(i);
+        stack.appendChild(el);
+      }
+
+      const frontLayer = stack.querySelector(".s1-is-front");
+      const backLayers = stack.querySelectorAll(".s1-is-back");
+
+      // ── Initial hidden states ────────────────────────────────────────────
+      gsap.set("#s1-chip",     { opacity: 0, y: -16 });
+      gsap.set("#s1-scribble", { opacity: 0 });
+      // Hide depth stack initially — kinetic slam will reveal
+      gsap.set("#s1-depth-stack", { opacity: 0, scale: 1.45, filter: "blur(18px)" });
+
+      // ── BEAT GRID ────────────────────────────────────────────────────────
+      // Cold open: hero slams on first beat at t=0.1
+      const BEATS = [0.1, 0.55, 1.0];
+
+      // ── kinetic-beat-slam: hero numeral slams in ─────────────────────────
+      // Beat 0: whole stack slams in — scale+blur collapse
+      tl.fromTo(
+        "#s1-depth-stack",
+        { opacity: 0, scale: 1.45, filter: "blur(18px)" },
+        { opacity: 1, scale: 1,    filter: "blur(0px)", duration: 0.45, ease: "power4.out" },
+        BEATS[0]
+      );
+
+      // ── 3d-text-depth-layers: depth-grow tween ──────────────────────────
+      // Offsets interpolate 0→full as the stack slams in
+      const depthState = { p: 0 };
+      const DEPTH_GROW_DUR = 0.55;
+      tl.to(
+        depthState,
+        {
+          p: 1,
+          duration: DEPTH_GROW_DUR,
+          ease: "power2.out",
+          onUpdate: function() {
+            backLayers.forEach(function(el) {
+              const i = Number(el.dataset.layer);
+              const x = i * OFFSET_X * depthState.p;
+              const y = i * OFFSET_Y * depthState.p;
+              el.style.transform = "translate(" + x + "px, " + y + "px)";
+            });
+          },
+        },
+        BEATS[0]
+      );
+
+      // Beat 1: chip snaps in from above
+      tl.fromTo(
+        "#s1-chip",
+        { opacity: 0, y: -16 },
+        { opacity: 1, y: 0, duration: 0.35, ease: "expo.out" },
+        BEATS[1]
+      );
+
+      // Beat 2: scribble drifts in — fade (print type reads as paper landing)
+      tl.fromTo(
+        "#s1-scribble",
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: DUR.slow, ease: EASE.entry },
+        BEATS[2]
+      );
+
+      // ── sine-wave-loop: hero numeral breathes ±1% ────────────────────────
+      // Starts after entry settles (~0.6s after slam)
+      const IDLE_START = 0.6;
+      const IDLE_DUR = 5 - IDLE_START;  // fills composition to end
+      const SCALE_AMP = 0.010;           // ±1% per brief
+      const Y_AMP = 2;                   // ±2px subtle bob
+      // CYCLES: IDLE_DUR / 2.8s ≈ 1.57 → use 1.5 cycles (period ~2.93s, within 2.5-4s range)
+      const CYCLES = 1.5;
+
+      const phase = { p: 0 };
+      tl.to(
+        phase,
+        {
+          p: Math.PI * 2 * CYCLES,
+          duration: IDLE_DUR,
+          ease: "none",
+          onUpdate: function() {
+            const s = 1 + Math.sin(phase.p) * SCALE_AMP;
+            const y = Math.sin(phase.p) * Y_AMP;
+            frontLayer.style.transform = "translateY(" + y + "px) scale(" + s + ")";
+          },
+        },
+        IDLE_START
+      );
+
+      // ── Macro motion: slow dolly-in across 5s ────────────────────────────
+      // Start at scale 1, close in to 1.06 over full duration
+      tl.fromTo(
+        "#s1-dolly",
+        { scale: 1.0 },
+        { scale: 1.06, duration: 5, ease: "none" },
+        0
+      );
+
+      window.__timelines["scene_1"] = tl;
+    </script>
+  </div>
+</template>

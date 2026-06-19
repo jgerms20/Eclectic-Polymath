@@ -1,0 +1,528 @@
+<template id="scene_5-template">
+  <div id="root" class="scene_5-root" data-composition-id="scene_5" data-width="1080" data-height="1920" data-duration="6" style="position:relative; width:1080px; height:1920px; overflow:hidden;">
+    <style>
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+
+      #root {
+        background: var(--canvas);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+      }
+      #root *,
+      #root *::before,
+      #root *::after {
+        box-sizing: border-box;
+      }
+
+      /* === Background: institutional column pillars === */
+      .s5-bg-columns {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: stretch;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .s5-bg-column {
+        width: 1.5px;
+        background: transparent;
+        border-left: var(--border-dashed);
+        opacity: 0.38;
+      }
+
+      /* Paper grain overlay */
+      .s5-paper-grain-overlay {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        background-image: var(--paper-grain);
+      }
+
+      /* === Macro camera zoom wrapper === */
+      .s5-zoom-outer {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+      }
+
+      /* === Foreground content column === */
+      .s5-content {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 200px;
+        gap: 0;
+      }
+
+      /* === Clinical chips row === */
+      .s5-chips-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 36px;
+        margin-bottom: 52px;
+      }
+
+      /* Each chip + glitch label pair */
+      .s5-term-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* Clinical term: DM Mono uppercase */
+      .s5-term-label {
+        display: inline-block;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 52px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        line-height: 1;
+        will-change: transform, text-shadow;
+      }
+
+      /* BRAND word that gets the ASR glow */
+      .s5-brand-word {
+        display: inline-block;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 52px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        line-height: 1;
+        will-change: transform, text-shadow;
+      }
+
+      /* Glitch stamp wrapper — depth-stack container */
+      .s5-glitch-stack {
+        position: relative;
+        display: inline-block;
+      }
+
+      /* The GLITCH depth-text layers */
+      .s5-glitch-text {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 30px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        line-height: 1;
+        color: var(--brand-accent);
+        border: var(--border-stamp);
+        padding: 5px 14px;
+        display: inline-block;
+        will-change: transform, opacity;
+      }
+      .s5-glitch-text.s5-glitch-front {
+        position: relative;
+        z-index: 10;
+      }
+      .s5-glitch-text.s5-glitch-back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        border-color: transparent;
+      }
+
+      /* === Human figure SVG — midground === */
+      .s5-figure-wrap {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 48px;
+      }
+      .s5-figure-svg {
+        width: 168px;
+        height: 288px;
+        will-change: transform;
+      }
+
+      /* === BRAND chip at bottom of stack (receives ASR glow) === */
+      .s5-brand-row {
+        margin-top: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+    </style>
+
+    <!-- Background dashed column pillars -->
+    <div class="s5-bg-columns" id="s5-bg-columns" aria-hidden="true">
+      <div class="s5-bg-column" id="s5-col-1"></div>
+      <div class="s5-bg-column" id="s5-col-2"></div>
+      <div class="s5-bg-column" id="s5-col-3"></div>
+    </div>
+
+    <!-- Paper grain -->
+    <div class="s5-paper-grain-overlay" aria-hidden="true"></div>
+
+    <!-- Zoom outer wrapper -->
+    <div class="s5-zoom-outer" id="s5-zoom-outer" data-layout-act="push-in">
+
+      <div class="s5-content" data-layout-role="primary" data-layout-act="clinical-descent">
+
+        <!-- Human figure in midground — sits above content for layering -->
+        <div class="s5-figure-wrap" id="s5-figure-wrap">
+          <svg class="s5-figure-svg" id="s5-figure-svg" viewBox="0 0 168 288" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- Head -->
+            <circle cx="84" cy="30" r="22" fill="var(--brand-primary)" opacity="0.82"/>
+            <!-- Neck -->
+            <rect x="78" y="50" width="12" height="16" rx="2" fill="var(--brand-primary)" opacity="0.82"/>
+            <!-- Body torso -->
+            <rect x="52" y="66" width="64" height="88" rx="6" fill="var(--brand-primary)" opacity="0.78"/>
+            <!-- Left arm -->
+            <rect x="28" y="72" width="26" height="12" rx="6" fill="var(--brand-primary)" opacity="0.72"/>
+            <!-- Right arm -->
+            <rect x="114" y="72" width="26" height="12" rx="6" fill="var(--brand-primary)" opacity="0.72"/>
+            <!-- Left leg -->
+            <rect x="55" y="152" width="22" height="90" rx="6" fill="var(--brand-primary)" opacity="0.76"/>
+            <!-- Right leg -->
+            <rect x="91" y="152" width="22" height="90" rx="6" fill="var(--brand-primary)" opacity="0.76"/>
+            <!-- Seated posture — arms on lap (symbolic weight) -->
+            <rect x="55" y="130" width="58" height="12" rx="3" fill="var(--brand-primary)" opacity="0.45"/>
+          </svg>
+        </div>
+
+        <!-- Three clinical term rows, each with a GLITCH depth stack -->
+        <div class="s5-chips-col" data-layout-role="primary" id="s5-chips-col">
+
+          <!-- BULIMIA term + GLITCH stamp -->
+          <div class="s5-term-row" id="s5-row-bulimia">
+            <span class="s5-term-label" id="s5-term-bulimia" data-word="bulimia">BULIMIA</span>
+            <div class="s5-glitch-stack" id="s5-stack-bulimia">
+              <!-- Back layers injected by JS -->
+            </div>
+          </div>
+
+          <!-- SELF-HARM term + GLITCH stamp -->
+          <div class="s5-term-row" id="s5-row-selfharm">
+            <span class="s5-term-label" id="s5-term-selfharm" data-word="selfharm">SELF-HARM</span>
+            <div class="s5-glitch-stack" id="s5-stack-selfharm">
+              <!-- Back layers injected by JS -->
+            </div>
+          </div>
+
+          <!-- DEPRESSION term + GLITCH stamp -->
+          <div class="s5-term-row" id="s5-row-depression">
+            <span class="s5-term-label" id="s5-term-depression" data-word="depression">DEPRESSION</span>
+            <div class="s5-glitch-stack" id="s5-stack-depression">
+              <!-- Back layers injected by JS -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- BRAND word at bottom — receives ASR cold-blue glow at ~4.5s -->
+        <div class="s5-brand-row" id="s5-brand-row" data-layout-role="supporting">
+          <span class="s5-brand-word" id="s5-brand-word" data-word="brand">BRAND</span>
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+      // ── EASE / DUR from dispatch ──────────────────────────────────────────
+      const EASE = {
+        entry:    "power2.out",
+        emphasis: "power3.out",
+        exit:     "power2.in",
+        drift:    "sine.inOut",
+      };
+      const DUR = {
+        snap: 0.18,
+        med:  0.5,
+        slow: 0.95,
+      };
+
+      // ── Constants ─────────────────────────────────────────────────────────
+      const SCENE_DURATION = 6;
+
+      // 3d-text-depth-layers constants for each GLITCH stamp
+      const LAYER_COUNT     = 5;
+      const OFFSET_X        = 2;   // px — right-down implies light from upper-left
+      const OFFSET_Y        = 2;
+      const BACK_ALPHA_MAX  = 0.72;
+      const BACK_ALPHA_STEP = 0.12;
+      const BACK_ALPHA_MIN  = 0.12;
+      // accent red RGB for back layers
+      const BACK_RGB = "194, 52, 43"; // --brand-accent #C2342B
+
+      // Entry cascade for GLITCH stamps
+      const LAYER_FADE_DUR     = 0.38;
+      const LAYER_CASCADE_STEP = 0.055;
+      const DEPTH_GROW_DUR     = 0.5;
+
+      // asr-keyword-glow constants
+      const ATTACK_DUR       = 0.18;
+      const RELEASE          = 0.38;
+      const REST_LEVEL       = 0.12;
+      const MAX_BLUR         = 32;   // cold-blue glow for BRAND
+      const MAX_SCALE_BOOST  = 0.07;
+      // cold blue glow color (not brand-primary ink-blue — a colder, more clinical hue)
+      const GLOW_R = 120; const GLOW_G = 180; const GLOW_B = 255;
+      const GLOW_ALPHA_BASE  = 0.05;
+      const GLOW_ALPHA_RANGE = 0.85;
+
+      // ASR timings — BRAND fires at ~4.5s
+      const TIMINGS = {
+        bulimia:    { start: 0.6,  end: 1.2  },
+        selfharm:   { start: 1.6,  end: 2.3  },
+        depression: { start: 2.7,  end: 3.5  },
+        brand:      { start: 4.5,  end: 5.8  }, // 1.3s sustain — brand word
+      };
+
+      // sine-wave-loop constants for column ambient drift
+      const COL_SCALE_AMP = 0.008;
+      const COL_Y_AMP     = 2;      // px — very minimal drift on columns
+      const COL_CYCLES    = 2;      // 2 full breaths across ~5s idle window
+      const IDLE_START    = 0.9;    // after stamps have entered
+      const IDLE_DUR      = SCENE_DURATION - IDLE_START;
+
+      // ── Build GLITCH depth stacks ─────────────────────────────────────────
+      function buildGlitchStack(container, entryStart, tl) {
+        // Build back-to-front so front (i=0) is last in DOM (position: relative sizes container)
+        for (let i = LAYER_COUNT - 1; i >= 0; i--) {
+          const el = document.createElement("span");
+          el.className = "s5-glitch-text " + (i === 0 ? "s5-glitch-front" : "s5-glitch-back");
+          el.textContent = "GLITCH";
+          if (i > 0) {
+            const alpha = Math.max(BACK_ALPHA_MAX - i * BACK_ALPHA_STEP, BACK_ALPHA_MIN);
+            el.style.color = "rgba(" + BACK_RGB + ", " + alpha + ")";
+            el.style.transform = "translate(" + (i * OFFSET_X) + "px, " + (i * OFFSET_Y) + "px)";
+          }
+          el.dataset.layer = String(i);
+          // GSAP rotation for tilt — the stamp is always at -4deg (no CSS baked transform here,
+          // we use GSAP rotation so tweens don't wipe it)
+          container.appendChild(el);
+        }
+
+        // Set initial tilt via gsap.set (not CSS transform, since layers may be tweened)
+        gsap.set(container.querySelectorAll(".s5-glitch-front"), { rotation: -4 });
+        gsap.set(container.querySelectorAll(".s5-glitch-back"), { rotation: -4 });
+
+        // Hide all layers initially
+        gsap.set(container.querySelectorAll(".s5-glitch-text"), { opacity: 0 });
+
+        // Cascade entry: back layers first, building forward (LAYER_COUNT-1 → 0)
+        const allLayers = container.querySelectorAll(".s5-glitch-text");
+        allLayers.forEach((el) => {
+          const i = Number(el.dataset.layer);
+          const finalAlpha = el.classList.contains("s5-glitch-front")
+            ? 1
+            : Math.max(BACK_ALPHA_MAX - i * BACK_ALPHA_STEP, BACK_ALPHA_MIN);
+          const cascadeTime = entryStart + (LAYER_COUNT - 1 - i) * LAYER_CASCADE_STEP;
+          tl.fromTo(
+            el,
+            { opacity: 0 },
+            { opacity: finalAlpha, duration: LAYER_FADE_DUR, ease: EASE.entry },
+            cascadeTime,
+          );
+        });
+
+        // Depth-grow: offsets interpolate from 0 → full as layers cascade in
+        const depthState = { p: 0 };
+        tl.to(
+          depthState,
+          {
+            p: 1,
+            duration: DEPTH_GROW_DUR,
+            ease: EASE.entry,
+            onUpdate: () => {
+              container.querySelectorAll(".s5-glitch-back").forEach((el) => {
+                const i = Number(el.dataset.layer);
+                const x = i * OFFSET_X * depthState.p;
+                const y = i * OFFSET_Y * depthState.p;
+                // Use gsap.set to update transform without losing rotation
+                gsap.set(el, { x: x, y: y });
+              });
+            },
+          },
+          entryStart,
+        );
+      }
+
+      // ── ASR envelope helper ───────────────────────────────────────────────
+      function envelope(time, start, end) {
+        const releaseEnd = end + RELEASE;
+        if (time < start) return 0;
+        if (time < end) {
+          return Math.min((time - start) / ATTACK_DUR, 1);
+        }
+        if (time < releaseEnd) {
+          const decay = (time - end) / RELEASE;
+          return 1 - decay * (1 - REST_LEVEL);
+        }
+        return REST_LEVEL;
+      }
+      function glowColorRgba(env) {
+        return "rgba(" + GLOW_R + ", " + GLOW_G + ", " + GLOW_B + ", " + (GLOW_ALPHA_BASE + env * GLOW_ALPHA_RANGE) + ")";
+      }
+
+      // ── Main timeline ─────────────────────────────────────────────────────
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // -- Phase 0: hide all foreground initially --
+      gsap.set("#s5-chips-col", { opacity: 0 });
+      gsap.set("#s5-figure-svg", { opacity: 0 });
+      gsap.set("#s5-brand-word", { opacity: 0 });
+
+      // -- Phase 1: Figure emerges (0 → 0.6s) --
+      tl.fromTo(
+        "#s5-figure-svg",
+        { opacity: 0, y: 18, scale: 0.96 },
+        { opacity: 0.82, y: 0, scale: 1, duration: DUR.slow, ease: EASE.entry },
+        0,
+      );
+
+      // -- Phase 1b: Column pillars fade in --
+      tl.fromTo(
+        "#s5-col-1, #s5-col-2, #s5-col-3",
+        { opacity: 0 },
+        { opacity: 0.38, duration: DUR.slow, ease: EASE.entry, stagger: 0.1 },
+        0.05,
+      );
+
+      // -- Phase 2: chips-col fades in, then individual term rows cascade --
+      tl.fromTo(
+        "#s5-chips-col",
+        { opacity: 0 },
+        { opacity: 1, duration: DUR.snap, ease: EASE.entry },
+        0.2,
+      );
+
+      // Term labels descend into view
+      tl.fromTo(
+        "#s5-term-bulimia",
+        { opacity: 0, y: -24 },
+        { opacity: 1, y: 0, duration: DUR.med, ease: EASE.entry },
+        0.3,
+      );
+      tl.fromTo(
+        "#s5-term-selfharm",
+        { opacity: 0, y: -24 },
+        { opacity: 1, y: 0, duration: DUR.med, ease: EASE.entry },
+        0.55,
+      );
+      tl.fromTo(
+        "#s5-term-depression",
+        { opacity: 0, y: -24 },
+        { opacity: 1, y: 0, duration: DUR.med, ease: EASE.entry },
+        0.8,
+      );
+
+      // -- Phase 3: GLITCH depth stamps slam in staggered, pressing down on each term --
+      buildGlitchStack(document.getElementById("s5-stack-bulimia"),    0.42, tl);
+      buildGlitchStack(document.getElementById("s5-stack-selfharm"),   0.68, tl);
+      buildGlitchStack(document.getElementById("s5-stack-depression"), 0.94, tl);
+
+      // -- Phase 4: BRAND word fades in (supporting, below clinical terms) at t=3.8 --
+      tl.fromTo(
+        "#s5-brand-word",
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: DUR.med, ease: EASE.entry },
+        3.8,
+      );
+
+      // -- Phase 5: asr-keyword-glow — single driver ticks t 0→6 --
+      // All clinical terms + BRAND word are watched; BRAND gets cold-blue glow at 4.5s
+      const allWordEls = document.querySelectorAll(
+        "#s5-term-bulimia, #s5-term-selfharm, #s5-term-depression, #s5-brand-word"
+      );
+      const driver = { t: 0 };
+      tl.to(
+        driver,
+        {
+          t: SCENE_DURATION,
+          duration: SCENE_DURATION,
+          ease: "none",
+          onUpdate: () => {
+            allWordEls.forEach((el) => {
+              const word = el.dataset.word;
+              const timing = TIMINGS[word];
+              if (!timing) return;
+              const env = envelope(driver.t, timing.start, timing.end);
+              const blur = MAX_BLUR * env;
+              const scale = 1 + MAX_SCALE_BOOST * env;
+              // BRAND uses cold-blue glow; clinical terms use brand-primary ink glow
+              const isBrand = (word === "brand");
+              const glowColor = isBrand
+                ? glowColorRgba(env)
+                : "rgba(31, 58, 138, " + (0.05 + env * 0.5) + ")";
+              el.style.textShadow = "0 0 " + blur + "px " + glowColor;
+              el.style.transform  = "scale(" + scale + ")";
+            });
+          },
+        },
+        0,
+      );
+
+      // -- Phase 6: sine-wave-loop — column ambient drift --
+      const colPhase = { p: 0 };
+      const cols = document.querySelectorAll("#s5-col-1, #s5-col-2, #s5-col-3");
+      const colOffsets = [0, Math.PI * 0.6, Math.PI * 1.3]; // out-of-phase
+      tl.to(
+        colPhase,
+        {
+          p: Math.PI * 2 * COL_CYCLES,
+          duration: IDLE_DUR,
+          ease: "none",
+          onUpdate: () => {
+            cols.forEach((col, idx) => {
+              const y = Math.sin(colPhase.p + colOffsets[idx]) * COL_Y_AMP;
+              col.style.transform = "translateY(" + y + "px)";
+            });
+          },
+        },
+        IDLE_START,
+      );
+
+      // -- Phase 7: Macro push-in toward figure (very slow dolly, zoom outer wrapper) --
+      // Slow scale 1 → 1.06 across the whole scene — columns grow taller as we push in
+      tl.fromTo(
+        "#s5-zoom-outer",
+        { scale: 1, transformOrigin: "50% 55%" },
+        { scale: 1.07, duration: SCENE_DURATION, ease: "none" },
+        0,
+      );
+
+      // -- Figure ambient sine bob (minimal — it's a small figure resting) --
+      const figPhase = { p: 0 };
+      const figEl = document.getElementById("s5-figure-svg");
+      tl.to(
+        figPhase,
+        {
+          p: Math.PI * 2 * 1.5,
+          duration: IDLE_DUR,
+          ease: "none",
+          onUpdate: () => {
+            const y = Math.sin(figPhase.p) * 2.5;
+            figEl.style.transform = "translateY(" + y + "px)";
+          },
+        },
+        IDLE_START,
+      );
+
+      window.__timelines["scene_5"] = tl;
+    </script>
+  </div>
+</template>

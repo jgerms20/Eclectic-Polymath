@@ -1,0 +1,444 @@
+<template id="scene_8-template">
+  <div id="root" class="scene_8-root" data-composition-id="scene_8" data-width="1080" data-height="1920" data-duration="7" style="position:relative; width:1080px; height:1920px; overflow:hidden;">
+    <style>
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+
+      #root {
+        background: var(--canvas);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+      }
+      #root *,
+      #root *::before,
+      #root *::after {
+        box-sizing: border-box;
+      }
+
+      /* Paper grain overlay */
+      .s8-grain {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        background-image: var(--paper-grain);
+      }
+
+      /* Macro camera push-in wrapper */
+      .s8-camera {
+        position: absolute;
+        inset: 0;
+        transform-origin: 65% 38%;
+        will-change: transform;
+      }
+
+      /* ===== LEFT COLUMN (40%) — tabloid headline stack ===== */
+      .s8-left-col {
+        position: absolute;
+        left: 64px;
+        top: 180px;
+        width: 380px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      /* Eyebrow date chip */
+      .s8-date-chip {
+        display: inline-block;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 22px;
+        line-height: 1;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        padding: 6px 0;
+        opacity: 0.85;
+      }
+
+      /* Headline strips — discrete sequence target */
+      .s8-headline-strip {
+        width: 100%;
+      }
+
+      .s8-hl-line {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 700;
+        font-size: 28px;
+        line-height: 1.15;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        border-left: 3px solid var(--brand-primary);
+        padding-left: 14px;
+        margin-bottom: 10px;
+        will-change: transform, opacity;
+      }
+
+      .s8-hl-line.s8-hl-accent {
+        color: var(--brand-accent);
+        border-color: var(--brand-accent);
+      }
+
+      /* Vertical hairline rule on left edge */
+      .s8-left-rule {
+        position: absolute;
+        left: 56px;
+        top: 160px;
+        width: 2px;
+        height: 680px;
+        background: var(--brand-primary);
+        opacity: 0.22;
+        transform-origin: top center;
+      }
+
+      /* ===== RIGHT AREA (60%) — dress silhouette + hero phrase ===== */
+      .s8-right-zone {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 648px;
+        height: 1920px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 140px;
+      }
+
+      /* Cocktail dress silhouette — SVG ink figure */
+      .s8-dress-fig {
+        width: 520px;
+        height: 680px;
+        will-change: transform, opacity;
+        transform-origin: 50% 50%;
+        flex-shrink: 0;
+      }
+
+      /* Hero phrase below the figure */
+      .s8-hero-phrase {
+        margin-top: 36px;
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 88px;
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+        color: var(--brand-primary);
+        text-align: center;
+        width: 580px;
+        will-change: transform, opacity;
+      }
+
+      /* Each word of hero phrase is its own span for staggered entry */
+      .s8-hero-word {
+        display: inline-block;
+        will-change: transform, opacity;
+      }
+
+      /* "A Word." part in accent */
+      .s8-hero-word.s8-hero-accent {
+        color: var(--brand-accent);
+      }
+
+      /* Caveat scribble — lower right */
+      .s8-scribble {
+        position: absolute;
+        right: 60px;
+        bottom: 220px;
+        font-family: 'Caveat', cursive;
+        font-weight: 600;
+        font-size: 36px;
+        line-height: 1.1;
+        color: var(--brand-primary);
+        transform: rotate(-2deg);
+        transform-origin: right bottom;
+        text-align: right;
+        max-width: 360px;
+        will-change: clip-path, opacity;
+      }
+
+      /* Scribble underline span */
+      .s8-scribble .s8-ul {
+        border-bottom: 2px solid var(--brand-primary);
+      }
+
+      /* Hairline divider between left col and right */
+      .s8-divider {
+        position: absolute;
+        left: 432px;
+        top: 120px;
+        width: 1.5px;
+        height: 1400px;
+        background: var(--brand-primary);
+        opacity: 0.18;
+      }
+
+      /* Decorative stamp label top-left */
+      .s8-stamp {
+        position: absolute;
+        left: 64px;
+        top: 108px;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--brand-accent);
+        opacity: 0.75;
+        transform: rotate(-4deg);
+        transform-origin: left top;
+        border: 2px solid var(--brand-accent);
+        padding: 4px 10px;
+      }
+    </style>
+
+    <!-- Paper grain -->
+    <div class="s8-grain" aria-hidden="true"></div>
+
+    <!-- Macro camera push-in wrapper -->
+    <div class="s8-camera" id="s8-camera">
+
+      <!-- Vertical hairline rule -->
+      <div class="s8-left-rule" id="s8-left-rule" aria-hidden="true"></div>
+
+      <!-- Column divider -->
+      <div class="s8-divider" aria-hidden="true"></div>
+
+      <!-- Stamp top-left -->
+      <div class="s8-stamp" id="s8-stamp">JUNE 1994</div>
+
+      <!-- ===== LEFT COLUMN — headline discrete sequence ===== -->
+      <div class="s8-left-col" id="s8-left-col" data-layout-role="supporting">
+        <div class="s8-date-chip" id="s8-date-chip">FIELD FILE 08</div>
+
+        <!-- Headline line 1: discrete sequence swap -->
+        <div class="s8-headline-strip">
+          <div class="s8-hl-line" id="s8-hl-1">CHARLES</div>
+          <div class="s8-hl-line s8-hl-accent" id="s8-hl-2">CONFESSES</div>
+        </div>
+
+        <!-- Headline line 2 -->
+        <div class="s8-headline-strip" id="s8-hl-date-strip">
+          <div class="s8-hl-line" id="s8-hl-3">JUNE 1994</div>
+        </div>
+
+        <!-- Headline line 3: discrete sequence swap -->
+        <div class="s8-headline-strip" id="s8-hl-tv-strip">
+          <div class="s8-hl-line" id="s8-hl-4">NATIONAL TV</div>
+        </div>
+
+        <!-- Sequence display element (drives the discrete swap area) -->
+        <div class="s8-headline-strip" id="s8-seq-strip" style="min-height:60px;">
+          <div class="s8-hl-line s8-hl-accent" id="s8-seq-el">SHE KNEW.</div>
+        </div>
+      </div>
+
+      <!-- ===== RIGHT ZONE — dress figure + hero phrase ===== -->
+      <div class="s8-right-zone" id="s8-right-zone" data-layout-role="primary" data-layout-act="dress-reveal">
+
+        <!-- Cocktail dress silhouette SVG — bold ink figure, no face -->
+        <svg class="s8-dress-fig" id="s8-dress-fig" viewBox="0 0 520 680" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Head (no face — just the silhouette shape) -->
+          <ellipse cx="260" cy="52" rx="44" ry="50" fill="#1F3A8A"/>
+          <!-- Neck -->
+          <rect x="244" y="96" width="32" height="36" fill="#1F3A8A"/>
+          <!-- Cocktail dress: bodice and flared skirt — bold ink fill -->
+          <!-- Shoulders -->
+          <path d="M244 132 C200 128 158 148 144 176 L132 220 L148 224 L160 192 C172 168 206 152 244 152 L276 152 C314 152 348 168 360 192 L372 224 L388 220 L376 176 C362 148 320 128 276 132 Z" fill="#1F3A8A"/>
+          <!-- Bodice -->
+          <path d="M160 192 L148 280 L372 280 L360 192 C340 170 300 160 276 158 L244 158 C220 160 180 170 160 192 Z" fill="#1F3A8A"/>
+          <!-- Waist nip -->
+          <path d="M148 280 L136 320 L384 320 L372 280 Z" fill="#1F3A8A"/>
+          <!-- Flared cocktail skirt -->
+          <path d="M136 320 C88 360 60 420 48 480 L8 600 L88 612 L112 520 C128 470 160 432 200 416 L260 406 L320 416 C360 432 392 470 408 520 L432 612 L512 600 L472 480 C460 420 432 360 384 320 Z" fill="#1F3A8A"/>
+          <!-- Hem detail line -->
+          <path d="M8 600 Q260 640 512 600" stroke="#1F3A8A" stroke-width="4" fill="none"/>
+          <!-- Left arm raised slightly -->
+          <path d="M144 176 C120 160 96 144 80 120 C72 108 76 96 88 100 C100 104 116 124 140 148" fill="#1F3A8A"/>
+          <!-- Right arm down elegantly -->
+          <path d="M376 176 C400 164 420 168 432 188 C444 208 436 228 420 224 C404 220 392 200 376 180" fill="#1F3A8A"/>
+          <!-- High heel shoes peeking from hem -->
+          <ellipse cx="160" cy="616" rx="28" ry="10" fill="#1F3A8A"/>
+          <ellipse cx="360" cy="616" rx="28" ry="10" fill="#1F3A8A"/>
+        </svg>
+
+        <!-- Hero phrase -->
+        <div class="s8-hero-phrase" id="s8-hero-phrase" data-layout-role="primary">
+          <span class="s8-hero-word" id="s8-hw-1">Without.</span>
+          <span class="s8-hero-word s8-hero-accent" id="s8-hw-2"> A&nbsp;Word.</span>
+        </div>
+      </div>
+
+      <!-- Caveat scribble — lower right -->
+      <div class="s8-scribble" id="s8-scribble" data-layout-role="supporting">kept <span class="s8-ul">waiting</span> three years.</div>
+
+    </div><!-- end s8-camera -->
+
+    <script>
+      const EASE = {
+        entry: "power2.out",
+        emphasis: "power3.out",
+        exit: "power2.in",
+        drift: "sine.inOut",
+      };
+      const DUR = {
+        snap: 0.18,
+        med: 0.5,
+        slow: 0.95,
+      };
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ─── Initial hidden states ───
+      gsap.set("#s8-stamp",        { opacity: 0, rotation: -4 });
+      gsap.set("#s8-date-chip",    { opacity: 0, y: -12 });
+      gsap.set("#s8-hl-1",         { opacity: 0, x: -24 });
+      gsap.set("#s8-hl-2",         { opacity: 0, x: -24 });
+      gsap.set("#s8-hl-3",         { opacity: 0, x: -24 });
+      gsap.set("#s8-hl-4",         { opacity: 0, x: -24 });
+      gsap.set("#s8-seq-el",       { opacity: 0, x: -24 });
+      gsap.set("#s8-dress-fig",    { opacity: 0, scale: 1.18, y: 40 });
+      gsap.set("#s8-hw-1",         { opacity: 0, y: 36 });
+      gsap.set("#s8-hw-2",         { opacity: 0, y: 36 });
+      gsap.set("#s8-scribble",     { opacity: 0, clipPath: "inset(0 100% 0 0)" });
+      gsap.set("#s8-left-rule",    { scaleY: 0, transformOrigin: "top center" });
+
+      // ─── BEAT grid ───
+      // kinetic-beat-slam — one shared onset array
+      const BEATS = [0.1, 0.55, 1.0, 1.45, 2.0];
+
+      // ─── Beat 0: stamp + left rule flash in ───
+      tl.fromTo("#s8-stamp",
+        { opacity: 0, rotation: -4, scale: 0.88 },
+        { opacity: 0.75, rotation: -4, scale: 1, duration: DUR.snap, ease: "power4.out" },
+        BEATS[0]
+      );
+      tl.fromTo("#s8-left-rule",
+        { scaleY: 0 },
+        { scaleY: 1, duration: DUR.med, ease: EASE.entry },
+        BEATS[0]
+      );
+      tl.fromTo("#s8-date-chip",
+        { opacity: 0, y: -12 },
+        { opacity: 0.85, y: 0, duration: DUR.med, ease: EASE.entry },
+        BEATS[0] + 0.08
+      );
+
+      // ─── Beat 1: DRESS FIGURE slams in (kinetic-beat-slam primary) ───
+      tl.fromTo("#s8-dress-fig",
+        { opacity: 0, scale: 1.22, y: 60 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: "power4.out" },
+        BEATS[1]
+      );
+
+      // ─── Beat 2: left col headlines snap in (staggered snaps) ───
+      tl.fromTo("#s8-hl-1",
+        { opacity: 0, x: -32 },
+        { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" },
+        BEATS[2]
+      );
+      tl.fromTo("#s8-hl-2",
+        { opacity: 0, x: -32 },
+        { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" },
+        BEATS[2] + 0.1
+      );
+      tl.fromTo("#s8-hl-3",
+        { opacity: 0, x: -32 },
+        { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" },
+        BEATS[2] + 0.2
+      );
+      tl.fromTo("#s8-hl-4",
+        { opacity: 0, x: -32 },
+        { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" },
+        BEATS[2] + 0.3
+      );
+
+      // ─── discrete-text-sequence: swap in sequence strip across first 2s ───
+      // States: empty → "SHE KNEW." → "AND SO DID WE." → hold
+      const SEQ_STATES = [
+        { t: 0.0,  text: "" },
+        { t: 0.4,  text: "SHE KNEW." },
+        { t: 1.2,  text: "AND SO" },
+        { t: 1.55, text: "AND SO DID WE." },
+        { t: 2.2,  text: "SHE KNEW." },
+      ];
+
+      function seqTextAt(time) {
+        for (let i = SEQ_STATES.length - 1; i >= 0; i--) {
+          if (time >= SEQ_STATES[i].t) return SEQ_STATES[i].text;
+        }
+        return "";
+      }
+
+      const seqDriver = { t: 0 };
+      const seqEl = document.getElementById("s8-seq-el");
+      // Show the seq element container from beat 2
+      tl.fromTo("#s8-seq-el",
+        { opacity: 0, x: -24 },
+        { opacity: 1, x: 0, duration: 0.35, ease: "expo.out" },
+        BEATS[2] + 0.4
+      );
+
+      tl.to(seqDriver, {
+        t: 2.5,
+        duration: 2.5,
+        ease: "none",
+        onUpdate: () => {
+          if (seqEl) seqEl.textContent = seqTextAt(seqDriver.t);
+        }
+      }, 0);
+
+      // ─── Beat 3: hero phrase words rise up ───
+      tl.fromTo("#s8-hw-1",
+        { opacity: 0, y: 44, rotation: -1 },
+        { opacity: 1, y: 0, rotation: -1, duration: 0.52, ease: "circ.out" },
+        BEATS[3]
+      );
+      tl.fromTo("#s8-hw-2",
+        { opacity: 0, y: 44, rotation: -1 },
+        { opacity: 1, y: 0, rotation: -1, duration: 0.52, ease: "circ.out" },
+        BEATS[3] + 0.15
+      );
+
+      // ─── Beat 4: scribble writes on left→right ───
+      tl.fromTo("#s8-scribble",
+        { opacity: 1, clipPath: "inset(0 100% 0 0)" },
+        { opacity: 1, clipPath: "inset(0 0% 0 0)", duration: DUR.med, ease: EASE.entry },
+        BEATS[4]
+      );
+
+      // ─── Macro camera: slow push-in toward dress (upper-right) ───
+      // Starts at identity, gently scales up 4% over the whole 7s
+      tl.fromTo("#s8-camera",
+        { scale: 1, transformOrigin: "65% 38%" },
+        { scale: 1.04, transformOrigin: "65% 38%", duration: 7, ease: "none" },
+        0
+      );
+
+      // ─── sine-wave-loop: ambient drift on headline stack ───
+      // Starts after headlines land (~1.3s), runs for remainder
+      const IDLE_START = 1.5;
+      const IDLE_DUR = 7 - IDLE_START; // 5.5s
+      const CYCLES = Math.floor(IDLE_DUR / 2.8); // ~1.96 → 1 cycle (conservative)
+      const headlinePhase = { p: 0 };
+      const headlineCol = document.getElementById("s8-left-col");
+
+      tl.to(headlinePhase, {
+        p: Math.PI * 2 * CYCLES,
+        duration: IDLE_DUR,
+        ease: "none",
+        onUpdate: () => {
+          const yOff = Math.sin(headlinePhase.p) * 2.5; // ±2.5px — minimal per film direction
+          if (headlineCol) headlineCol.style.transform = `translateY(${yOff}px)`;
+        }
+      }, IDLE_START);
+
+      window.__timelines["scene_8"] = tl;
+    </script>
+  </div>
+</template>

@@ -1,0 +1,264 @@
+<template id="scene_4-template">
+  <div id="root" class="scene_4-root" data-composition-id="scene_4" data-width="1080" data-height="1920" data-duration="6" style="position:relative; width:1080px; height:1920px; overflow:hidden;">
+    <style>
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Space Grotesk'; src: url('../public/space-grotesk-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Caveat'; src: url('../public/caveat-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+
+      #root {
+        background: var(--canvas);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+      }
+      #root *,
+      #root *::before,
+      #root *::after {
+        box-sizing: border-box;
+      }
+
+      /* Paper grain overlay — foundational atmosphere */
+      .s4-grain {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        background-image: var(--paper-grain);
+      }
+
+      /* Camera wrapper for macro pull-back */
+      .s4-camera {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        transform-origin: center center;
+        will-change: transform;
+      }
+
+      /* THE FIRM stamp — display tier, mono uppercase, accent-red border, -4deg */
+      .s4-stamp-firm {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        /* CSS centering only — tilt delivered via GSAP rotation so GSAP can own the transform */
+        transform: translate(-50%, -50%);
+        transform-origin: 50% 50%;
+        border: 3px solid var(--brand-accent);
+        color: var(--brand-primary);
+        background: var(--canvas);
+        padding: 28px 56px;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 700;
+        font-size: 112px;
+        line-height: 1;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        will-change: transform;
+        z-index: 10;
+      }
+
+      /* SVG connector layer — dashed hairlines below nodes, above background */
+      .s4-connectors {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1080px;
+        height: 1920px;
+        pointer-events: none;
+        z-index: 4;
+      }
+
+      /* Org-chart node chips — pinned-card style, mono uppercase, heading tier */
+      .s4-node {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        /* center at stamp position; GSAP will translate outward */
+        transform: translate(-50%, -50%);
+        transform-origin: 50% 50%;
+        background: var(--surface-cream);
+        border: var(--border-hairline);
+        border-radius: var(--radius-card);
+        box-shadow: var(--shadow-pin-standard);
+        padding: 20px 28px;
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 28px;
+        line-height: 1.15;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--brand-primary);
+        white-space: nowrap;
+        will-change: transform;
+        z-index: 8;
+        text-align: center;
+      }
+    </style>
+
+    <!-- Paper grain — full bleed decorative layer -->
+    <div class="s4-grain" aria-hidden="true"></div>
+
+    <!-- Camera wrapper — pulled back over 6s to reveal org structure -->
+    <div class="s4-camera" id="s4-camera" data-layout-role="primary" data-layout-act="reveal">
+
+      <!-- SVG connector lines (dashed hairlines from stamp center to each node) -->
+      <svg class="s4-connectors" id="s4-connectors" aria-hidden="true">
+        <!-- Line to top node: stamp center ~(540,960) → node top ~(540,620) -->
+        <line id="s4-line-wealth"
+          x1="540" y1="960" x2="540" y2="620"
+          stroke="var(--brand-primary)" stroke-width="1.5"
+          stroke-dasharray="8 5" opacity="0"/>
+        <!-- Line to bottom-left: stamp center ~(540,960) → node bl ~(160,1300) -->
+        <line id="s4-line-image"
+          x1="540" y1="960" x2="160" y2="1300"
+          stroke="var(--brand-primary)" stroke-width="1.5"
+          stroke-dasharray="8 5" opacity="0"/>
+        <!-- Line to bottom-right: stamp center ~(540,960) → node br ~(920,1300) -->
+        <line id="s4-line-emotion"
+          x1="540" y1="960" x2="920" y2="1300"
+          stroke="var(--brand-primary)" stroke-width="1.5"
+          stroke-dasharray="8 5" opacity="0"/>
+      </svg>
+
+      <!-- THE FIRM stamp hero -->
+      <div class="s4-stamp-firm" id="s4-stamp-firm" data-layout-role="primary" data-layout-act="slam">THE FIRM</div>
+
+      <!-- Org-chart nodes — initially centered at stamp; expand outward via GSAP -->
+      <!-- Node 1: WEALTH PRESERVATION — fans UP -->
+      <div class="s4-node" id="s4-node-wealth" data-target-x="0" data-target-y="-340" data-layout-role="supporting" data-layout-act="expand">WEALTH<br>PRESERVATION</div>
+      <!-- Node 2: IMAGE CONTROL — fans bottom-left -->
+      <div class="s4-node" id="s4-node-image" data-target-x="-380" data-target-y="340" data-layout-role="supporting" data-layout-act="expand">IMAGE<br>CONTROL</div>
+      <!-- Node 3: EMOTIONAL CONCEALMENT — fans bottom-right -->
+      <div class="s4-node" id="s4-node-emotion" data-target-x="380" data-target-y="340" data-layout-role="supporting" data-layout-act="expand">EMOTIONAL<br>CONCEALMENT</div>
+
+    </div>
+
+    <script>
+      const EASE = {
+        entry: "power2.out",
+        emphasis: "power3.out",
+        exit: "power2.in",
+        drift: "sine.inOut",
+      };
+      const DUR = {
+        snap: 0.18,
+        med: 0.5,
+        slow: 0.95,
+      };
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ── PHASE 0: initial hidden states ────────────────────────────────────
+      gsap.set("#s4-stamp-firm", { opacity: 0, scale: 1.4, rotation: -4 });
+      gsap.set("#s4-node-wealth",  { opacity: 0, x: 0, y: 0, xPercent: -50, yPercent: -50 });
+      gsap.set("#s4-node-image",   { opacity: 0, x: 0, y: 0, xPercent: -50, yPercent: -50 });
+      gsap.set("#s4-node-emotion", { opacity: 0, x: 0, y: 0, xPercent: -50, yPercent: -50 });
+
+      // ── MACRO CAMERA: start 10% zoomed in, pull back to reveal org structure ──
+      // Starts at t=0, runs full 6s duration
+      tl.fromTo("#s4-camera",
+        { scale: 1.18 },
+        { scale: 1.0, duration: 6, ease: "power1.inOut" },
+        0
+      );
+
+      // ── EFFECT 1: kinetic-beat-slam ───────────────────────────────────────
+      // "THE FIRM" stamp slams in at t=0.25 — scale-down + blur to snap
+      // kinetic-beat-slam: distinct entrance — scale + blur crash
+      tl.fromTo("#s4-stamp-firm",
+        { scale: 1.4, opacity: 0 },
+        { scale: 1.0, opacity: 1, rotation: -4, duration: 0.38, ease: "power4.out" },
+        0.25
+      );
+
+      // Beat accent: brief scale pop at t=0.65 (second beat — emphasis)
+      tl.to("#s4-stamp-firm",
+        { scale: 1.05, duration: 0.12, ease: "power3.out", yoyo: true, repeat: 1 },
+        0.65
+      );
+
+      // ── SVG connector lines draw in (hairlines) ───────────────────────────
+      tl.fromTo("#s4-line-wealth",
+        { opacity: 0 },
+        { opacity: 0.6, duration: 0.32, ease: EASE.entry },
+        0.85
+      );
+      tl.fromTo("#s4-line-image",
+        { opacity: 0 },
+        { opacity: 0.6, duration: 0.32, ease: EASE.entry },
+        1.0
+      );
+      tl.fromTo("#s4-line-emotion",
+        { opacity: 0 },
+        { opacity: 0.6, duration: 0.32, ease: EASE.entry },
+        1.15
+      );
+
+      // ── EFFECT 2: center-outward-expansion ───────────────────────────────
+      // Three org-chart nodes fan outward from stamp center
+      // Stagger: 0.06s between each (within 0.04-0.08 band per rule)
+      const EXPAND_DUR = 0.72;
+      const EXPAND_EASE = "power3.out";
+      const STAGGER = 0.06;
+      const ENTRY_AT = 0.85; // tied to when first line appears
+
+      // Node 1: WEALTH PRESERVATION — fans UP, x=0 y=-340
+      tl.fromTo("#s4-node-wealth",
+        { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 0.6, opacity: 0 },
+        { x: 0, y: -340, scale: 1, opacity: 1, duration: EXPAND_DUR, ease: EXPAND_EASE },
+        ENTRY_AT
+      );
+
+      // Node 2: IMAGE CONTROL — fans bottom-left, x=-380 y=340
+      tl.fromTo("#s4-node-image",
+        { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 0.6, opacity: 0 },
+        { x: -380, y: 340, scale: 1, opacity: 1, duration: EXPAND_DUR, ease: EXPAND_EASE },
+        ENTRY_AT + STAGGER
+      );
+
+      // Node 3: EMOTIONAL CONCEALMENT — fans bottom-right, x=380 y=340
+      tl.fromTo("#s4-node-emotion",
+        { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 0.6, opacity: 0 },
+        { x: 380, y: 340, scale: 1, opacity: 1, duration: EXPAND_DUR, ease: EXPAND_EASE },
+        ENTRY_AT + STAGGER * 2
+      );
+
+      // ── EFFECT 3: sine-wave-loop — stamp breathing ±1% scale ─────────────
+      // Begins after slam settles (~t=0.65), runs until end.
+      // Phase drives sin() → scale offset of ±0.01 (brief says ±1%)
+      // IDLE_START: 0.65 (after beat pop resolves at ~0.89), use 0.9 for safety buffer
+      // IDLE_DUR: 6 - 0.9 = 5.1s
+      // CYCLES: 5.1 / 2.8 ≈ 1.8 → 2 cycles (2.55s period — comfortable breathing cadence)
+      const IDLE_START = 0.9;
+      const IDLE_DUR = 6 - IDLE_START; // 5.1s
+      const CYCLES = 2;
+      const SCALE_AMP = 0.01; // ±1% per brief
+      const Y_AMP = 2;        // ±2px subtle bob
+
+      const phase = { p: 0 };
+      const stampEl = document.getElementById("s4-stamp-firm");
+
+      tl.to(phase,
+        {
+          p: Math.PI * 2 * CYCLES,
+          duration: IDLE_DUR,
+          ease: "none",
+          onUpdate: () => {
+            const sc = 1 + Math.sin(phase.p) * SCALE_AMP;
+            const dy = Math.sin(phase.p) * Y_AMP;
+            // rotation: -4 is baked in gsap.set; we ADD the breathing on top
+            // Use gsap.set for synchronous transform write inside onUpdate
+            gsap.set(stampEl, { scale: sc, y: dy });
+          },
+        },
+        IDLE_START
+      );
+
+      window.__timelines["scene_4"] = tl;
+    </script>
+  </div>
+</template>
